@@ -1,0 +1,3 @@
+INDEX VERSION 1.131
+C:\Users\Megan\Documents\Classes\JavaBootCamp\Weeks\Week24\FinalProject\MazeProject\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\4028081383.index
+\Maze\src\main\java

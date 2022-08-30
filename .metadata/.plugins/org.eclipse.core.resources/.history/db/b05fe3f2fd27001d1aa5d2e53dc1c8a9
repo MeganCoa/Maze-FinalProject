@@ -1,0 +1,5 @@
+package co.grandcircus.Maze.controller;
+
+public class MazeController {
+
+}

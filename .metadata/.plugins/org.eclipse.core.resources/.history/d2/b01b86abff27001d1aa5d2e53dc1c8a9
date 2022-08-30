@@ -1,0 +1,8 @@
+package co.grandcircus.Maze.controller;
+
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class MazeController {
+
+}
