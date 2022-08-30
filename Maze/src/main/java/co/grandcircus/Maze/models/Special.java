@@ -1,5 +1,5 @@
 package co.grandcircus.Maze.models;
 
-public class Users {
+public abstract class Special {
 
 }

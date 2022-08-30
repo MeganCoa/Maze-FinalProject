@@ -1,6 +1,5 @@
 package co.grandcircus.Maze.models;
 
-
-public class Mazes {
+public class Trophy {
 
 }
