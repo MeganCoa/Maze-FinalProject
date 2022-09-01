@@ -24,10 +24,10 @@ public class UserController {
 	private UserRepository repo;
 	
 	//reset
-	@GetMapping("/reset")
-	public String reset() {
+	@GetMapping("/resetUsers")
+	public String resetusers() {
 		repo.deleteAll();
-		User user = new User("Clara", "email@yahoo.com", "sesame");
+		User user = new User("Bob", "email@yahoo.com", "sesame");
 		repo.insert(user);
 		return "Data reset";
 	}
@@ -55,7 +55,7 @@ public class UserController {
 		return repo.save(user);
 	}
 	//delete a user
-	@DeleteMapping("/deletemaze/{id}")
+	@DeleteMapping("/deleteuser/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deleteUser(@PathVariable("id") String id) {
 		repo.deleteById(id);
