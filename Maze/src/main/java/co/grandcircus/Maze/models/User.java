@@ -18,15 +18,11 @@ public class User {
 	public User() {
 		super();
 	}
-	public User(String userName, String email, String password, ArrayList<String> userMazes,
-			ArrayList<String> userFavorites, ArrayList<Trophy> trophies) {
+	public User(String userName, String email, String password) {
 		super();
 		this.userName = userName;
 		this.email = email;
 		this.password = password;
-		this.userMazes = userMazes;
-		this.userFavorites = userFavorites;
-		this.trophies = trophies;
 	}
 
 	public String getId() {

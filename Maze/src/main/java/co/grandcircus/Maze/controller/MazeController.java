@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.grandcircus.Maze.models.Maze;
-import co.grandcircus.Maze.models.Special;
 import co.grandcircus.Maze.repository.MazeRepository;
 
 @RestController
