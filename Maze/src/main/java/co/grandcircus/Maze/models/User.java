@@ -10,20 +10,25 @@ public class User {
 	@Id
 	private String id;
 	private String userName;
+	private String email;
+	private String password;
 	private ArrayList<String> userMazes; //(maze IDs for mazes this user has made)
 	private ArrayList<String> userFavorites; //(maze IDs for mazes this user favorites)
 	private ArrayList<Trophy> trophies;
 	public User() {
 		super();
 	}
-	public User(String userName, ArrayList<String> userMazes, ArrayList<String> userFavorites,
-			ArrayList<Trophy> trophies) {
+	public User(String userName, String email, String password, ArrayList<String> userMazes,
+			ArrayList<String> userFavorites, ArrayList<Trophy> trophies) {
 		super();
 		this.userName = userName;
+		this.email = email;
+		this.password = password;
 		this.userMazes = userMazes;
 		this.userFavorites = userFavorites;
 		this.trophies = trophies;
 	}
+
 	public String getId() {
 		return id;
 	}

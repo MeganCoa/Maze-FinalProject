@@ -24,10 +24,9 @@ public class Maze {
 	public Maze() {
 		super();
 	}
-	
+
 	public Maze(String title, String authorName, ArrayList<ArrayList<Integer>> mazeGrid, int startRow, int startCol,
-			int endRow, int endCol, ArrayList<Special> specials, int playTotal, ArrayList<Integer> ratings,
-			double avgRating) {
+			int endRow, int endCol) {
 		super();
 		this.title = title;
 		this.authorName = authorName;
@@ -36,10 +35,6 @@ public class Maze {
 		this.startCol = startCol;
 		this.endRow = endRow;
 		this.endCol = endCol;
-		this.specials = specials;
-		this.playTotal = playTotal;
-		this.ratings = ratings;
-		this.avgRating = avgRating;
 	}
 
 	//getters and setters:
