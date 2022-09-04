@@ -1,6 +1,0 @@
-package co.grandcircus.Maze.controller;
-
-@RestController
-public class MazeController {
-
-}
