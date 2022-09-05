@@ -27,7 +27,7 @@ public class UserController {
 	@GetMapping("/resetUsers")
 	public String resetusers() {
 		repo.deleteAll();
-		User user = new User("Bob", "email@yahoo.com", "sesame");
+		User user = new User("Bob", "email@yahoo.com", HomeController.hashPassword("sesame"));
 		repo.insert(user);
 		return "Data reset";
 	}
