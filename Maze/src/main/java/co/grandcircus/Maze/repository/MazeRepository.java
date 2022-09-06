@@ -6,4 +6,6 @@ import co.grandcircus.Maze.models.Maze;
 
 public interface MazeRepository extends MongoRepository<Maze, String> {
 	
+	Maze findByAuthorName(String author);
+	
 }

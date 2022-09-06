@@ -6,9 +6,15 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>A-MAZE-ING!</title>
+<link href="/style.css" rel="stylesheet">
 </head>
 <body>
+
+<div class = "mazeDisplay">
+${maze}
+</div>
+
 
 </body>
 </html>

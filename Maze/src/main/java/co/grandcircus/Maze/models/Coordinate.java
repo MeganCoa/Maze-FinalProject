@@ -6,14 +6,20 @@ public class Coordinate {
 	int x;
 	int y;
 	Coordinate parentCoordinate;	
+	
+	public Coordinate() {
+		super();
+	}
 
 	public Coordinate(int x, int y) {
+		super();
 		this.x = x;
 		this.y = y;
 		this.parentCoordinate = null;
 	}
 	
 	public Coordinate(int x, int y, Coordinate parentCoordinate) {
+		super();
 		this.x = x;
 		this.y = y;
 		this.parentCoordinate = parentCoordinate;

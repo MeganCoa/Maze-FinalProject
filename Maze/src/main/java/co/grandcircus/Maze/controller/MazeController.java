@@ -32,8 +32,8 @@ public class MazeController {
 		repo.deleteAll();
 		//public Maze(String title, String authorName, int[][] mazeGrid, Coordinate startCoordinate, Coordinate endCoordinate,
 		//ArrayList<Special> specials, int playTotal, ArrayList<Integer> ratings, double avgRating)
-		int[][] mazeGrid = {{0, 3, 1, 0}, {1, 1, 0, 1}, {1, 0, 1, 1}, {1, 1, 1, 0}};
-		Maze maze = new Maze("Test Maze", "Clara Balmer", mazeGrid, new Coordinate(2, 4), new Coordinate(7, 3));
+		int[][] mazeGrid = {{0, 2, 1, 0}, {0, 1, 0, 1}, {1, 1, 1, 1}, {3, 0, 1, 0}};
+		Maze maze = new Maze("Test Maze", "Clara Balmer", mazeGrid, new Coordinate(0, 1), new Coordinate(3, 0));
 		repo.insert(maze);
 		return "Data reset";
 	}
