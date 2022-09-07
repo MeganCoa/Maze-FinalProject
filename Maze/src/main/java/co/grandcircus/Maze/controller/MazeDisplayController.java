@@ -25,7 +25,7 @@ public class MazeDisplayController {
 	@RequestMapping("/")
 	public ModelAndView displayMaze() {
 		
-		Maze maze = repo.findByTitle("Test Maze(Broken)");
+		Maze maze = repo.findByTitle("Test Maze");
 		ModelAndView modelAndView = new ModelAndView("index");
 		
 		 StringBuilder result = new StringBuilder(maze.getWidth() * (maze.getHeight() + 1));
@@ -53,10 +53,10 @@ public class MazeDisplayController {
 	@RequestMapping("/solvemaze")
 	public ModelAndView solveMaze() {
 		
-		Maze maze = repo.findByTitle("Test Maze(Broken)");
+		Maze maze = repo.findByTitle("Test Maze");
 		ModelAndView modelAndView = new ModelAndView("solvemaze");
 		
-		//Generates new boolean[][] equal in size to the Maze's mazegrid, in order to set the visitedCoordinates property of the maze (not included in constructor)
+		//Generates new boolean[][] equal in size to the Maze's mazegrid, in order to set the starting state visitedCoordinates property of the maze (not included in constructor)
 		boolean[][] visitedCoordinates = new boolean[maze.getHeight()][maze.getWidth()];
 		
 		for (int i = 0; i < visitedCoordinates.length; i++) {
@@ -87,7 +87,7 @@ public class MazeDisplayController {
                 continue;
             }
             
-            //If this point is the end of the maze, we backtrack to add the shortest path to the mazegrid (=4)
+            //If this point is the end of the maze, we backtrack to add the shortest path to the mazegrid (=4), then pass the solution to a JSP
             if (maze.isThisMazeEnd(cur.getX(), cur.getY())) {
             	 int[][] tempMaze = maze.getMazeGrid();
                  Coordinate pathCoordinate = cur;
