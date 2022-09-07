@@ -2148,6 +2148,7 @@ IEclipsePreferences#org-eclipse-ui-workbench {
 		'org.eclipse.debug.ui.console.stream.err=255,127,127'
 		'org.eclipse.debug.ui.console.stream.in=0,255,184'
 		'org.eclipse.debug.ui.console.stream.out=255,255,255'
+		'org.eclipse.egit.ui.CommitMessageCommentColor=115,130,140'
 		'org.eclipse.egit.ui.DiffAddBackgroundColor=51,81,30'
 		'org.eclipse.egit.ui.DiffAddForegroundColor=235,237,239'
 		'org.eclipse.egit.ui.DiffHeadlineBackgroundColor=25,29,31'
