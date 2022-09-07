@@ -9,10 +9,37 @@
 <title>Maze Creator</title>
 </head>
 <body>
-	<h1>Create a Maze</h1>
-	<c:if test="${loggedIn}">
-		<h2>Ready to make a maze, ${username}?</h2>
-	</c:if>
+	<div class="buttons">
+		<form action="/" method="Post">
+			<input type="hidden" name="username" value="${username}"/>
+			<input type="hidden" name="loggedIn" value="${loggedIn}"/>
+			<input type="submit" value="Home"/>
+		</form>
+		<form action="/searchforamaze" method="POST">
+			<input type="hidden" name="username" value="${username}"/>
+			<input type="hidden" name="loggedIn" value="${loggedIn}"/>
+			<input type="submit" value="Search for a Maze"/>
+		</form>
+		<c:if test="${loggedIn}">
+			<form action="/usermazes" method="POST">
+				<input type="hidden" name="username" value="${username}"/>
+				<input type="hidden" name="loggedIn" value="${loggedIn}"/>
+				<input type="submit" value="My Mazes"/>
+			</form>
+			<form action="signout" method="POST">
+				<input type="hidden" name="username" value="${username}"/>
+				<input type="hidden" name="loggedIn" value="${loggedIn}"/>
+				<input type="submit" value="Sign Out"/>
+			</form>
+		</c:if>
+		<c:if test="${not loggedIn}">
+			<a href="/login">Log In</a>
+			<a href="/signup">Sign Up</a>
+		</c:if>
+	</div>
 	
+	<h1>Create a Maze</h1>
+	
+	<h3>${message}</h3>
 </body>
 </html>

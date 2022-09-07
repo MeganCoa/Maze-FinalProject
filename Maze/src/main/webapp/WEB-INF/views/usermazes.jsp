@@ -10,15 +10,24 @@
 </head>
 <body>
 	<div class="buttons">
+		<form action="/" method="POST">
+			<input type="hidden" name="username" value="${username}"/>
+			<input type="hidden" name="loggedIn" value="${loggedIn}"/>
+			<input type="submit" value="Home"/>
+		</form>
 		<form action="/usercreatemaze" method="POST">
 			<input type="hidden" name="username" value="${username}"/>
+			<input type="hidden" name="loggedIn" value="${loggedIn}"/>
 			<input type="submit" value="Create a Maze"/>
 		</form>
 		<form action="/searchforamaze" method="POST">
 			<input type="hidden" name="username" value="${username}"/>
+			<input type="hidden" name="loggedIn" value="${loggedIn}"/>
 			<input type="submit" value="Search for a Maze"/>
 		</form>
 		<form action="signout" method="POST">
+			<input type="hidden" name="username" value="${username}"/>
+			<input type="hidden" name="loggedIn" value="${loggedIn}"/>
 			<input type="submit" value="Sign Out"/>
 		</form>
 	</div>
@@ -30,6 +39,5 @@
 			</li>
 		</c:forEach>
 	</ul>
-	
 </body>
 </html>

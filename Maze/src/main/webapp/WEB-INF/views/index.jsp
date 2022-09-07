@@ -9,7 +9,6 @@
 <title>Homepage</title>
 </head>
 <body>
-	<h1>Maze Town</h1>
 	<div class="buttons">
 		<form action="/usercreatemaze" method="POST">
 			<input type="hidden" name="username" value="${username}"/>
@@ -24,9 +23,12 @@
 		<c:if test="${loggedIn}">
 			<form action="/usermazes" method="POST">
 				<input type="hidden" name="username" value="${username}"/>
+				<input type="hidden" name="loggedIn" value="${loggedIn}"/>
 				<input type="submit" value="My Mazes"/>
 			</form>
 			<form action="signout" method="POST">
+				<input type="hidden" name="username" value="${username}"/>
+				<input type="hidden" name="loggedIn" value="${loggedIn}"/>
 				<input type="submit" value="Sign Out"/>
 			</form>
 		</c:if>
@@ -36,6 +38,9 @@
 		</c:if>
 		
 	</div>
+	
+	<h1>Maze Town</h1>
+	
 	<h3>${message}</h3>
 </body>
 </html>

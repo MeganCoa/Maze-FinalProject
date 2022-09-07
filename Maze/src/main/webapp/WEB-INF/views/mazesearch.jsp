@@ -8,6 +8,7 @@
 <meta charset="UTF-8">
 <title>Maze Search</title>
 </head>
+<body>
 	<div class="buttons">
 		<form action="/" method="POST">
 			<input type="hidden" name="username" value="${username}"/>
@@ -26,6 +27,8 @@
 				<input type="submit" value="My Mazes"/>
 			</form>
 			<form action="signout" method="POST">
+				<input type="hidden" name="username" value="${username}"/>
+				<input type="hidden" name="loggedIn" value="${loggedIn}"/>
 				<input type="submit" value="Sign Out"/>
 			</form>
 		</c:if>
@@ -34,7 +37,8 @@
 			<a href="/signup">Sign Up</a>
 		</c:if>
 	</div>
-<body>
-	<h1>Maze Search ${username}</h1>
+	
+	<h1>Maze Search</h1>
+
 </body>
 </html>

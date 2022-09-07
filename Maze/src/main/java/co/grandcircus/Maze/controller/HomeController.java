@@ -40,7 +40,9 @@ public class HomeController {
 		return "mazesearch";
 	}
 	@RequestMapping("/login")
-	public String showLogin(Model model) {
+	public String showLogin(@RequestParam(required=false) String username, @RequestParam(required=false) boolean loggedIn, Model model) {
+		model.addAttribute("username", username);
+		model.addAttribute("loggedIn", loggedIn);
 		String message = "Please enter your username and password.";
 		model.addAttribute("message", message);
 		return "login";
@@ -52,16 +54,19 @@ public class HomeController {
 			if (optUser.get().getPassword().equals(hashPassword(password))) {
 				boolean loggedIn = true;
 				model.addAttribute("loggedIn", loggedIn);
-				model.addAttribute("message", "Welcome back, " + username);
+				model.addAttribute("username", username);
+				model.addAttribute("message", "Welcome back, " + username + "!");
 			} else {
 				model.addAttribute("message", "That password was incorrect");
-				return "/login";
+				return "login";
 			}
 		}
 		return "index";
 	}
 	@RequestMapping("/signup")
-	public String showSignUp() {
+	public String showSignUp(@RequestParam(required=false) String username, @RequestParam(required=false) boolean loggedIn, Model model) {
+		model.addAttribute("username", username);
+		model.addAttribute("loggedIn", loggedIn);
 		return "signup";
 	}
 	@PostMapping("/signup")
@@ -74,6 +79,7 @@ public class HomeController {
 			User user = new User(username, email, hashPassword(password));
 			repo.insert(user);
 			model.addAttribute("message", "Welcome, " + username + "!");
+			model.addAttribute("username", username);
 			model.addAttribute("loggedIn", true);
 			return "index";
 		}
@@ -86,13 +92,15 @@ public class HomeController {
 		return "userhome";
 	}
 	@RequestMapping("/signout")
-	public String userSignout(Model model) {
-		model.addAttribute("message", "Come back soon!");
+	public String userSignout(@RequestParam String username, @RequestParam boolean loggedIn, Model model) {
+		model.addAttribute("loggedIn", !loggedIn);
+		model.addAttribute("message", "Come back soon, " + username + "!");
 		return "index";
 	}
 	@PostMapping("/usermazes")
-	public String userMazes(@RequestParam String username, Model model) {
+	public String userMazes(@RequestParam String username, @RequestParam boolean loggedIn, Model model) {
 		model.addAttribute("username", username);
+		model.addAttribute("loggedIn", loggedIn);
 		model.addAttribute("mazes", repo.findByUsername(username).get().getUserMazes());
 		return "usermazes";
 	}
