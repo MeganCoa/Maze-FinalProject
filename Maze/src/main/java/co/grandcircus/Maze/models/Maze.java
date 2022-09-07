@@ -208,7 +208,7 @@ public class Maze {
         }
         return result.toString();
     }
-
+    
     //Resets the visitedCoordinates double array to read false across the board (not accessed)
     public void reset() {
         for (int i = 0; i < visitedCoordinates.length; i++)
