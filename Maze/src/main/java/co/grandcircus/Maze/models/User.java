@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class User {
 	@Id
 	private String id;
-	private String userName;
+	private String username;
 	private String email;
 	private String password;
 	private ArrayList<String> userMazes; //(maze IDs for mazes this user has made)
@@ -18,9 +18,9 @@ public class User {
 	public User() {
 		super();
 	}
-	public User(String userName, String email, String password) {
+	public User(String username, String email, String password) {
 		super();
-		this.userName = userName;
+		this.username = username;
 		this.email = email;
 		this.password = password;
 	}
@@ -31,11 +31,11 @@ public class User {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public String getUserName() {
-		return userName;
+	public String getUsername() {
+		return username;
 	}
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 	public ArrayList<String> getUserMazes() {
 		return userMazes;
@@ -54,5 +54,17 @@ public class User {
 	}
 	public void setTrophies(ArrayList<Trophy> trophies) {
 		this.trophies = trophies;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
 	}
 }
