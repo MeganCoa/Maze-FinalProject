@@ -22,11 +22,11 @@ public class MazeDisplayController {
 	@Autowired
 	private MazeRepository repo;
 	
-	@RequestMapping("/")
+	@RequestMapping("/displaymaze")
 	public ModelAndView displayMaze() {
 		
 		Maze maze = repo.findByTitle("Test Maze");
-		ModelAndView modelAndView = new ModelAndView("index");
+		ModelAndView modelAndView = new ModelAndView("displaymaze");
 		
 		 StringBuilder result = new StringBuilder(maze.getWidth() * (maze.getHeight() + 1));
 	        for (int row = 0; row < maze.getHeight(); row++) {
