@@ -49,15 +49,21 @@
 	<div class = "mazeDisplay">
 	${symbolMaze}
 	</div>
-	<a href="/solvemaze?title=${title}">Solution</a>
-		<c:if test="${loggedIn}">
-			<form action="/addUserFavorite" method="POST">
-				<input type="hidden" name="loggedIn" value="${loggedIn}"/>
-				<input type="hidden" name="username" value="${username}"/>
-				<input type="hidden" name="title" value="${title}"/>
-				<input type="submit" value="Add To Favorites"/>
-			</form>
-		</c:if>
+	<form action="/solvemaze" method="POST">
+		<input type="hidden" name="username" value="${username}"/>
+		<input type="hidden" name="loggedIn" value="${loggedIn}"/>
+		<input type="hidden" name="title" value="${title}"/>
+		<input type="submit" value="See Solution"/>
+	</form>
+	
+	<c:if test="${loggedIn}">
+		<form action="/addUserFavorite" method="POST">
+			<input type="hidden" name="loggedIn" value="${loggedIn}"/>
+			<input type="hidden" name="username" value="${username}"/>
+			<input type="hidden" name="title" value="${title}"/>
+			<input type="submit" value="Add To Favorites"/>
+		</form>
+	</c:if>
 
 </body>
 </html>

@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -22,7 +23,7 @@ public class MazeDisplayController {
 	@Autowired
 	private MazeRepository repo;
 	
-	@RequestMapping("/displaymaze")
+	@PostMapping("/displaymaze")
 	public ModelAndView displayMaze(@RequestParam String title, @RequestParam(required=false) String username, @RequestParam(required=false) boolean loggedIn) {
 		
 		Maze maze = repo.findByTitle(title);
@@ -53,7 +54,7 @@ public class MazeDisplayController {
 	        return modelAndView;
 	}
 	
-	@RequestMapping("/solvemaze")
+	@PostMapping("/solvemaze")
 	public ModelAndView solveMaze(@RequestParam String title, @RequestParam(required=false) String username, @RequestParam(required=false) boolean loggedIn) {
 		
 		Maze maze = repo.findByTitle(title);
