@@ -6,11 +6,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>User Login</title>
+<title>Display Maze</title>
 <link href="/style.css" rel="stylesheet">
 </head>
 <body>
-
 	<div class="buttons">
 		<form action="/" method="Post">
 			<input type="hidden" name="username" value="${username}"/>
@@ -40,17 +39,31 @@
 			</form>
 		</c:if>
 		<c:if test="${not loggedIn}">
+			<a href="/login">Log In</a>
 			<a href="/signup">Sign Up</a>
 		</c:if>
-		
 	</div>
 	
-	<h1>User Login</h1>
-	<h3>${message}</h3>
-	<form action="/login" method="POST">
-		Username: <input type="text" name="username"/>
-		Password: <input type="text" name="password"/>
-		<input type="submit"/>
+	
+  	<h1>${title}</h1>
+	<div class = "mazeDisplay">
+	${symbolMaze}
+	</div>
+	<form action="/solvemaze" method="POST">
+		<input type="hidden" name="username" value="${username}"/>
+		<input type="hidden" name="loggedIn" value="${loggedIn}"/>
+		<input type="hidden" name="title" value="${title}"/>
+		<input type="submit" value="See Solution"/>
 	</form>
+	
+	<c:if test="${loggedIn}">
+		<form action="/addUserFavorite" method="POST">
+			<input type="hidden" name="loggedIn" value="${loggedIn}"/>
+			<input type="hidden" name="username" value="${username}"/>
+			<input type="hidden" name="title" value="${title}"/>
+			<input type="submit" value="Add To Favorites"/>
+		</form>
+	</c:if>
+
 </body>
 </html>

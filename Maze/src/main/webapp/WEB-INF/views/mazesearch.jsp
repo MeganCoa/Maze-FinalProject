@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Maze Search</title>
+<link href="/style.css" rel="stylesheet">
 </head>
 <body>
 	<div class="buttons">
@@ -39,6 +40,19 @@
 	</div>
 	
 	<h1>Maze Search</h1>
+	
+	<ul>
+		<c:forEach var="maze" items="${allMazes}">
+			<li>
+				<form action="/displaymaze" method="POST">
+					<input type="hidden" name="username" value="${username}"/>
+					<input type="hidden" name="loggedIn" value="${loggedIn}"/>
+					<input type="hidden" name="title" value="${maze.title}"/>
+					<input type="submit" value="${maze.title}"/>
+				</form>
+			</li>
+		</c:forEach>
+	</ul>
 
 </body>
 </html>
