@@ -121,6 +121,8 @@ public class HomeController {
 		model.addAttribute("username", username);
 		model.addAttribute("loggedIn", loggedIn);
 		model.addAttribute("title", title);
+		List<Maze> allMazes = mazeRepo.findAll();
+		model.addAttribute("allMazes", allMazes);
 		return "mazesearch";
 	}
 	public static String hashPassword(String password) {
