@@ -22,10 +22,10 @@ public class MazeDisplayController {
 	@Autowired
 	private MazeRepository repo;
 	
-	@RequestMapping("/displaymaze")
+	@RequestMapping("/solvemaze")
 	public ModelAndView displayMaze() {
 		
-		Maze maze = repo.findByTitle("Test Maze2");
+		Maze maze = repo.findByTitle("Test Maze");
 		ModelAndView modelAndView = new ModelAndView("solvemaze");
 		
 		 StringBuilder result = new StringBuilder(maze.getWidth() * (maze.getHeight() + 1));
@@ -53,7 +53,7 @@ public class MazeDisplayController {
 	@RequestMapping("/solvemaze")
 	public ModelAndView solveMaze() {
 		
-		Maze maze = repo.findByTitle("Test Maze2");
+		Maze maze = repo.findByTitle("Test Maze");
 		ModelAndView modelAndView = new ModelAndView("solvemaze");
 		
 		//Generates new boolean[][] equal in size to the Maze's mazegrid, in order to set the starting state visitedCoordinates property of the maze (not included in constructor)
