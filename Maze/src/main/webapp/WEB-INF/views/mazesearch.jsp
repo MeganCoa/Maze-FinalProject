@@ -43,6 +43,7 @@
 	<ul>
 		<c:forEach var="maze" items="${allMazes}">
 			<li>
+				<c:if test=""></c:if>
 				<form action="/displaymaze" method="POST">
 					<input type="hidden" name="username" value="${username}"/>
 					<input type="hidden" name="loggedIn" value="${loggedIn}"/>

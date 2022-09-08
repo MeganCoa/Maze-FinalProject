@@ -121,9 +121,32 @@ public class HomeController {
 		model.addAttribute("username", username);
 		model.addAttribute("loggedIn", loggedIn);
 		model.addAttribute("title", title);
-		List<Maze> allMazes = mazeRepo.findAll();
-		model.addAttribute("allMazes", allMazes);
-		return "mazesearch";
+		model.addAttribute("symbolMaze", mazeDisplayWriter(title));		
+		
+		return "displaymaze";
+	}	
+	public String mazeDisplayWriter(String title) {
+		
+		Maze maze = mazeRepo.findByTitle(title);
+		
+		StringBuilder result = new StringBuilder(maze.getWidth() * (maze.getHeight() + 1));
+        for (int row = 0; row < maze.getHeight(); row++) {
+            for (int col = 0; col < maze.getWidth(); col++) {
+                if (maze.getMazeGrid()[row][col] == 0) { //Based on final variables, 0 generates a wall 
+                    result.append("#  ");
+                } else if (maze.getMazeGrid()[row][col] == 1) { //Based on final variables, 1 generates open space
+                    result.append("0  ");
+                } else if (maze.getMazeGrid()[row][col] == 2) { //Based on final variables, 2 generates maze start point
+                    result.append("S  ");
+                } else if (maze.getMazeGrid()[row][col] == 3) { //Based on final variables, 3 generates maze end point
+                    result.append("E  ");
+                } else {
+                    result.append('.'); //Everything else is the path
+                }
+            }
+            result.append("<br>");
+        }
+        return result.toString();
 	}
 	public static String hashPassword(String password) {
 		String result = "";
