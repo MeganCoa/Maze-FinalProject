@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>New User</title>
+<link href="/style.css" rel="stylesheet">
 </head>
 <body>
 	<div class="buttons">
@@ -31,7 +32,7 @@
 				<input type="hidden" name="loggedIn" value="${loggedIn}"/>
 				<input type="submit" value="My Mazes"/>
 			</form>
-			<form action="signout" method="POST">
+			<form action="/signout" method="POST">
 				<input type="hidden" name="username" value="${username}"/>
 				<input type="hidden" name="loggedIn" value="${loggedIn}"/>
 				<input type="submit" value="Sign Out"/>

@@ -7,12 +7,6 @@
 <head>
 <meta charset="ISO-8859-1">
 
-<!--  
-<div class = "mazeDisplay">
-${maze}
-</div>
--->
-
 <title>A-MAZE-ING!</title>
 <link href="/style.css" rel="stylesheet">
 </head>
@@ -34,7 +28,7 @@ ${maze}
 				<input type="hidden" name="loggedIn" value="${loggedIn}"/>
 				<input type="submit" value="My Mazes"/>
 			</form>
-			<form action="signout" method="POST">
+			<form action="/signout" method="POST">
 				<input type="hidden" name="username" value="${username}"/>
 				<input type="hidden" name="loggedIn" value="${loggedIn}"/>
 				<input type="submit" value="Sign Out"/>

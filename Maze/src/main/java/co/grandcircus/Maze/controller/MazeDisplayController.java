@@ -22,11 +22,11 @@ public class MazeDisplayController {
 	@Autowired
 	private MazeRepository repo;
 	
-	@RequestMapping("/")
-	public ModelAndView displayMaze() {
+	@RequestMapping("/displaymaze")
+	public ModelAndView displayMaze(@RequestParam String title, @RequestParam(required=false) String username, @RequestParam(required=false) boolean loggedIn) {
 		
-		Maze maze = repo.findByTitle("Test Maze");
-		ModelAndView modelAndView = new ModelAndView("index");
+		Maze maze = repo.findByTitle(title);
+		ModelAndView modelAndView = new ModelAndView("displaymaze");
 		
 		 StringBuilder result = new StringBuilder(maze.getWidth() * (maze.getHeight() + 1));
 	        for (int row = 0; row < maze.getHeight(); row++) {
@@ -46,14 +46,17 @@ public class MazeDisplayController {
 	            result.append("<br>");
 	        }
 	       
-	        modelAndView.addObject("maze", result.toString());
+	        modelAndView.addObject("symbolMaze", result.toString());
+	        modelAndView.addObject("title", maze.getTitle());
+	        modelAndView.addObject("username", username);
+	        modelAndView.addObject("loggedIn", loggedIn);
 	        return modelAndView;
 	}
 	
 	@RequestMapping("/solvemaze")
-	public ModelAndView solveMaze() {
+	public ModelAndView solveMaze(@RequestParam String title, @RequestParam(required=false) String username, @RequestParam(required=false) boolean loggedIn) {
 		
-		Maze maze = repo.findByTitle("Test Maze");
+		Maze maze = repo.findByTitle(title);
 		ModelAndView modelAndView = new ModelAndView("solvemaze");
 		
 		//Generates new boolean[][] equal in size to the Maze's mazegrid, in order to set the starting state visitedCoordinates property of the maze (not included in constructor)
@@ -115,7 +118,10 @@ public class MazeDisplayController {
      	            result.append("<br>");
      	        }
                 
-     	        modelAndView.addObject("maze", result.toString());
+     	        modelAndView.addObject("symbolMaze", result.toString());
+     	        modelAndView.addObject("title", title);
+     	        modelAndView.addObject("username", username);
+     	       	modelAndView.addObject("loggedIn", loggedIn);
      	        return modelAndView;                    
             }
 

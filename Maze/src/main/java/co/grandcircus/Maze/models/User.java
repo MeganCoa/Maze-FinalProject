@@ -13,7 +13,7 @@ public class User {
 	private String email;
 	private String password;
 	private ArrayList<String> userMazes; //(maze IDs for mazes this user has made)
-	private ArrayList<String> userFavorites; //(maze IDs for mazes this user favorites)
+	private ArrayList<String> userFavorites; //(maze titles for mazes this user favorites)
 	private ArrayList<Trophy> trophies;
 	public User() {
 		super();
@@ -23,6 +23,9 @@ public class User {
 		this.username = username;
 		this.email = email;
 		this.password = password;
+		this.userMazes = new ArrayList<String>();
+		this.userFavorites = new ArrayList<String>();
+		this.trophies = new ArrayList<Trophy>();
 	}
 
 	public String getId() {
