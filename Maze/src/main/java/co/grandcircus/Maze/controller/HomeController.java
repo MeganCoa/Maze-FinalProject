@@ -1,5 +1,6 @@
 package co.grandcircus.Maze.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.swing.text.html.HTML;
@@ -11,13 +12,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import co.grandcircus.Maze.models.Maze;
 import co.grandcircus.Maze.models.User;
+import co.grandcircus.Maze.repository.MazeRepository;
 import co.grandcircus.Maze.repository.UserRepository;
 
 @Controller
 public class HomeController {
 	@Autowired
-	private UserRepository repo;
+	private UserRepository userRepo;
+	@Autowired
+	private MazeRepository mazeRepo;
 	
 	@RequestMapping("/")
 	public String showIndex(@RequestParam(required=false) String message, 
@@ -37,6 +42,8 @@ public class HomeController {
 	public String showMazeSearch(@RequestParam(required=false) String username, @RequestParam(required=false) boolean loggedIn, Model model) {
 		model.addAttribute("username", username);
 		model.addAttribute("loggedIn", loggedIn);
+		List<Maze> allMazes = mazeRepo.findAll();
+		model.addAttribute("allMazes", allMazes);
 		return "mazesearch";
 	}
 	@RequestMapping("/login")
@@ -49,7 +56,7 @@ public class HomeController {
 	}
 	@PostMapping("/login")
 	public String loginUser(@RequestParam String username, @RequestParam String password, Model model) {
-		Optional<User> optUser = repo.findByUsername(username);
+		Optional<User> optUser = userRepo.findByUsername(username);
 		if (optUser.isPresent()) {
 			if (optUser.get().getPassword().equals(hashPassword(password))) {
 				boolean loggedIn = true;
@@ -71,13 +78,13 @@ public class HomeController {
 	}
 	@PostMapping("/signup")
 	public String newUserSignUp(@RequestParam String username, @RequestParam String email, @RequestParam String password, Model model) {
-		Optional<User> optUser = repo.findByUsername(username);
+		Optional<User> optUser = userRepo.findByUsername(username);
 		if (optUser.isPresent()) {
 			model.addAttribute("message", "That username exists already. Login instead?");
 			return "login";
 		} else {
 			User user = new User(username, email, hashPassword(password));
-			repo.insert(user);
+			userRepo.insert(user);
 			model.addAttribute("message", "Welcome, " + username + "!");
 			model.addAttribute("username", username);
 			model.addAttribute("loggedIn", true);
@@ -101,8 +108,20 @@ public class HomeController {
 	public String userMazes(@RequestParam String username, @RequestParam boolean loggedIn, Model model) {
 		model.addAttribute("username", username);
 		model.addAttribute("loggedIn", loggedIn);
-		model.addAttribute("mazes", repo.findByUsername(username).get().getUserMazes());
+		model.addAttribute("userMazes", userRepo.findByUsername(username).get().getUserMazes());
+		model.addAttribute("userFavorites", userRepo.findByUsername(username).get().getUserFavorites());
 		return "usermazes";
+	}
+	@PostMapping("/addUserFavorite")
+	public String addToUserFavorites(@RequestParam String username, @RequestParam String title, @RequestParam boolean loggedIn, Model model) {
+		Optional<User> optUser = userRepo.findByUsername(username);
+		if (!optUser.get().getUserFavorites().contains(title)) {
+			userRepo.findAndPushToUserFavoritesByUsername(username, title);
+		}
+		model.addAttribute("username", username);
+		model.addAttribute("loggedIn", loggedIn);
+		model.addAttribute("title", title);
+		return "mazesearch";
 	}
 	public static String hashPassword(String password) {
 		String result = "";
