@@ -158,46 +158,8 @@ public class MazeDisplayController {
 		
 		maze.setMazeGrid(defaultMazeGrid);
 		
-		modelAndView.addObject("rows", new int[rows]);
-		modelAndView.addObject("columns", new int[columns]);
-	    modelAndView.addObject("username", username);
-	    modelAndView.addObject("loggedIn", loggedIn);
-		modelAndView.addObject("maze", maze);
 		
-		return modelAndView;
-	}
-	
-	@PostMapping("/creationconfirmation")
-	public ModelAndView creationConfirmation(@RequestParam String title, @RequestParam(required=false) String username, @RequestParam(required=false) boolean loggedIn, @RequestParam Integer rows, @RequestParam Integer columns) {
-		
-		ModelAndView modelAndView = new ModelAndView("creationconfirmation");
-		
-		String authorName;
-		
-		if(username != null) {
-			authorName = username;
-		} else {
-			authorName = "Anonymous";
-		}
-		
-		Maze maze = new Maze(title, authorName);
-		
-		int[][] defaultMazeGrid = new int[rows][columns];
-		
-		maze.setMazeGrid(defaultMazeGrid);
-		
-		//ArrayList<Coordinate> mazeGridCoordinates = new ArrayList<>();
-		List<Coordinate> mazeGridCoordinates = new ArrayList<>();
-		
-		/*
-		for(int i = 0; i < rows*columns; i++) {
-			if((i + 1) % 4 == 0) {
-				mazeGridCoordinates[i] = new Coordinate(i/columns, i%columns, maze.getMazeGrid()[i/columns][i%columns], true);
-			} else {
-				mazeGridCoordinates[i] = new Coordinate(i/columns, i%columns, maze.getMazeGrid()[i/columns][i%columns], false);
-			}
-		}
-		 */
+		ArrayList<Coordinate> mazeGridCoordinates = new ArrayList<>();
 		
 		for(int i = 0; i < rows; i++) {
 			for(int j = 0; j < columns; j++) {
@@ -213,6 +175,15 @@ public class MazeDisplayController {
 	    modelAndView.addObject("loggedIn", loggedIn);
 		modelAndView.addObject("maze", maze);
 		modelAndView.addObject("mazegridcoordinates", mazeGridCoordinates);
+		return modelAndView;
+	}
+	
+	@PostMapping("/creationconfirmation")
+	public ModelAndView creationConfirmation(@RequestParam String title, @RequestParam(required=false) String username, @RequestParam(required=false) boolean loggedIn, @RequestParam Integer rows, @RequestParam Integer columns) {
+		
+		ModelAndView modelAndView = new ModelAndView("creationconfirmation");
+		
+		
 		
 		return modelAndView;
 	}

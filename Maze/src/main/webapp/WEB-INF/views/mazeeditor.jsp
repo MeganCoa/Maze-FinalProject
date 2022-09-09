@@ -42,26 +42,26 @@
 	
 	<form action="/creationconfirmation" method="POST">
 		<c:forEach var="coordinate" items="${mazegridcoordinates}">
-				<select name="cell" id="cell" class="cell">
-				<c:if test="${coordinate.coordinateValue = 0}">
+				<select name="${coordinate.x},${coordinate.y}" id="cell" class="cell">
+				<c:if test="${coordinate.coordinateValue == 0}">
 					<option value="0" selected>#</option>
   					<option value="1">O</option>
  			 		<option value="2">S</option>
  			 		<option value="3">E</option>
 				</c:if>
-				<c:if test="${coordinate.coordinateValue = 1}">
+				<c:if test="${coordinate.coordinateValue == 1}">
 					<option value="0">#</option>
   					<option value="1" selected>O</option>
  			 		<option value="2">S</option>
  			 		<option value="3">E</option>
 				</c:if>
-				<c:if test="${coordinate.coordinateValue = 2}">
+				<c:if test="${coordinate.coordinateValue == 2}">
 					<option value="0">#</option>
   					<option value="1">O</option>
  			 		<option value="2" selected>S</option>
  			 		<option value="3">E</option>
 				</c:if>
-				<c:if test="${coordinate.coordinateValue = 3}">
+				<c:if test="${coordinate.coordinateValue == 3}">
 					<option value="0">#</option>
   					<option value="1">O</option>
  			 		<option value="2">S</option>
@@ -73,7 +73,7 @@
 		<input type="submit" value="Save Maze"/>
 	</form>
 
-
+	
 
 </body>
 </html>
