@@ -5,7 +5,9 @@ public class Coordinate {
 	
 	int x;
 	int y;
-	Coordinate parentCoordinate;	
+	Coordinate parentCoordinate;
+	int coordinateValue;
+	boolean endOfLine;
 	
 	public Coordinate() {
 		super();
@@ -23,6 +25,30 @@ public class Coordinate {
 		this.x = x;
 		this.y = y;
 		this.parentCoordinate = parentCoordinate;
+	}
+	
+	public Coordinate(int x, int y, int coordinateValue, boolean endOfLine) {
+		super();
+		this.x = x;
+		this.y = y;
+		this.coordinateValue = coordinateValue;
+		this.endOfLine = endOfLine;
+	}
+	
+	public boolean isEndOfLine() {
+		return endOfLine;
+	}
+
+	public void setEndOfLine(boolean endOfLine) {
+		this.endOfLine = endOfLine;
+	}
+	
+	public int getCoordinateValue() {
+		return coordinateValue;
+	}
+
+	public void setCoordinateValue(int coordinateValue) {
+		this.coordinateValue = coordinateValue;
 	}
 	
 	public int getX() {

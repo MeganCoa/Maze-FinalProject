@@ -138,4 +138,107 @@ public class MazeDisplayController {
 
         return modelAndView;
 	}
-}
+	
+	@PostMapping("/mazeeditor")
+	public ModelAndView mazeEditor(@RequestParam String title, @RequestParam(required=false) String username, @RequestParam(required=false) boolean loggedIn, @RequestParam Integer rows, @RequestParam Integer columns) {
+		
+		ModelAndView modelAndView = new ModelAndView("mazeeditor");
+		
+		String authorName;
+		
+		if(username != null) {
+			authorName = username;
+		} else {
+			authorName = "Anonymous";
+		}
+		
+		Maze maze = new Maze(title, authorName);
+		
+		int[][] defaultMazeGrid = new int[rows][columns];
+		
+		maze.setMazeGrid(defaultMazeGrid);
+		
+		modelAndView.addObject("rows", new int[rows]);
+		modelAndView.addObject("columns", new int[columns]);
+	    modelAndView.addObject("username", username);
+	    modelAndView.addObject("loggedIn", loggedIn);
+		modelAndView.addObject("maze", maze);
+		
+		return modelAndView;
+	}
+	
+	@PostMapping("/creationconfirmation")
+	public ModelAndView creationConfirmation(@RequestParam String title, @RequestParam(required=false) String username, @RequestParam(required=false) boolean loggedIn, @RequestParam Integer rows, @RequestParam Integer columns) {
+		
+		ModelAndView modelAndView = new ModelAndView("creationconfirmation");
+		
+		String authorName;
+		
+		if(username != null) {
+			authorName = username;
+		} else {
+			authorName = "Anonymous";
+		}
+		
+		Maze maze = new Maze(title, authorName);
+		
+		int[][] defaultMazeGrid = new int[rows][columns];
+		
+		maze.setMazeGrid(defaultMazeGrid);
+		
+		//ArrayList<Coordinate> mazeGridCoordinates = new ArrayList<>();
+		List<Coordinate> mazeGridCoordinates = new ArrayList<>();
+		
+		/*
+		for(int i = 0; i < rows*columns; i++) {
+			if((i + 1) % 4 == 0) {
+				mazeGridCoordinates[i] = new Coordinate(i/columns, i%columns, maze.getMazeGrid()[i/columns][i%columns], true);
+			} else {
+				mazeGridCoordinates[i] = new Coordinate(i/columns, i%columns, maze.getMazeGrid()[i/columns][i%columns], false);
+			}
+		}
+		 */
+		
+		for(int i = 0; i < rows; i++) {
+			for(int j = 0; j < columns; j++) {
+				if(j == columns - 1) {
+					mazeGridCoordinates.add(new Coordinate(i, j, maze.getMazeGrid()[i][j], true)); 
+				}else {
+					mazeGridCoordinates.add(new Coordinate(i, j, maze.getMazeGrid()[i][j], false));  
+				}
+			}
+		}
+		
+	    modelAndView.addObject("username", username);
+	    modelAndView.addObject("loggedIn", loggedIn);
+		modelAndView.addObject("maze", maze);
+		modelAndView.addObject("mazegridcoordinates", mazeGridCoordinates);
+		
+		return modelAndView;
+	}
+	
+	public String mazeDisplayWriter(String title) {
+		
+		Maze maze = repo.findByTitle(title);
+		
+		StringBuilder result = new StringBuilder(maze.getWidth() * (maze.getHeight() + 1));
+        for (int row = 0; row < maze.getHeight(); row++) {
+            for (int col = 0; col < maze.getWidth(); col++) {
+                if (maze.getMazeGrid()[row][col] == 0) { //Based on final variables, 0 generates a wall 
+                    result.append("#  ");
+                } else if (maze.getMazeGrid()[row][col] == 1) { //Based on final variables, 1 generates open space
+                    result.append("0  ");
+                } else if (maze.getMazeGrid()[row][col] == 2) { //Based on final variables, 2 generates maze start point
+                    result.append("S  ");
+                } else if (maze.getMazeGrid()[row][col] == 3) { //Based on final variables, 3 generates maze end point
+                    result.append("E  ");
+                } else {
+                    result.append('.'); //Everything else is the path
+                }
+            }
+            result.append("<br>");
+        }
+        return result.toString();
+	}
+	
+	}

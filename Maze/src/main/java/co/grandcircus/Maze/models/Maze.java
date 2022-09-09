@@ -37,6 +37,12 @@ public class Maze {
 		super();
 	}
 	
+	public Maze(String title, String authorName) {
+		super();
+		this.title = title;
+		this.authorName = authorName;
+	}
+	
 	//Updated Maze constructor to include start and end Coordinates in place of rows and columns
 	public Maze(String title, String authorName, int[][] mazeGrid, Coordinate startCoordinate, Coordinate endCoordinate) {
 		super();
@@ -46,7 +52,7 @@ public class Maze {
 		this.startCoordinate = startCoordinate;
 		this.endCoordinate = endCoordinate;
 	}
-
+	
 	//getters and setters:
 	public String getId() {
 		return id;
