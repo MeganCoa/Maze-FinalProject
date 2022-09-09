@@ -59,22 +59,7 @@
 		</c:forEach>
 	</ul>
 	
-	<h1>"${mazeSearchResult.getTitle()}"</h1>
-	<div class = "mazeDisplay">
-	${searchSymbolMaze}
-	</div>
 	
-	<table>
-         <tr>
-            <th>Maze Search Results</th>
-         </tr>
-         <c:forEach items="${searchedMazes}" var="searchmaze">
-            <tr>
-                <td>${searchedMazes.getTitle()</td>
-                <td>${searchedMazes.getTitle()</td>
-            </tr>
-         </c:forEach>
-      </table>
 	
 	
 </body>
