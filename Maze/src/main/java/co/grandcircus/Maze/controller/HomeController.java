@@ -24,7 +24,6 @@ public class HomeController {
 	private UserRepository userRepo;
 	@Autowired
 	private MazeRepository mazeRepo;
-
 	@RequestMapping("/")
 	public String showIndex(@RequestParam(required = false) String message,
 			@RequestParam(required = false) String username, @RequestParam(required = false) boolean loggedIn,
@@ -151,7 +150,6 @@ public class HomeController {
 		model.addAttribute("userFavorites", userRepo.findByUsername(username).get().getUserFavorites());
 		return "usermazes";
 	}
-
 	@PostMapping("/addUserFavorite")
 	public String addToUserFavorites(@RequestParam String username, @RequestParam String title, @RequestParam boolean loggedIn, Model model) {
 		Optional<User> optUser = userRepo.findByUsername(username);
@@ -164,8 +162,8 @@ public class HomeController {
 		model.addAttribute("symbolMaze", mazeDisplayWriter(title));		
 		
 		return "displaymaze";
-	}
 
+	}	
 	public String mazeDisplayWriter(String title) {
 		
 		Maze maze = mazeRepo.findByTitle(title);
@@ -189,7 +187,7 @@ public class HomeController {
         }
         return result.toString();
 	}
-
+	
 	public static String hashPassword(String password) {
 		String result = "";
 		int mult = (password.length() * password.length()) % 126;
