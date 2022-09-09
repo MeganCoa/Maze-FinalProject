@@ -120,7 +120,7 @@ public class HomeController {
 		}
 		model.addAttribute("username", username);
 		model.addAttribute("loggedIn", loggedIn);
-		model.addAttribute("title", title);
+		model.addAttribute("maze", mazeRepo.findByTitle(title));
 		model.addAttribute("symbolMaze", mazeDisplayWriter(title));		
 		
 		return "displaymaze";

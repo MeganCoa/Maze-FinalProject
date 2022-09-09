@@ -17,6 +17,11 @@
 			<input type="hidden" name="loggedIn" value="${loggedIn}"/>
 			<input type="submit" value="Home"/>
 		</form>
+		<form action="/usercreatemaze" method="POST">
+			<input type="hidden" name="username" value="${username}"/>
+			<input type="hidden" name="loggedIn" value="${loggedIn}"/>
+			<input type="submit" value="Create a Maze"/>
+		</form>
 		<form action="/searchforamaze" method="POST">
 			<input type="hidden" name="username" value="${username}"/>
 			<input type="hidden" name="loggedIn" value="${loggedIn}"/>
@@ -42,7 +47,7 @@
 	
 	<form action="/creationconfirmation" method="POST">
 		<c:forEach var="coordinate" items="${mazegridcoordinates}">
-				<select name="${coordinate.x},${coordinate.y}" id="cell" class="cell">
+				<select name="cellData" id="cell" class="cell">
 				<c:if test="${coordinate.coordinateValue == 0}">
 					<option value="0" selected>#</option>
   					<option value="1">O</option>
@@ -70,6 +75,10 @@
 				</select>
 				<c:if test="${coordinate.endOfLine}"><br></c:if> 
 		</c:forEach>
+		<input type="hidden" name="title" value="${maze.title}"/>
+		<input type="hidden" name="username" value="${username}"/>
+		<input type="hidden" name="loggedIn" value="${loggedIn}"/>
+		<input type="hidden" name="message" value="${message}"/>
 		<input type="submit" value="Save Maze"/>
 	</form>
 

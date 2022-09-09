@@ -12,7 +12,7 @@ public class User {
 	private String username;
 	private String email;
 	private String password;
-	private ArrayList<String> userMazes; //(maze IDs for mazes this user has made)
+	private ArrayList<String> userMazes; //(maze titles for mazes this user has made)
 	private ArrayList<String> userFavorites; //(maze titles for mazes this user favorites)
 	private ArrayList<Trophy> trophies;
 	public User() {

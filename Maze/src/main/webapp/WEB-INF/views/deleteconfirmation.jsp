@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Display Maze</title>
+<title>Maze Deleted!</title>
 <link href="/style.css" rel="stylesheet">
 </head>
 <body>
@@ -44,27 +44,9 @@
 		</c:if>
 	</div>
 	
+	<h1>Deletion Confirmed</h1>
+	<h3>${message}</h3>
 	
-  	<h1>${maze.title}</h1>
-  	<h2>By ${maze.authorName}</h2>
-	<div class = "mazeDisplay">
-	${symbolMaze}
-	</div>
-	<form action="/solvemaze" method="POST">
-		<input type="hidden" name="username" value="${username}"/>
-		<input type="hidden" name="loggedIn" value="${loggedIn}"/>
-		<input type="hidden" name="title" value="${maze.title}"/>
-		<input type="submit" value="See Solution"/>
-	</form>
 	
-	<c:if test="${loggedIn}">
-		<form action="/addUserFavorite" method="POST">
-			<input type="hidden" name="loggedIn" value="${loggedIn}"/>
-			<input type="hidden" name="username" value="${username}"/>
-			<input type="hidden" name="title" value="${maze.title}"/>
-			<input type="submit" value="Add To Favorites"/>
-		</form>
-	</c:if>
-
 </body>
 </html>

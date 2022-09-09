@@ -37,10 +37,11 @@ public class Maze {
 		super();
 	}
 	
-	public Maze(String title, String authorName) {
+	public Maze(String title, String authorName, int rows, int columns) {
 		super();
 		this.title = title;
 		this.authorName = authorName;
+		this.mazeGrid = new int[rows][columns];
 	}
 	
 	//Updated Maze constructor to include start and end Coordinates in place of rows and columns
