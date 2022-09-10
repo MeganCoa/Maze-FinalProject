@@ -15,5 +15,8 @@ public interface MazeRepository extends MongoRepository<Maze, String> {
 	void deleteByTitle(String title);
 	@Update("{'$set' : { 'mazeGrid' : ?1 } }")
 	void findAndUpdateMazeGridByTitle(String title, int[][] newMazeGrid);
+	
+	List<Maze> findByTitleContaining(String title);
+	List<Maze> findByAuthorNameContaining(String author);
 	List<Maze> findAll();
 }
