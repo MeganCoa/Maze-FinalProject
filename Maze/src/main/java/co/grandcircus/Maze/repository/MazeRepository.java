@@ -11,5 +11,8 @@ public interface MazeRepository extends MongoRepository<Maze, String> {
 	Maze findByAuthorName(String author);
 	Maze findByTitle(String title);
 	
+	List<Maze> findByTitleContaining(String title);
+	List<Maze> findByAuthorNameContaining(String author);
+	
 	List<Maze> findAll();
 }

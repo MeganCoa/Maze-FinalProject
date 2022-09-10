@@ -1,11 +1,13 @@
 package co.grandcircus.Maze.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import javax.swing.text.html.HTML;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -43,39 +45,29 @@ public class HomeController {
 	}
 
 	@RequestMapping("/searchforamaze")
-	public String showMazeSearch(@RequestParam(required = false) String username,
+	public String showMazeSearch(@RequestParam(required = false) String searchTerm, @RequestParam(required = false) String searchCategory, @RequestParam(required = false) String username,
 			@RequestParam(required = false) boolean loggedIn, Model model) {
+		List<Maze> mazes = new ArrayList<>();
+		try {			
+			 if(searchCategory.equals("title")) {
+				mazes = mazeRepo.findByTitleContaining(searchTerm);
+			}else if(searchCategory.equals("author")) {
+				mazes =  mazeRepo.findByAuthorNameContaining(searchTerm);
+			}else {
+				throw new Exception("Search Category not real.");
+			}
+			}catch(Exception e) {
+				mazes = mazeRepo.findAll();
+				model.addAttribute("searchError", "There was an error with the search." );
+				model.addAttribute("exceptionError", e.getMessage());
+			}
+		
 		model.addAttribute("username", username);
 		model.addAttribute("loggedIn", loggedIn);
-		List<Maze> allMazes = mazeRepo.findAll();
-		model.addAttribute("allMazes", allMazes);
+		model.addAttribute("allMazes", mazes);
 		return "mazesearch";
 	}
 
-	@RequestMapping("/searchresults")
-	public String showSearchResults(@ModelAttribute("searchTerm") String searchTerm, @RequestParam(required=false) String username, @RequestParam(required=false) boolean loggedIn, Model model) {
-		model.addAttribute("username", username);
-		model.addAttribute("loggedIn", loggedIn);
-		List<Maze> allMazes = mazeRepo.findAll();
-		List<Maze> searchedMazes;
-		model.addAttribute("allMazes", allMazes);
-		
-		/*if (!(searchTerm.equals("")) && !(searchTerm.toLowerCase() == null)) {
-			return "mazesearch";
-		}
-		else {*/
-			for(Maze mazeSearchResult : allMazes) {
-				if(mazeSearchResult.getAuthorName().equals(searchTerm)) {
-				model.addAttribute("mazeSearchResult", mazeSearchResult);
-				model.addAttribute("searchSymbolMaze", mazeDisplayWriter(mazeSearchResult.getTitle()));
-				}
-				
-				if(mazeSearchResult.getTitle().equals(searchTerm)) {
-				model.addAttribute("mazeSearchResult", mazeSearchResult);
-				model.addAttribute("searchSymbolMaze", mazeDisplayWriter(mazeSearchResult.getTitle()));
-				}
-			}return"mazesearch";
-		}
 	
 
 	@RequestMapping("/login")
