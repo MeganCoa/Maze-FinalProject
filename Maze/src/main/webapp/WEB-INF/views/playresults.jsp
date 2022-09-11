@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Display Maze</title>
+<title>Solution Results</title>
 <link href="/style.css" rel="stylesheet">
 </head>
 <body>
@@ -44,39 +44,36 @@
 		</c:if>
 	</div>
 	
-	
-  	<h1>${maze.title}</h1>
-  	<h2>By ${maze.authorName}</h2>
-	<div class = "mazeDisplay">
-	${symbolMaze}
-	</div>
-	
-	<form action="/solvemaze" method="POST">
-		<input type="hidden" name="username" value="${username}"/>
-		<input type="hidden" name="loggedIn" value="${loggedIn}"/>
-		<input type="hidden" name="title" value="${maze.title}"/>
-		<input type="submit" value="See Solution"/>
-	</form>
-	<form action="/usersolvemaze" method="POST">
-		<input type="hidden" name="username" value="${username}"/>
-		<input type="hidden" name="loggedIn" value="${loggedIn}"/>
-		<input type="hidden" name="title" value="${maze.title}"/>
-		<input type="submit" value="Solve Maze Myself"/>
-	</form>
-	
-	<c:if test="${loggedIn}">
-		<form action="/addUserFavorite" method="POST">
-			<input type="hidden" name="loggedIn" value="${loggedIn}"/>
+	<h1>Solution Results</h1>
+	<h3>${message}</h3>
+	<c:if test="${not successful}">
+		<form action="/solvemaze" method="POST">
 			<input type="hidden" name="username" value="${username}"/>
-			<input type="hidden" name="title" value="${maze.title}"/>
-			<input type="submit" value="Add To Favorites"/>
+			<input type="hidden" name="loggedIn" value="${loggedIn}"/>
+			<input type="hidden" name="title" value="${title}"/>
+			<input type="submit" value="See Solution"/>
+		</form>
+		<form action="/usersolvemaze" method="POST">
+			<input type="hidden" name="username" value="${username}"/>
+			<input type="hidden" name="loggedIn" value="${loggedIn}"/>
+			<input type="hidden" name="title" value="${title}"/>
+			<input type="submit" value="Try Again"/>
+		</form>
+	</c:if>
+	<c:if test="${successful}">
+		<form action="/solvemaze" method="POST">
+			<input type="hidden" name="username" value="${username}"/>
+			<input type="hidden" name="loggedIn" value="${loggedIn}"/>
+			<input type="hidden" name="title" value="${title}"/>
+			<input type="submit" value="See Solution"/>
+		</form>
+		<form action="/usersolvemaze" method="POST">
+			<input type="hidden" name="username" value="${username}"/>
+			<input type="hidden" name="loggedIn" value="${loggedIn}"/>
+			<input type="hidden" name="title" value="${title}"/>
+			<input type="submit" value="Play Again"/>
 		</form>
 	</c:if>
 	
-	<br>
-	<img src="${picture}" 
-       width="100" 
-       height="100"
-       />
 </body>
 </html>

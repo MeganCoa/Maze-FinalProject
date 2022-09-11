@@ -6,12 +6,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Maze Search</title>
+<title>Maze Deleted!</title>
 <link href="/style.css" rel="stylesheet">
 </head>
 <body>
 	<div class="buttons">
-		<form action="/" method="POST">
+		<form action="/" method="Post">
 			<input type="hidden" name="username" value="${username}"/>
 			<input type="hidden" name="loggedIn" value="${loggedIn}"/>
 			<input type="submit" value="Home"/>
@@ -21,13 +21,18 @@
 			<input type="hidden" name="loggedIn" value="${loggedIn}"/>
 			<input type="submit" value="Create a Maze"/>
 		</form>
+		<form action="/searchforamaze" method="POST">
+			<input type="hidden" name="username" value="${username}"/>
+			<input type="hidden" name="loggedIn" value="${loggedIn}"/>
+			<input type="submit" value="Search for a Maze"/>
+		</form>
 		<c:if test="${loggedIn}">
 			<form action="/usermazes" method="POST">
 				<input type="hidden" name="username" value="${username}"/>
 				<input type="hidden" name="loggedIn" value="${loggedIn}"/>
 				<input type="submit" value="My Mazes"/>
 			</form>
-			<form action="signout" method="POST">
+			<form action="/signout" method="POST">
 				<input type="hidden" name="username" value="${username}"/>
 				<input type="hidden" name="loggedIn" value="${loggedIn}"/>
 				<input type="submit" value="Sign Out"/>
@@ -39,31 +44,8 @@
 		</c:if>
 	</div>
 	
-	<h1>Maze Search</h1>
-	
-	<form class="form" action="searchforamaze" method="post">
-					<label for="searchTerm">Search Term</label> 
-					<input type="text" name="searchTerm" placeholder="Search Term" /> 
-						<label for="searchCategory">Search Category</label> <br>
-						Title <input type="radio" name="searchCategory" value="title" placeholder="Search Category" /> <br>
-						Author <input type="radio" name="searchCategory" value="author" placeholder="Search Category" /><br>
-						<input type="submit" class="button" />
-				</form>
-	
-	<ul>
-		<c:forEach var="maze" items="${allMazes}">
-			<li>
-				<form action="/displaymaze" method="POST">
-					<input type="hidden" name="username" value="${username}"/>
-					<input type="hidden" name="loggedIn" value="${loggedIn}"/>
-					<input type="hidden" name="title" value="${maze.title}"/>
-					<input type="submit" value="${maze.title}"/>
-				</form>
-			</li>
-		</c:forEach>
-	</ul>
-	
-	
+	<h1>Deletion Confirmed</h1>
+	<h3>${message}</h3>
 	
 	
 </body>

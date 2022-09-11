@@ -42,6 +42,19 @@
 					<input type="hidden" name="title" value="${title}"/>
 					<input type="submit" value="${title}"/>
 				</form>
+				
+				<form action="/mazeeditor" method="POST">
+					<input type="hidden" name="username" value="${username}"/>
+					<input type="hidden" name="loggedIn" value="${loggedIn}"/>
+					<input type="hidden" name="title" value="${title}"/>
+					<input type="submit" value="Edit ${title}"/>
+				</form>
+				<form action="/deleteusermaze" method="POST">
+					<input type="hidden" name="username" value="${username}"/>
+					<input type="hidden" name="loggedIn" value="${loggedIn}"/>
+					<input type="hidden" name="title" value="${title}"/>
+					<input type="submit" value="Delete ${title}"/>
+				</form>
 			</li>
 		</c:forEach>
 	</ul>
@@ -54,6 +67,12 @@
 					<input type="hidden" name="loggedIn" value="${loggedIn}"/>
 					<input type="hidden" name="title" value="${title}"/>
 					<input type="submit" value="${title}"/>
+				</form>
+				<form action="/deleteuserfavorite" method="POST">
+					<input type="hidden" name="username" value="${username}"/>
+					<input type="hidden" name="loggedIn" value="${loggedIn}"/>
+					<input type="hidden" name="title" value="${title}"/>
+					<input type="submit" value="Remove From Favorites"/>
 				</form>
 			</li>
 		</c:forEach>

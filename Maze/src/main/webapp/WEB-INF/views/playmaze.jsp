@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Display Maze</title>
+<title>Play Maze</title>
 <link href="/style.css" rel="stylesheet">
 </head>
 <body>
@@ -43,25 +43,52 @@
 			<a href="/signup">Sign Up</a>
 		</c:if>
 	</div>
-	
-	
-  	<h1>${maze.title}</h1>
+	<h1>${maze.title}</h1>
   	<h2>By ${maze.authorName}</h2>
-	<div class = "mazeDisplay">
+  	<div class = "mazeDisplay">
 	${symbolMaze}
 	</div>
+	<h3>From the Start to the End</h3>
+	<h3>Change cells to P for the Path you travel</h3>
 	
-	<form action="/solvemaze" method="POST">
+	<form action="/playtest" method="POST">
+		<c:forEach var="coordinate" items="${mazegridcoordinates}">
+				<select name="userPathData" id="cell" class="cell">
+				<c:if test="${coordinate.coordinateValue == 0}">
+					<option value="0" selected>#</option>
+  					<option value="1" disabled>O</option>
+ 			 		<option value="2" disabled>S</option>
+ 			 		<option value="3" disabled>E</option>
+				</c:if>
+				<c:if test="${coordinate.coordinateValue == 1}">
+  					<option value="0" disabled>#</option>
+  					<option value="1" selected>O</option>
+ 			 		<option value="4">P</option>
+ 			 		<option value="2" disabled>S</option>
+ 			 		<option value="3" disabled>E</option>
+				</c:if>
+				<c:if test="${coordinate.coordinateValue == 2}">
+ 			 		<option value="0" disabled>#</option>
+  					<option value="1" disabled>O</option>
+ 			 		<option value="2" selected>S</option>
+ 			 		<option value="4">P</option>
+ 			 		<option value="3" disabled>E</option>
+				</c:if>
+				<c:if test="${coordinate.coordinateValue == 3}">
+ 			 		<option value="0" disabled>#</option>
+  					<option value="1" disabled>O</option>
+ 			 		<option value="2" disabled>S</option>
+ 			 		<option value="3" selected>E</option>
+ 			 		<option value="4" >P</option>
+				</c:if>
+				</select>
+				<c:if test="${coordinate.endOfLine}"><br></c:if> 
+		</c:forEach>
+		<input type="hidden" name="title" value="${maze.title}"/>
 		<input type="hidden" name="username" value="${username}"/>
 		<input type="hidden" name="loggedIn" value="${loggedIn}"/>
-		<input type="hidden" name="title" value="${maze.title}"/>
-		<input type="submit" value="See Solution"/>
-	</form>
-	<form action="/usersolvemaze" method="POST">
-		<input type="hidden" name="username" value="${username}"/>
-		<input type="hidden" name="loggedIn" value="${loggedIn}"/>
-		<input type="hidden" name="title" value="${maze.title}"/>
-		<input type="submit" value="Solve Maze Myself"/>
+		<input type="hidden" name="message" value="${message}"/>
+		<input type="submit" value="Check Solution"/>
 	</form>
 	
 	<c:if test="${loggedIn}">
@@ -72,11 +99,5 @@
 			<input type="submit" value="Add To Favorites"/>
 		</form>
 	</c:if>
-	
-	<br>
-	<img src="${picture}" 
-       width="100" 
-       height="100"
-       />
 </body>
 </html>
