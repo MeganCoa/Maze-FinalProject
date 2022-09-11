@@ -33,30 +33,12 @@ public class MazeDisplayController {
 		
 		Maze maze = mazeRepo.findByTitle(title);
 		ModelAndView modelAndView = new ModelAndView("displaymaze");
-		
-		 StringBuilder result = new StringBuilder(maze.getWidth() * (maze.getHeight() + 1));
-	        for (int row = 0; row < maze.getHeight(); row++) {
-	            for (int col = 0; col < maze.getWidth(); col++) {
-	                if (maze.getMazeGrid()[row][col] == 0) { //Based on final variables, 0 generates a wall 
-	                    result.append("#  ");
-	                } else if (maze.getMazeGrid()[row][col] == 1) { //Based on final variables, 1 generates open space
-	                    result.append("0  ");
-	                } else if (maze.getMazeGrid()[row][col] == 2) { //Based on final variables, 2 generates maze start point
-	                    result.append("S  ");
-	                } else if (maze.getMazeGrid()[row][col] == 3) { //Based on final variables, 3 generates maze end point
-	                    result.append("E  ");
-	                } else {
-	                    result.append('.'); //Everything else is the path
-	                }
-	            }
-	            result.append("<br>");
-	        }
 	       
-	        modelAndView.addObject("symbolMaze", result.toString());
-	        modelAndView.addObject("maze", maze);
-	        modelAndView.addObject("username", username);
-	        modelAndView.addObject("loggedIn", loggedIn);
-	        return modelAndView;
+		modelAndView.addObject("symbolMaze", maze.mazeVisualizer());
+		modelAndView.addObject("maze", maze);
+		modelAndView.addObject("username", username);
+		modelAndView.addObject("loggedIn", loggedIn);
+		return modelAndView;
 	}
 	
 	@PostMapping("/solvemaze")
@@ -106,25 +88,27 @@ public class MazeDisplayController {
                      pathCoordinate = pathCoordinate.getParentCoordinate();
                  }                
                         
-                StringBuilder result = new StringBuilder(maze.getWidth() * (maze.getHeight() + 1));
-     	        for (int row = 0; row < maze.getHeight(); row++) {
-     	            for (int col = 0; col < maze.getWidth(); col++) {
-     	                if (tempMaze[row][col] == 0) { //Based on final variables, 0 generates a wall 
-     	                    result.append("#  ");
-     	                } else if (tempMaze[row][col] == 1) { //Based on final variables, 1 generates open space
-     	                    result.append("0  ");
-     	                } else if (tempMaze[row][col] == 2) { //Based on final variables, 2 generates maze start point
-     	                    result.append("S  ");
-     	                } else if (tempMaze[row][col] == 3) { //Based on final variables, 3 generates maze end point
-     	                    result.append("E  ");
-     	                } else {
-     	                    result.append(".  "); //Everything else is the path
-     	                }
-     	            }
-     	            result.append("<br>");
-     	        }
+//                StringBuilder result = new StringBuilder(maze.getWidth() * (maze.getHeight() + 1));
+//     	        for (int row = 0; row < maze.getHeight(); row++) {
+//     	            for (int col = 0; col < maze.getWidth(); col++) {
+//     	                if (tempMaze[row][col] == 0) { //Based on final variables, 0 generates a wall 
+//     	                    result.append("#  ");
+//     	                } else if (tempMaze[row][col] == 1) { //Based on final variables, 1 generates open space
+//     	                    result.append("0  ");
+//     	                } else if (tempMaze[row][col] == 2) { //Based on final variables, 2 generates maze start point
+//     	                    result.append("S  ");
+//     	                } else if (tempMaze[row][col] == 3) { //Based on final variables, 3 generates maze end point
+//     	                    result.append("E  ");
+//     	                } else {
+//     	                    result.append(".  "); //Everything else is the path
+//     	                }
+//     	            }
+//     	            result.append("<br>");
+//     	        }
+     	        
+     	       String result = maze.mazeVisualizer();
                 
-     	        modelAndView.addObject("symbolMaze", result.toString());
+     	        modelAndView.addObject("symbolMaze", result);
      	        modelAndView.addObject("title", title);
      	        modelAndView.addObject("username", username);
      	       	modelAndView.addObject("loggedIn", loggedIn);
@@ -319,30 +303,6 @@ public class MazeDisplayController {
 		return modelAndView;
 	}
 	
-	public String mazeDisplayWriter(String title) {
-		
-		Maze maze = mazeRepo.findByTitle(title);
-		
-		StringBuilder result = new StringBuilder(maze.getWidth() * (maze.getHeight() + 1));
-        for (int row = 0; row < maze.getHeight(); row++) {
-            for (int col = 0; col < maze.getWidth(); col++) {
-                if (maze.getMazeGrid()[row][col] == 0) { //Based on final variables, 0 generates a wall 
-                    result.append("#  ");
-                } else if (maze.getMazeGrid()[row][col] == 1) { //Based on final variables, 1 generates open space
-                    result.append("0  ");
-                } else if (maze.getMazeGrid()[row][col] == 2) { //Based on final variables, 2 generates maze start point
-                    result.append("S  ");
-                } else if (maze.getMazeGrid()[row][col] == 3) { //Based on final variables, 3 generates maze end point
-                    result.append("E  ");
-                } else {
-                    result.append('.'); //Everything else is the path
-                }
-            }
-            result.append("<br>");
-        }
-        return result.toString();
-	}
-	
 	public static boolean userMazeValidSolutionChecker(Maze maze) {
 		
 		//Generates new boolean[][] equal in size to the Maze's mazegrid, in order to set the starting state visitedCoordinates property of the maze (not included in constructor)
@@ -383,5 +343,29 @@ public class MazeDisplayController {
 	    }
 	    return false;	
 	}
-	
+	@PostMapping("/usersolvemaze")
+	public ModelAndView userSolveMaze(@RequestParam String title, @RequestParam(required=false) String username, @RequestParam(required=false) boolean loggedIn) {
+		ModelAndView modelAndView = new ModelAndView("playmaze");
+		
+		Maze maze = mazeRepo.findByTitle(title);
+		int rows = maze.getHeight();
+		int columns = maze.getWidth();
+		ArrayList<Coordinate> mazeGridCoordinates = new ArrayList<>();
+		
+		for(int i = 0; i < rows; i++) {
+			for(int j = 0; j < columns; j++) {
+				if(j == columns - 1) {
+					mazeGridCoordinates.add(new Coordinate(i, j, maze.getMazeGrid()[i][j], true)); 
+				}else {
+					mazeGridCoordinates.add(new Coordinate(i, j, maze.getMazeGrid()[i][j], false));  
+				}
+			}
+		}
+		modelAndView.addObject("mazegridcoordinates", mazeGridCoordinates);
+		modelAndView.addObject("username", username);
+		modelAndView.addObject("loggedIn", loggedIn);
+		modelAndView.addObject("symbolMaze", maze.mazeVisualizer());
+		modelAndView.addObject("maze", maze);
+		return modelAndView;
+	}
 }

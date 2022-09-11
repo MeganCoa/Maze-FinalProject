@@ -223,39 +223,39 @@ public class Maze {
     }
 
     //Prints the BFS-determined shortest path through the maze (implementation in ShortestPathChecker)
-    public void printPath(List<Coordinate> path) {
-        int[][] tempMaze = Arrays.stream(mazeGrid)
-            .map(int[]::clone)
-            .toArray(int[][]::new);
-        for (Coordinate coordinate : path) {
-            if (isThisMazeEntrance(coordinate.getX(), coordinate.getY()) || isThisMazeEnd(coordinate.getX(), coordinate.getY())) {
-                continue;
-            }
-            tempMaze[coordinate.getX()][coordinate.getY()] = PATH;
-        }
-        System.out.println(toString(tempMaze));
-    }
+//    public void printPath(List<Coordinate> path) {
+//        int[][] tempMaze = Arrays.stream(mazeGrid)
+//            .map(int[]::clone)
+//            .toArray(int[][]::new);
+//        for (Coordinate coordinate : path) {
+//            if (isThisMazeEntrance(coordinate.getX(), coordinate.getY()) || isThisMazeEnd(coordinate.getX(), coordinate.getY())) {
+//                continue;
+//            }
+//            tempMaze[coordinate.getX()][coordinate.getY()] = PATH;
+//        }
+//        System.out.println(toString(tempMaze));
+//    }
 
     //Prints a simple visual representation of a maze
-    public String toString(int[][] maze) {
-        StringBuilder result = new StringBuilder(getWidth() * (getHeight() + 1));
-        for (int row = 0; row < getHeight(); row++) {
-            for (int col = 0; col < getWidth(); col++) {
-                if (maze[row][col] == 0) { //Based on final variables, 0 generates a wall 
-                    result.append('#');
-                } else if (maze[row][col] == 1) { //Based on final variables, 1 generates open space
-                    result.append(' ');
-                } else if (maze[row][col] == 2) { //Based on final variables, 2 generates maze start point
-                    result.append('S');
-                } else if (maze[row][col] == 3) { //Based on final variables, 3 generates maze end point
-                    result.append('E');
+    public String mazeVisualizer() {
+    	StringBuilder result = new StringBuilder(this.mazeGrid.length * this.mazeGrid[0].length + 1);
+    	for (int row = 0; row < this.mazeGrid.length; row++) {
+            for (int col = 0; col < this.mazeGrid[0].length; col++) {
+                if (this.mazeGrid[row][col] == 0) { //Based on final variables, 0 generates a wall 
+                	result.append("#  ");
+                } else if (this.mazeGrid[row][col] == 1) { //Based on final variables, 1 generates open space
+                	result.append("0  ");
+                } else if (this.mazeGrid[row][col] == 2) { //Based on final variables, 2 generates maze start point
+                	result.append("S  ");
+                } else if (this.mazeGrid[row][col] == 3) { //Based on final variables, 3 generates maze end point
+                	result.append("E  ");
                 } else {
-                    result.append('.'); //Everything else is the path
+                	result.append(".  "); //Everything else is the path
                 }
             }
-            result.append('\n');
-        }
-        return result.toString();
+            result.append("<br>");
+    	}
+    	return result.toString();
     }
     
     //Resets the visitedCoordinates double array to read false across the board (not accessed)

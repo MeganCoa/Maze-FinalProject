@@ -56,6 +56,12 @@
 		<input type="hidden" name="title" value="${maze.title}"/>
 		<input type="submit" value="See Solution"/>
 	</form>
+	<form action="/usersolvemaze" method="POST">
+		<input type="hidden" name="username" value="${username}"/>
+		<input type="hidden" name="loggedIn" value="${loggedIn}"/>
+		<input type="hidden" name="title" value="${maze.title}"/>
+		<input type="submit" value="Solve Maze Myself"/>
+	</form>
 	
 	<c:if test="${loggedIn}">
 		<form action="/addUserFavorite" method="POST">
