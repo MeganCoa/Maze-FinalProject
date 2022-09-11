@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import co.grandcircus.Maze.IconSearch.IconSearchService;
 import co.grandcircus.Maze.models.Coordinate;
 import co.grandcircus.Maze.models.Maze;
 import co.grandcircus.Maze.models.ShortestPathChecker;
@@ -22,6 +24,9 @@ public class MazeDisplayController {
 	
 	@Autowired
 	private MazeRepository repo;
+	
+	@Autowired
+	private IconSearchService apiService;
 
 	@PostMapping("/displaymaze")
 	public ModelAndView displayMaze(@RequestParam String title, @RequestParam(required=false) String username, @RequestParam(required=false) boolean loggedIn) {
@@ -51,6 +56,9 @@ public class MazeDisplayController {
 	        modelAndView.addObject("title", maze.getTitle());
 	        modelAndView.addObject("username", username);
 	        modelAndView.addObject("loggedIn", loggedIn);
+	        
+	        modelAndView.addObject("picture", apiService.getIconObjects("dog").getData().getObjects().get(5).getAssets().get(2).getUrl());
+	        
 	        return modelAndView;
 	}
 	

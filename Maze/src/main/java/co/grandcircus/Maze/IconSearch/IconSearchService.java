@@ -1,11 +1,21 @@
 package co.grandcircus.Maze.IconSearch;
 
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import co.grandcircus.Maze.models.Objects;
+
+import com.google.gson.Gson;
 
 @Service
 public class IconSearchService {
@@ -13,14 +23,20 @@ public class IconSearchService {
 	private RestTemplate request = new RestTemplate();
 	private HttpHeaders headers = new HttpHeaders();
 	
-	private static final String REQUEST_SEARCH = "https://open-source-icons-search.p.rapidapi.com/vectors/search?query=%d";
 	
-	 public List<Objects> getObjects(String searchTerm) {
-	        headers.set("X-RapidAPI-Key", "0ece17a191msh867648ce9be47bbp1fe25ejsn922cd8fb3801");
+	 public IconSearchResponse getIconObjects(String searchTerm) {
+		 	String url = "https://open-source-icons-search.p.rapidapi.com/vectors/search?query={0}";
+		    headers.set("X-RapidAPI-Key", "7b8a3bdb90msh0ff5db43a345edbp1f4944jsna216b4df412b");
 	        headers.set("X-RapidAPI-Host", "open-source-icons-search.p.rapidapi.com");
+	        headers.set("User_Agent", "JavaMaze");
+	        headers.setAccept(Collections.singletonList(MediaType.ALL));
+	          	       
+	        HttpEntity<String> requestEntity = new HttpEntity<>(headers);	        
+	        ResponseEntity<String> response = request.exchange(url, HttpMethod.GET,
+	                requestEntity, String.class, searchTerm);
+	        Gson g = new Gson();
 	        
-	        String req = String.format(REQUEST_SEARCH , searchTerm);
-	       
-	        return request.getForObject(req, IconSearchResponse.class).getObjects() ;
+
+	        return g.fromJson(response.getBody(), IconSearchResponse.class);
 	 }
 }
