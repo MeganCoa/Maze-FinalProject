@@ -6,12 +6,16 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-
-<title>A-MAZE-ING!</title>
+<title>A-MAZE-ING SOLUTION!</title>
 <link href="/style.css" rel="stylesheet">
 </head>
 <body>
 	<div class="buttons">
+		<form action="/" method="Post">
+			<input type="hidden" name="username" value="${username}"/>
+			<input type="hidden" name="loggedIn" value="${loggedIn}"/>
+			<input type="submit" value="Home"/>
+		</form>
 		<form action="/usercreatemaze" method="POST">
 			<input type="hidden" name="username" value="${username}"/>
 			<input type="hidden" name="loggedIn" value="${loggedIn}"/>
@@ -38,12 +42,11 @@
 			<a href="/login">Log In</a>
 			<a href="/signup">Sign Up</a>
 		</c:if>
-		
 	</div>
-	
-	<h1>Maze Town</h1>
-	
-	<h3>${message}</h3>
+	<h1>${title}</h1>
+	<div class = "mazeDisplay">
+	${symbolMaze}
+	</div>
 
 </body>
 </html>

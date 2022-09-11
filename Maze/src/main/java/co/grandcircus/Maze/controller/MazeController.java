@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import co.grandcircus.Maze.models.Coordinate;
 import co.grandcircus.Maze.models.Maze;
 import co.grandcircus.Maze.repository.MazeRepository;
 
@@ -29,17 +30,7 @@ public class MazeController {
 	@GetMapping("/reset")
 	public String reset() {
 		repo.deleteAll();
-		//public Maze(String title, String authorName, ArrayList<ArrayList<Integer>> mazeGrid, int startRow, int startCol,
-		//int endRow, int endCol, ArrayList<Special> specials, int playTotal, ArrayList<Integer> ratings,
-		//double avgRating)
-		ArrayList<Integer> row1 = new ArrayList<>(Arrays.asList(0, 1, 1, 0));
 		
-		ArrayList<Integer> row2 = new ArrayList<>(Arrays.asList(1, 1, 0, 1));
-		ArrayList<Integer> row3 = new ArrayList<>(Arrays.asList(1, 0, 1, 1));
-		ArrayList<Integer> row4 = new ArrayList<>(Arrays.asList(1, 1, 1, 0));
-		ArrayList<ArrayList<Integer>> mazeGrid = new ArrayList<>(Arrays.asList(row1, row2, row3, row4));
-		Maze maze = new Maze("Test Maze", "Clara Balmer", mazeGrid, 0, 2, 1, 3);
-		repo.insert(maze);
 		return "Data reset";
 	}
 	

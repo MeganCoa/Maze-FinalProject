@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,8 +28,6 @@ public class UserController {
 	@GetMapping("/resetUsers")
 	public String resetusers() {
 		repo.deleteAll();
-		User user = new User("Bob", "email@yahoo.com", "sesame");
-		repo.insert(user);
 		return "Data reset";
 	}
 	
@@ -54,6 +53,7 @@ public class UserController {
 		user.setId(id);
 		return repo.save(user);
 	}
+	
 	//delete a user
 	@DeleteMapping("/deleteuser/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
