@@ -19,6 +19,12 @@ public class Coordinate {
 		this.y = y;
 		this.parentCoordinate = null;
 	}
+	public Coordinate(int x, int y, int coordinateValue) {
+		super();
+		this.x = x;
+		this.y = y;
+		this.coordinateValue = coordinateValue;
+	}
 	
 	public Coordinate(int x, int y, Coordinate parentCoordinate) {
 		super();

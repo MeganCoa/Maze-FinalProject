@@ -48,22 +48,38 @@
   	<div class = "mazeDisplay">
 	${symbolMaze}
 	</div>
+	<h3>From the Start to the End</h3>
+	<h3>Change cells to P for the Path you travel</h3>
 	
-	<form action="/confirmation" method="POST">
+	<form action="/playtest" method="POST">
 		<c:forEach var="coordinate" items="${mazegridcoordinates}">
 				<select name="userPathData" id="cell" class="cell">
 				<c:if test="${coordinate.coordinateValue == 0}">
 					<option value="0" selected>#</option>
+  					<option value="1" disabled>O</option>
+ 			 		<option value="2" disabled>S</option>
+ 			 		<option value="3" disabled>E</option>
 				</c:if>
 				<c:if test="${coordinate.coordinateValue == 1}">
+  					<option value="0" disabled>#</option>
   					<option value="1" selected>O</option>
  			 		<option value="4">P</option>
+ 			 		<option value="2" disabled>S</option>
+ 			 		<option value="3" disabled>E</option>
 				</c:if>
 				<c:if test="${coordinate.coordinateValue == 2}">
+ 			 		<option value="0" disabled>#</option>
+  					<option value="1" disabled>O</option>
  			 		<option value="2" selected>S</option>
+ 			 		<option value="4">P</option>
+ 			 		<option value="3" disabled>E</option>
 				</c:if>
 				<c:if test="${coordinate.coordinateValue == 3}">
+ 			 		<option value="0" disabled>#</option>
+  					<option value="1" disabled>O</option>
+ 			 		<option value="2" disabled>S</option>
  			 		<option value="3" selected>E</option>
+ 			 		<option value="4" >P</option>
 				</c:if>
 				</select>
 				<c:if test="${coordinate.endOfLine}"><br></c:if> 

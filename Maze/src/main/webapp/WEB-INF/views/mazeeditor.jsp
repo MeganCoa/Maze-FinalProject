@@ -45,6 +45,10 @@
 		</c:if>
 	</div>
 	
+	<h3>S: Start of maze</h3>
+	<h3>O: Maze Path</h3>
+	<h3>E: End of Maze</h3>
+	<h3>#: Maze Wall</h3>
 	<form action="/confirmation" method="POST">
 		<c:forEach var="coordinate" items="${mazegridcoordinates}">
 				<select name="cellData" id="cell" class="cell">

@@ -46,7 +46,7 @@
 					<input type="text" name="searchTerm" placeholder="Search Term" /> 
 						<label for="searchCategory">Search Category</label> <br>
 						Title <input type="radio" name="searchCategory" value="title" placeholder="Search Category" /> <br>
-						Author <input type="radio" name="searchCategory" value="author" placeholder="Search Category" />
+						Author <input type="radio" name="searchCategory" value="author" placeholder="Search Category" /><br>
 						<input type="submit" class="button" />
 				</form>
 	

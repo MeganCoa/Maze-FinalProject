@@ -87,7 +87,7 @@ public class Maze {
 		for (int i = 0; i < this.mazeGrid.length; i++) {
 			for (int j = 0; j < this.mazeGrid[0].length; j++) {
 				if (this.mazeGrid[i][j] == 2) {
-					Coordinate result = new Coordinate(i, j);
+					Coordinate result = new Coordinate(i, j, START);
 					return result;
 				}
 			}
@@ -99,7 +99,7 @@ public class Maze {
 		for (int i = 0; i < this.mazeGrid.length; i++) {
 			for (int j = 0; j < this.mazeGrid[0].length; j++) {
 				if (this.mazeGrid[i][j] == 3) {
-					Coordinate result = new Coordinate(i, j);
+					Coordinate result = new Coordinate(i, j, EXIT);
 					return result;
 				}
 			}
@@ -114,7 +114,7 @@ public class Maze {
 		for (int i = 0; i < this.mazeGrid.length; i++) {
 			for (int j = 0; j < this.mazeGrid[0].length; j++) {
 				if (this.mazeGrid[i][j] == 2) {
-					setStartCoordinate(new Coordinate(i, j));
+					setStartCoordinate(new Coordinate(i, j, START));
 				}
 			}
 		}
@@ -131,7 +131,7 @@ public class Maze {
 		for (int i = 0; i < this.mazeGrid.length; i++) {
 			for (int j = 0; j < this.mazeGrid[0].length; j++) {
 				if (this.mazeGrid[i][j] == 3) {
-					setEndCoordinate(new Coordinate(i, j));
+					setEndCoordinate(new Coordinate(i, j, EXIT));
 				}
 			}
 		}

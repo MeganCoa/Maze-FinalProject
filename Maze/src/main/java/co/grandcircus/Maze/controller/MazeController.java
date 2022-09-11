@@ -30,30 +30,6 @@ public class MazeController {
 	@GetMapping("/reset")
 	public String reset() {
 		repo.deleteAll();
-		//public Maze(String title, String authorName, int[][] mazeGrid, Coordinate startCoordinate, Coordinate endCoordinate,
-		//ArrayList<Special> specials, int playTotal, ArrayList<Integer> ratings, double avgRating)
-		int[][] mazeGrid = {{0, 2, 1, 0}, {0, 1, 0, 1}, {1, 1, 1, 1}, {3, 0, 1, 0}};
-		Maze maze = new Maze("Test Maze", "Clara Balmer", mazeGrid, new Coordinate(0, 1), new Coordinate(3, 0));
-		repo.insert(maze);
-		
-		int[][] mazeGrid2 = {{1,0,1,1,1,1,1,2,0,0},
-							{1,0,1,0,0,0,0,1,0,0},
-							{1,1,1,1,0,0,0,1,0,0},
-							{0,0,0,1,0,0,1,0,0,0},
-							{1,1,0,1,1,1,1,1,1,1},
-							{1,0,1,1,0,0,0,0,0,1},
-							{1,0,1,0,0,1,1,1,0,1},
-							{1,0,1,0,0,1,0,1,0,1},
-							{1,1,1,1,0,1,0,1,0,1},
-							{0,0,0,0,0,1,0,1,0,1},
-							{0,3,1,1,1,1,0,1,1,1}
-							};
-		Maze maze2 = new Maze("Test Maze2", "Clara Balmer", mazeGrid2, new Coordinate(0, 7), new Coordinate(10, 1));
-		repo.insert(maze2);
-		
-		int[][] mazeGrid3 = {{0, 2, 1, 0}, {0, 0, 0, 0}, {1, 1, 1, 1}, {3, 0, 1, 0}};
-		Maze maze3 = new Maze("Test Maze(Broken)", "Clara Balmer", mazeGrid3, new Coordinate(0, 1), new Coordinate(3, 0));
-		repo.insert(maze3);
 		
 		return "Data reset";
 	}
