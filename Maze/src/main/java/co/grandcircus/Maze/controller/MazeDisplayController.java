@@ -100,7 +100,7 @@ public class MazeDisplayController {
                 Coordinate coordinate = new Coordinate(cur.getX() + direction[0], cur.getY() + direction[1], cur);
                 nextToVisit.add(coordinate);
                 maze.setVisited(cur.getX(), cur.getY(), true);
-            }	
+            }
         }
 		
 
@@ -113,6 +113,15 @@ public class MazeDisplayController {
 		ModelAndView modelAndView = new ModelAndView("mazeeditor");
 		Maze maze;
 		ArrayList<Coordinate> mazeGridCoordinates = new ArrayList<>();
+		
+		if (title.equals("")) {
+			ModelAndView modelAndView2 = new ModelAndView("createmaze");
+			
+			modelAndView2.addObject("username", username);
+		    modelAndView2.addObject("loggedIn", loggedIn);
+			modelAndView2.addObject("message", "Your maze must have a title.");
+			return modelAndView2;
+		}
 		
 		if (mazeRepo.findByTitle(title) != null) {
 			//reject maze title
@@ -133,7 +142,7 @@ public class MazeDisplayController {
 		} else {
 			String authorName;
 			
-			if(username != null) {
+			if(username != "") {
 				authorName = username;
 			} else {
 				authorName = "Anonymous";
@@ -234,7 +243,7 @@ public class MazeDisplayController {
 		if(!userMazeHasValidSolution(mazeRepo.findByTitle(title))) {
 			modelAndView.addObject("invalidMaze", true);
 			modelAndView.addObject("title", title);
-			message = "Your maze doesn't even have a solution, idiot...";
+			message = "Your maze doesn't even have a solution...";
 			modelAndView.addObject("message", message);
 			modelAndView.addObject("username", username);
 		    modelAndView.addObject("loggedIn", loggedIn);
@@ -345,10 +354,17 @@ public class MazeDisplayController {
 	    		continue;
 	    	}
 	            
-	    	//If this point is the end of the maze, we backtrack to add the shortest path to the mazegrid (=4), then pass the solution to a JSP
+	    	//If this point is the end of the maze, return true because the solution must exist
 	    	if (maze.isThisMazeEnd(cur.getX(), cur.getY())) {		
 	    		return true;
 	    	}
+	    	//Adds all possible direction coordinates from the current coordinate (cur) via enhanced for loop. Also uses the Coordinate 
+            //constructor with parentCoordinate to log the current coordinate's parent. 
+            for (int[] direction : POSSIBLE_DIRECTIONS) {
+                Coordinate coordinate = new Coordinate(cur.getX() + direction[0], cur.getY() + direction[1], cur);
+                nextToVisit.add(coordinate);
+                maze.setVisited(cur.getX(), cur.getY(), true);
+            }
 	    }
 	    return false;	
 	}
