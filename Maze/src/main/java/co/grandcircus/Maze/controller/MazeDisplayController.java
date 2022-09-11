@@ -200,15 +200,26 @@ public class MazeDisplayController {
 		return modelAndView;
 	}
 	
-	@PostMapping("/creationconfirmation")
-	public ModelAndView creationConfirmation(@RequestParam String title, @RequestParam(required=false,value="cellData") String[] cellDataList, @RequestParam(required=false) String username, @RequestParam(required=false) boolean loggedIn, @RequestParam(required=false) String message) {
+	@PostMapping("/confirmation")
+	public ModelAndView confirmation(@RequestParam String title, @RequestParam(required=false,value="cellData") String[] cellDataList, @RequestParam(required=false) String username, @RequestParam(required=false) boolean loggedIn) {
 		
-		ModelAndView modelAndView = new ModelAndView("creationconfirmation");
+		ModelAndView modelAndView = new ModelAndView("confirmation");
+		
+		String message;
 		
 		ArrayList<Integer> cellDataArrayList = new ArrayList<>();
 		for (String cellData : cellDataList) {
 			cellDataArrayList.add(Integer.parseInt(cellData));
 		}
+		
+		//redo these messages for every possible bad maze, if we get to it:)
+//		if ( && !onlyOneEnd) {
+//		 	message = "You need to have exactly one starting cell and exactly one ending cell. Continue editing or discard.";
+//		} else if (!onlyOneStart) {
+//			message = "You need to have exactly one starting cell. Continue editing or discard.";
+//		} else {
+//			message = "You need to have exactly one ending cell. Continue editing or discard.";
+//		}
 		
 		int rows = mazeRepo.findByTitle(title).getMazeGrid().length;
 		int columns = mazeRepo.findByTitle(title).getMazeGrid()[0].length;
@@ -216,31 +227,68 @@ public class MazeDisplayController {
 		int[][] newMazeGrid = new int[rows][columns];
 		
 		for (int i = 0; i < rows * columns; i++) {
-			newMazeGrid[i/columns][i%columns] = cellDataArrayList.get(i);  
+			newMazeGrid[i/columns][i%columns] = cellDataArrayList.get(i);
 		}
-		
 		mazeRepo.findAndUpdateMazeGridByTitle(title, newMazeGrid);
 		
+		//does maze have exactly one start and one end cell?
+		if (startEndCount(cellDataArrayList, 2) != 1 || startEndCount(cellDataArrayList, 3) != 1) {
+			modelAndView.addObject("invalidMaze", true);
+			modelAndView.addObject("title", title);
+			message = "Your maze sucks";
+			modelAndView.addObject("message", message);
+			modelAndView.addObject("username", username);
+		    modelAndView.addObject("loggedIn", loggedIn);
+		    
+			return modelAndView;
+		}
+		
+		//does maze have valid solution?
+		
+		
+		mazeRepo.findByTitle(title).setStartCoordinateByMazeGrid();
+		mazeRepo.findByTitle(title).setEndCoordinateByMazeGrid();
+		
+		message = "Your maze looks great!";
+		
+		modelAndView.addObject("message", message);
 		modelAndView.addObject("username", username);
 	    modelAndView.addObject("loggedIn", loggedIn);
 	    modelAndView.addObject("title", title);
-	    modelAndView.addObject("message", message);
+	    modelAndView.addObject("invalidMaze", false);
 		return modelAndView;
 	}
 	
+	public int startEndCount(ArrayList<Integer> cellDataArrayList, int startOrEndCode) {
+		int counter = 0;
+		
+		for (int i = 0; i < cellDataArrayList.size(); i++) {
+			if (cellDataArrayList.get(i) == startOrEndCode) {
+				counter++;
+			}
+		}
+		return counter;
+	}
+	
 	@PostMapping("/deleteusermaze")
-	public ModelAndView deleteUserMaze(@RequestParam String title, @RequestParam String username, @RequestParam boolean loggedIn, Model model) {
+	public ModelAndView deleteUserMaze(@RequestParam String title, @RequestParam(required=false) String username, @RequestParam(required=false) boolean loggedIn, Model model, @RequestParam(required=false) boolean invalidMaze) {
 		
 		ModelAndView modelAndView = new ModelAndView("deleteconfirmation");
 		
 		mazeRepo.deleteByTitle(title);
-		User user = userRepo.findByUsername(username).get();
-		user.getUserMazes().remove(title);
-		userRepo.save(user);
 		
 		modelAndView.addObject("username", username);
 		modelAndView.addObject("loggedIn", loggedIn);
 		modelAndView.addObject("message", "We deleted " + title + " for you.");
+		
+		if (invalidMaze) {
+			return modelAndView;
+		}
+		
+		User user = userRepo.findByUsername(username).get();
+		user.getUserMazes().remove(title);
+		userRepo.save(user);
+		
 		return modelAndView;
 	}
 	@PostMapping("/deleteuserfavorite")

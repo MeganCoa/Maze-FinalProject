@@ -46,11 +46,32 @@
 	
 	<h1>Confirmation Page</h1>
 	<h3>${message}</h3>
-	<form action="/displaymaze" method="POST">
-		<input type="hidden" name="username" value="${username}"/>
-		<input type="hidden" name="loggedIn" value="${loggedIn}"/>
-		<input type="hidden" name="title" value="${title}"/>
-		<input type="submit" value="View Maze"/>
-	</form>
+	
+	<c:if test="${not invalidMaze}">
+		<form action="/displaymaze" method="POST">
+			<input type="hidden" name="username" value="${username}"/>
+			<input type="hidden" name="loggedIn" value="${loggedIn}"/>
+			<input type="hidden" name="title" value="${title}"/>
+			<input type="submit" value="View Maze"/>
+		</form>
+	</c:if>
+	
+	<c:if test="${invalidMaze}">
+		<form action="/mazeeditor" method="POST">
+			<input type="hidden" name="username" value="${username}"/>
+			<input type="hidden" name="loggedIn" value="${loggedIn}"/>
+			<input type="hidden" name="title" value="${title}"/>
+			<input type="submit" value="Continue Editing"/>
+		</form>
+		<form action="/deleteusermaze" method="POST">
+			<input type="hidden" name="username" value="${username}"/>
+			<input type="hidden" name="loggedIn" value="${loggedIn}"/>
+			<input type="hidden" name="title" value="${title}"/>
+			<input type="hidden" name="validMaze" value="${invalidMaze}"/>
+			<input type="submit" value="Delete Maze"/>
+		</form>
+	</c:if>
+	
+	
 </body>
 </html>

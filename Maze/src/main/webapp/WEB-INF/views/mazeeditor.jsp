@@ -45,7 +45,7 @@
 		</c:if>
 	</div>
 	
-	<form action="/creationconfirmation" method="POST">
+	<form action="/confirmation" method="POST">
 		<c:forEach var="coordinate" items="${mazegridcoordinates}">
 				<select name="cellData" id="cell" class="cell">
 				<c:if test="${coordinate.coordinateValue == 0}">

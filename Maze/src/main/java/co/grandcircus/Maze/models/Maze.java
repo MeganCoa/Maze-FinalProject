@@ -86,6 +86,15 @@ public class Maze {
 	public void setStartCoordinate(Coordinate startCoordinate) {
 		this.startCoordinate = startCoordinate;
 	}
+	public void setStartCoordinateByMazeGrid() {
+		for (int i = 0; i < this.mazeGrid.length; i++) {
+			for (int j = 0; j < this.mazeGrid[0].length; j++) {
+				if (this.mazeGrid[i][j] == 2) {
+					setStartCoordinate(new Coordinate(i, j));
+				}
+			}
+		}
+	}
 
 	public Coordinate getEndCoordinate() {
 		return endCoordinate;
@@ -93,6 +102,15 @@ public class Maze {
 
 	public void setEndCoordinate(Coordinate endCoordinate) {
 		this.endCoordinate = endCoordinate;
+	}
+	public void setEndCoordinateByMazeGrid() {
+		for (int i = 0; i < this.mazeGrid.length; i++) {
+			for (int j = 0; j < this.mazeGrid[0].length; j++) {
+				if (this.mazeGrid[i][j] == 3) {
+					setEndCoordinate(new Coordinate(i, j));
+				}
+			}
+		}
 	}
 
 	public boolean[][] getVisitedCoordinates() {
