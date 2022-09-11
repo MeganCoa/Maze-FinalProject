@@ -3,11 +3,10 @@ package co.grandcircus.Maze.controller;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
-<<<<<<< HEAD
+
 import java.util.List;
 import java.util.Random;
-=======
->>>>>>> 1a8d9dbb2c52833a4ebecb190555fb3dce40fe24
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,18 +24,14 @@ import co.grandcircus.Maze.repository.UserRepository;
 
 @Controller
 public class MazeDisplayController {
-	
+
 	@Autowired
-<<<<<<< HEAD
-	private MazeRepository repo;
-	
-	@Autowired
-	private IconSearchService apiService;
-=======
 	private MazeRepository mazeRepo;
 	@Autowired
-	private UserRepository userRepo;
->>>>>>> 1a8d9dbb2c52833a4ebecb190555fb3dce40fe24
+	private UserRepository userRepo;	
+	@Autowired
+	private IconSearchService iconService;
+
 
 	@PostMapping("/displaymaze")
 	public ModelAndView displayMaze(@RequestParam String title, @RequestParam(required=false) String username, @RequestParam(required=false) boolean loggedIn) {
@@ -44,22 +39,13 @@ public class MazeDisplayController {
 		Maze maze = mazeRepo.findByTitle(title);
 		ModelAndView modelAndView = new ModelAndView("displaymaze");
 	       
-<<<<<<< HEAD
-	        modelAndView.addObject("symbolMaze", result.toString());
-	        modelAndView.addObject("title", maze.getTitle());
-	        modelAndView.addObject("username", username);
-	        modelAndView.addObject("loggedIn", loggedIn);
-	        
-	        modelAndView.addObject("picture", apiService.getIconObjects("dog").getData().getObjects().get(5).getAssets().get(2).getUrl());
-	        
-	        return modelAndView;
-=======
 		modelAndView.addObject("symbolMaze", maze.mazeVisualizer());
 		modelAndView.addObject("maze", maze);
 		modelAndView.addObject("username", username);
 		modelAndView.addObject("loggedIn", loggedIn);
+		modelAndView.addObject("picture", iconService.getIconObjects("dog").getData().getObjects().get(5).getAssets().get(2).getUrl());
+		
 		return modelAndView;
->>>>>>> 1a8d9dbb2c52833a4ebecb190555fb3dce40fe24
 	}
 	
 	@PostMapping("/solvemaze")
