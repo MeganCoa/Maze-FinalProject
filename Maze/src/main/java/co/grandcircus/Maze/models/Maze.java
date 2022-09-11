@@ -82,7 +82,31 @@ public class Maze {
 	public Coordinate getStartCoordinate() {
 		return startCoordinate;
 	}
-
+	
+	public Coordinate getUserMazeStartCoordinate() {
+		for (int i = 0; i < this.mazeGrid.length; i++) {
+			for (int j = 0; j < this.mazeGrid[0].length; j++) {
+				if (this.mazeGrid[i][j] == 2) {
+					Coordinate result = new Coordinate(i, j);
+					return result;
+				}
+			}
+		}
+		return null;
+	}
+	
+	public Coordinate getUserMazeEndCoordinate() {
+		for (int i = 0; i < this.mazeGrid.length; i++) {
+			for (int j = 0; j < this.mazeGrid[0].length; j++) {
+				if (this.mazeGrid[i][j] == 3) {
+					Coordinate result = new Coordinate(i, j);
+					return result;
+				}
+			}
+		}
+		return null;
+	}
+	
 	public void setStartCoordinate(Coordinate startCoordinate) {
 		this.startCoordinate = startCoordinate;
 	}

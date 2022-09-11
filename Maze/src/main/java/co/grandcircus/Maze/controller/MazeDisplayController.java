@@ -243,11 +243,24 @@ public class MazeDisplayController {
 			return modelAndView;
 		}
 		
+		Coordinate startCoordinate = mazeRepo.findByTitle(title).getUserMazeStartCoordinate();
+		Coordinate endCoordinate = mazeRepo.findByTitle(title).getUserMazeEndCoordinate();
+		
+		mazeRepo.findAndUpdateStartCoordinateByTitle(title, startCoordinate);
+		mazeRepo.findAndUpdateEndCoordinateByTitle(title, endCoordinate);
+		
 		//does maze have valid solution?
+		if(!userMazeValidSolutionChecker(mazeRepo.findByTitle(title))) {
+			modelAndView.addObject("invalidMaze", true);
+			modelAndView.addObject("title", title);
+			message = "Your maze doesn't even have a solution, idiot...";
+			modelAndView.addObject("message", message);
+			modelAndView.addObject("username", username);
+		    modelAndView.addObject("loggedIn", loggedIn);
+		    
+			return modelAndView;
+		}
 		
-		
-		mazeRepo.findByTitle(title).setStartCoordinateByMazeGrid();
-		mazeRepo.findByTitle(title).setEndCoordinateByMazeGrid();
 		
 		message = "Your maze looks great!";
 		
@@ -330,4 +343,45 @@ public class MazeDisplayController {
         return result.toString();
 	}
 	
+	public static boolean userMazeValidSolutionChecker(Maze maze) {
+		
+		//Generates new boolean[][] equal in size to the Maze's mazegrid, in order to set the starting state visitedCoordinates property of the maze (not included in constructor)
+		boolean[][] visitedCoordinates = new boolean[maze.getHeight()][maze.getWidth()];
+			
+		for (int i = 0; i < visitedCoordinates.length; i++) {
+			Arrays.fill(visitedCoordinates[i], false);
+		}
+			
+		maze.setVisitedCoordinates(visitedCoordinates);
+			
+		final int[][] POSSIBLE_DIRECTIONS = { { 0, 1 }, { 1, 0 }, { 0, -1 }, { -1, 0 } };
+			
+		//Initialize a nextToVisit LinkedList and add the starting point
+	    LinkedList<Coordinate> nextToVisit = new LinkedList<>();
+	    Coordinate startPoint = maze.getMazeStart();
+	    nextToVisit.add(startPoint);
+
+	    //While the nextToVisitList is populated with viable coordinates, this checks the state of them, removing each coordinate as it's evaluated 
+	    while (!nextToVisit.isEmpty()) {
+	    	Coordinate cur = nextToVisit.remove();
+
+	    	//if this point isn't valid or has already been explored, continue to the next point
+	    	if (!maze.isThisValidLocation(cur.getX(), cur.getY()) || maze.isThisCellExplored(cur.getX(), cur.getY())) {
+	    		continue;
+	    	}
+	            
+	    	//If this point is a wall, set it as visited and continue
+	    	if (maze.isThisWall(cur.getX(), cur.getY())) {
+	    		maze.setVisited(cur.getX(), cur.getY(), true);
+	    		continue;
+	    	}
+	            
+	    	//If this point is the end of the maze, we backtrack to add the shortest path to the mazegrid (=4), then pass the solution to a JSP
+	    	if (maze.isThisMazeEnd(cur.getX(), cur.getY())) {		
+	    		return true;	
+	    	}
+	    }
+	    return false;	
 	}
+	
+}

@@ -61,13 +61,14 @@
 			<input type="hidden" name="username" value="${username}"/>
 			<input type="hidden" name="loggedIn" value="${loggedIn}"/>
 			<input type="hidden" name="title" value="${title}"/>
+			<input type="hidden" name="invalidMaze" value="${invalidMaze}"/>
 			<input type="submit" value="Continue Editing"/>
 		</form>
 		<form action="/deleteusermaze" method="POST">
 			<input type="hidden" name="username" value="${username}"/>
 			<input type="hidden" name="loggedIn" value="${loggedIn}"/>
 			<input type="hidden" name="title" value="${title}"/>
-			<input type="hidden" name="validMaze" value="${invalidMaze}"/>
+			<input type="hidden" name="invalidMaze" value="${invalidMaze}"/>
 			<input type="submit" value="Delete Maze"/>
 		</form>
 	</c:if>
