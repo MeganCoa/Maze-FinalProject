@@ -2,18 +2,29 @@ package co.grandcircus.Maze.IconSearch;
 
 import java.util.List;
 
-import co.grandcircus.Maze.models.Objects;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class IconSearchResponse {
+@JsonProperty("data")
+private Data data;
+@JsonProperty("meta")
+private Meta meta;
 
-	private List<Objects> objects;
+public Data getData() {
+	return data;
+}
 
-	public List<Objects> getObjects() {
-		return objects;
-	}
+public Meta getMeta() {
+	return meta;
+}
 
-	public void setObjects(List<Objects> objects) {
-		this.objects = objects;
-	}
-	
+public void setMeta(Meta meta) {
+	this.meta = meta;
+}
+
+public void setData(Data data) {
+	this.data = data;
+}
+
+
 }

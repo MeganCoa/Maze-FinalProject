@@ -52,6 +52,7 @@
 	<div class = "mazeDisplay">
 	${symbolMaze}
 	</div>
+	
 	<form action="/solvemaze" method="POST">
 		<input type="hidden" name="username" value="${username}"/>
 		<input type="hidden" name="loggedIn" value="${loggedIn}"/>
@@ -73,6 +74,11 @@
 			<input type="submit" value="Add To Favorites"/>
 		</form>
 	</c:if>
-
+	
+	<br>
+	<img src="${picture}" 
+       width="100" 
+       height="100"
+       />
 </body>
 </html>

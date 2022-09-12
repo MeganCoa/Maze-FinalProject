@@ -4,12 +4,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 
+import java.util.List;
+import java.util.Random;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import co.grandcircus.Maze.IconSearch.IconSearchService;
 import co.grandcircus.Maze.models.Coordinate;
 import co.grandcircus.Maze.models.Maze;
 import co.grandcircus.Maze.models.User;
@@ -18,11 +23,14 @@ import co.grandcircus.Maze.repository.UserRepository;
 
 @Controller
 public class MazeDisplayController {
-	
+
 	@Autowired
 	private MazeRepository mazeRepo;
 	@Autowired
-	private UserRepository userRepo;
+	private UserRepository userRepo;	
+	@Autowired
+	private IconSearchService iconService;
+
 
 	@PostMapping("/displaymaze")
 	public ModelAndView displayMaze(@RequestParam String title, @RequestParam(required=false) String username, @RequestParam(required=false) boolean loggedIn, @RequestParam(required=false) Integer newMazeRating) {
@@ -40,6 +48,8 @@ public class MazeDisplayController {
 		modelAndView.addObject("maze", maze);
 		modelAndView.addObject("username", username);
 		modelAndView.addObject("loggedIn", loggedIn);
+		modelAndView.addObject("picture", iconService.getIconObjects("dog").getData().getObjects().get(5).getAssets().get(2).getUrl());
+		
 		return modelAndView;
 	}
 	
