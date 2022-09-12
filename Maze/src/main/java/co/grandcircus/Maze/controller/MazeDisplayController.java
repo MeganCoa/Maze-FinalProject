@@ -242,10 +242,43 @@ public class MazeDisplayController {
 		
 		//does maze have exactly one start and one end cell?
 		if (startEndCount(cellDataArrayList, 2) != 1 || startEndCount(cellDataArrayList, 3) != 1) {
+			
+			//if they need a start, or need an end
+			//if they have more than one start, or more than one end
+			//if they got one right but not the other
+			
+			String startMessage = "";
+			String endMessage = "";
+			boolean startOkay = false;
+			
+			if (startEndCount(cellDataArrayList, 2) == 0) {
+				startMessage = "You need to have a starting cell, ";
+			} else if (startEndCount(cellDataArrayList, 2) > 1) {
+				startMessage = "You can only have one starting cell, ";
+			} else {
+				startMessage = "Your starting point looks good, ";
+				startOkay = true;
+			}
+			
+			if (startEndCount(cellDataArrayList, 3) == 0) {
+				if (startOkay) {
+					endMessage = "but you need to have an ending cell!";
+				} else {
+					endMessage = "and you need to have an ending cell!";
+				}
+			} else if (startEndCount(cellDataArrayList, 3) > 1) {
+				if (startOkay) {
+					endMessage = "but you can only have one ending cell!";
+				} else {
+					endMessage = "and you can only have one ending cell!";
+				}
+			} else {
+				endMessage = "but your end point looks good!";
+			}
+			
 			modelAndView.addObject("invalidMaze", true);
 			modelAndView.addObject("title", title);
-			message = "Your maze sucks";
-			modelAndView.addObject("message", message);
+			modelAndView.addObject("message", startMessage + endMessage);
 			modelAndView.addObject("username", username);
 		    modelAndView.addObject("loggedIn", loggedIn);
 		    
