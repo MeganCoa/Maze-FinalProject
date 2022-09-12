@@ -74,6 +74,20 @@
 			<input type="submit" value="Play Again"/>
 		</form>
 	</c:if>
+	<form action="/displaymaze" method="POST">
+		<input type="hidden" name="username" value="${username}"/>
+		<input type="hidden" name="loggedIn" value="${loggedIn}"/>
+		<input type="hidden" name="title" value="${title}"/>
+		<select name="newMazeRating">
+			<option value="1">1 Star</option>
+			<option value="2">2 Stars</option>
+ 			<option value="3">3 Stars</option>
+ 			<option value="4">4 Stars</option>
+ 			<option value="5" selected>5 Stars</option>
+		</select>
+		<input type="submit" value="Rate this maze"/>
+	</form>
+	
 	
 </body>
 </html>

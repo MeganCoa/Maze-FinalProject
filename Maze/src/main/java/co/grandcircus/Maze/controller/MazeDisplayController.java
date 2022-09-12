@@ -6,7 +6,6 @@ import java.util.LinkedList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -26,9 +25,15 @@ public class MazeDisplayController {
 	private UserRepository userRepo;
 
 	@PostMapping("/displaymaze")
-	public ModelAndView displayMaze(@RequestParam String title, @RequestParam(required=false) String username, @RequestParam(required=false) boolean loggedIn) {
+	public ModelAndView displayMaze(@RequestParam String title, @RequestParam(required=false) String username, @RequestParam(required=false) boolean loggedIn, @RequestParam(required=false) Integer newMazeRating) {
 		
 		Maze maze = mazeRepo.findByTitle(title);
+		
+		if (newMazeRating != null) {
+			maze.addAndUpdateRatings(newMazeRating);
+			mazeRepo.save(maze);
+		}
+		
 		ModelAndView modelAndView = new ModelAndView("displaymaze");
 	       
 		modelAndView.addObject("symbolMaze", maze.mazeVisualizer());
@@ -177,6 +182,10 @@ public class MazeDisplayController {
 		ModelAndView modelAndView = new ModelAndView("playresults");
 		String message = "";
 		boolean successful = false;
+		
+		Maze maze = mazeRepo.findByTitle(title);
+		maze.setPlayTotal(maze.getPlayTotal() + 1);
+		mazeRepo.save(maze);
 		
 		ArrayList<Integer> userPathDataArrayList = new ArrayList<>();
 		for (String userPathData : userPathDataList) {

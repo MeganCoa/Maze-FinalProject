@@ -59,7 +59,7 @@
 					<input type="hidden" name="title" value="${maze.title}"/>
 					<input type="submit" value="${maze.title}"/>
 				</form>
-			</li>
+			</li> ${maze.avgRating} Stars
 		</c:forEach>
 	</ul>
 	

@@ -42,6 +42,7 @@ public class Maze {
 		this.title = title;
 		this.authorName = authorName;
 		this.mazeGrid = new int[rows][columns];
+		this.ratings = new ArrayList<Integer>();
 	}
 	
 	//Updated Maze constructor to include start and end Coordinates in place of rows and columns
@@ -169,7 +170,16 @@ public class Maze {
 	public void setAvgRating(double avgRating) {
 		this.avgRating = avgRating;
 	}
-	
+	public void addAndUpdateRatings(int newRating) {
+		this.ratings.add(newRating);
+		double sum = 0.0;
+		int count = 0;
+		for (int num : ratings) {
+			sum += num;
+			count++;
+		}
+		setAvgRating(sum / count);
+	}
 	//Maze generation and traversal logic:
 	
 	//int[height][width] mazeGrid

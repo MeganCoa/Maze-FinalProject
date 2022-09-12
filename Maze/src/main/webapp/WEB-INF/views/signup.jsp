@@ -48,7 +48,7 @@
 	<form action="/signup" method="POST">
 		Username: <input type="text" name="username"/>
 		Email: <input type="text" name="email"/>
-		Password: <input type="text" name="password"/>
+		Password: <input type="password" name="password"/>
 		<input type="submit"/>
 	</form>
 	
