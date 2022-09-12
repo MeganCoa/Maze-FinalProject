@@ -1,5 +1,7 @@
 package co.grandcircus.Maze.models;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -178,7 +180,12 @@ public class Maze {
 			sum += num;
 			count++;
 		}
-		setAvgRating(sum / count);
+		
+		String holder = String.valueOf(sum/count);
+		
+		holder = holder.substring(0, 3);
+		
+		setAvgRating(Double.valueOf(holder));
 	}
 	//Maze generation and traversal logic:
 	

@@ -291,13 +291,11 @@ public class MazeDisplayController {
 		modelAndView.addObject("loggedIn", loggedIn);
 		modelAndView.addObject("message", "We deleted " + title + " for you.");
 		
-		if (invalidMaze) {
-			return modelAndView;
+		if(username != null) {
+			User user = userRepo.findByUsername(username).get();
+			user.getUserMazes().remove(title);
+			userRepo.save(user);
 		}
-		
-		User user = userRepo.findByUsername(username).get();
-		user.getUserMazes().remove(title);
-		userRepo.save(user);
 		
 		return modelAndView;
 	}
