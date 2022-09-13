@@ -109,6 +109,9 @@ public class HomeController {
 		if (optUser.isPresent()) {
 			model.addAttribute("message", "That username exists already. Login instead?");
 			return "login";
+		} else if (username.equalsIgnoreCase("Anonymous") || username.equalsIgnoreCase("null") || username.equals("")) {
+			model.addAttribute("message", "That username is not permitted.");
+			return "login";
 		} else {
 			User user = new User(username, email, hashPassword(password));
 			userRepo.insert(user);

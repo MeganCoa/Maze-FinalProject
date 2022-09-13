@@ -10,7 +10,6 @@ import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -34,9 +33,15 @@ public class MazeDisplayController {
 
 
 	@PostMapping("/displaymaze")
-	public ModelAndView displayMaze(@RequestParam String title, @RequestParam(required=false) String username, @RequestParam(required=false) boolean loggedIn) {
+	public ModelAndView displayMaze(@RequestParam String title, @RequestParam(required=false) String username, @RequestParam(required=false) boolean loggedIn, @RequestParam(required=false) Integer newMazeRating) {
 		
 		Maze maze = mazeRepo.findByTitle(title);
+		
+		if (newMazeRating != null) {
+			maze.addAndUpdateRatings(newMazeRating);
+			mazeRepo.save(maze);
+		}
+		
 		ModelAndView modelAndView = new ModelAndView("displaymaze");
 	       
 		modelAndView.addObject("symbolMaze", maze.mazeVisualizer());
@@ -110,7 +115,7 @@ public class MazeDisplayController {
                 Coordinate coordinate = new Coordinate(cur.getX() + direction[0], cur.getY() + direction[1], cur);
                 nextToVisit.add(coordinate);
                 maze.setVisited(cur.getX(), cur.getY(), true);
-            }	
+            }
         }
 		
 
@@ -123,6 +128,15 @@ public class MazeDisplayController {
 		ModelAndView modelAndView = new ModelAndView("mazeeditor");
 		Maze maze;
 		ArrayList<Coordinate> mazeGridCoordinates = new ArrayList<>();
+		
+		if (title.equals("")) {
+			ModelAndView modelAndView2 = new ModelAndView("createmaze");
+			
+			modelAndView2.addObject("username", username);
+		    modelAndView2.addObject("loggedIn", loggedIn);
+			modelAndView2.addObject("message", "Your maze must have a title.");
+			return modelAndView2;
+		}
 		
 		if (mazeRepo.findByTitle(title) != null) {
 			//reject maze title
@@ -143,7 +157,7 @@ public class MazeDisplayController {
 		} else {
 			String authorName;
 			
-			if(username != null) {
+			if(username != "") {
 				authorName = username;
 			} else {
 				authorName = "Anonymous";
@@ -178,6 +192,10 @@ public class MazeDisplayController {
 		ModelAndView modelAndView = new ModelAndView("playresults");
 		String message = "";
 		boolean successful = false;
+		
+		Maze maze = mazeRepo.findByTitle(title);
+		maze.setPlayTotal(maze.getPlayTotal() + 1);
+		mazeRepo.save(maze);
 		
 		ArrayList<Integer> userPathDataArrayList = new ArrayList<>();
 		for (String userPathData : userPathDataList) {
@@ -224,10 +242,43 @@ public class MazeDisplayController {
 		
 		//does maze have exactly one start and one end cell?
 		if (startEndCount(cellDataArrayList, 2) != 1 || startEndCount(cellDataArrayList, 3) != 1) {
+			
+			//if they need a start, or need an end
+			//if they have more than one start, or more than one end
+			//if they got one right but not the other
+			
+			String startMessage = "";
+			String endMessage = "";
+			boolean startOkay = false;
+			
+			if (startEndCount(cellDataArrayList, 2) == 0) {
+				startMessage = "You need to have a starting cell, ";
+			} else if (startEndCount(cellDataArrayList, 2) > 1) {
+				startMessage = "You can only have one starting cell, ";
+			} else {
+				startMessage = "Your starting point looks good, ";
+				startOkay = true;
+			}
+			
+			if (startEndCount(cellDataArrayList, 3) == 0) {
+				if (startOkay) {
+					endMessage = "but you need to have an ending cell!";
+				} else {
+					endMessage = "and you need to have an ending cell!";
+				}
+			} else if (startEndCount(cellDataArrayList, 3) > 1) {
+				if (startOkay) {
+					endMessage = "but you can only have one ending cell!";
+				} else {
+					endMessage = "and you can only have one ending cell!";
+				}
+			} else {
+				endMessage = "but your end point looks good!";
+			}
+			
 			modelAndView.addObject("invalidMaze", true);
 			modelAndView.addObject("title", title);
-			message = "Your maze sucks";
-			modelAndView.addObject("message", message);
+			modelAndView.addObject("message", startMessage + endMessage);
 			modelAndView.addObject("username", username);
 		    modelAndView.addObject("loggedIn", loggedIn);
 		    
@@ -244,7 +295,7 @@ public class MazeDisplayController {
 		if(!userMazeHasValidSolution(mazeRepo.findByTitle(title))) {
 			modelAndView.addObject("invalidMaze", true);
 			modelAndView.addObject("title", title);
-			message = "Your maze doesn't even have a solution, idiot...";
+			message = "Your maze doesn't even have a solution...";
 			modelAndView.addObject("message", message);
 			modelAndView.addObject("username", username);
 		    modelAndView.addObject("loggedIn", loggedIn);
@@ -273,13 +324,11 @@ public class MazeDisplayController {
 		modelAndView.addObject("loggedIn", loggedIn);
 		modelAndView.addObject("message", "We deleted " + title + " for you.");
 		
-		if (invalidMaze) {
-			return modelAndView;
+		if(username != null) {
+			User user = userRepo.findByUsername(username).get();
+			user.getUserMazes().remove(title);
+			userRepo.save(user);
 		}
-		
-		User user = userRepo.findByUsername(username).get();
-		user.getUserMazes().remove(title);
-		userRepo.save(user);
 		
 		return modelAndView;
 	}
@@ -355,10 +404,17 @@ public class MazeDisplayController {
 	    		continue;
 	    	}
 	            
-	    	//If this point is the end of the maze, we backtrack to add the shortest path to the mazegrid (=4), then pass the solution to a JSP
+	    	//If this point is the end of the maze, return true because the solution must exist
 	    	if (maze.isThisMazeEnd(cur.getX(), cur.getY())) {		
 	    		return true;
 	    	}
+	    	//Adds all possible direction coordinates from the current coordinate (cur) via enhanced for loop. Also uses the Coordinate 
+            //constructor with parentCoordinate to log the current coordinate's parent. 
+            for (int[] direction : POSSIBLE_DIRECTIONS) {
+                Coordinate coordinate = new Coordinate(cur.getX() + direction[0], cur.getY() + direction[1], cur);
+                nextToVisit.add(coordinate);
+                maze.setVisited(cur.getX(), cur.getY(), true);
+            }
 	    }
 	    return false;	
 	}

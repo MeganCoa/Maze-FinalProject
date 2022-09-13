@@ -47,6 +47,8 @@
 	
   	<h1>${maze.title}</h1>
   	<h2>By ${maze.authorName}</h2>
+  	<p>Total Plays: ${maze.playTotal}</p>
+  	<p>Average Rating: ${maze.avgRating} Stars</p>
 	<div class = "mazeDisplay">
 	${symbolMaze}
 	</div>

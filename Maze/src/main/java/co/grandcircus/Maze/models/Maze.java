@@ -1,5 +1,7 @@
 package co.grandcircus.Maze.models;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -42,6 +44,7 @@ public class Maze {
 		this.title = title;
 		this.authorName = authorName;
 		this.mazeGrid = new int[rows][columns];
+		this.ratings = new ArrayList<Integer>();
 	}
 	
 	//Updated Maze constructor to include start and end Coordinates in place of rows and columns
@@ -169,7 +172,21 @@ public class Maze {
 	public void setAvgRating(double avgRating) {
 		this.avgRating = avgRating;
 	}
-	
+	public void addAndUpdateRatings(int newRating) {
+		this.ratings.add(newRating);
+		double sum = 0.0;
+		int count = 0;
+		for (int num : ratings) {
+			sum += num;
+			count++;
+		}
+		
+		String holder = String.valueOf(sum/count);
+		
+		holder = holder.substring(0, 3);
+		
+		setAvgRating(Double.valueOf(holder));
+	}
 	//Maze generation and traversal logic:
 	
 	//int[height][width] mazeGrid
