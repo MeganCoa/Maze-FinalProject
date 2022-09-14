@@ -1,5 +1,15 @@
 // Original JavaScript code by Chirp Internet: chirpinternet.eu
 // Please acknowledge use of this code by including this header.
+function onGenerateMaze(){
+	let width = document.getElementById("field_width").value;
+	let height = document.getElementById("field_height").value;
+	
+	 let Maze = new MazeBuilder( Number (width), Number (height));
+	  Maze.placeKey();
+	  Maze.display("maze_container");
+	  var maze = new Mazing("maze");
+
+}
 
 class MazeBuilder {
 
