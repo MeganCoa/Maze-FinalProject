@@ -89,9 +89,12 @@ public class HomeController {
 				model.addAttribute("username", username);
 				model.addAttribute("message", "Welcome back, " + username + "!");
 			} else {
-				model.addAttribute("message", "That password was incorrect");
+				model.addAttribute("message", "That password was incorrect.");
 				return "login";
 			}
+		} else {
+			model.addAttribute("message", "That username/password combo does not exist.");
+			return "login";
 		}
 		return "index";
 	}
@@ -111,7 +114,7 @@ public class HomeController {
 			return "login";
 		} else if (username.equalsIgnoreCase("Anonymous") || username.equalsIgnoreCase("null") || username.equals("")) {
 			model.addAttribute("message", "That username is not permitted.");
-			return "login";
+			return "signup";
 		} else {
 			User user = new User(username, email, hashPassword(password));
 			userRepo.insert(user);
@@ -143,6 +146,7 @@ public class HomeController {
 		model.addAttribute("loggedIn", loggedIn);
 		model.addAttribute("userMazes", userRepo.findByUsername(username).get().getUserMazes());
 		model.addAttribute("userFavorites", userRepo.findByUsername(username).get().getUserFavorites());
+		model.addAttribute("userTempMazes", userRepo.findByUsername(username).get().getUserTempMazes());
 		return "usermazes";
 	}
 	@PostMapping("/addUserFavorite")
@@ -151,37 +155,15 @@ public class HomeController {
 		if (!optUser.get().getUserFavorites().contains(title)) {
 			userRepo.findAndPushToUserFavoritesByUsername(username, title);
 		}
+		
+		Maze maze = mazeRepo.findByTitle(title);
 		model.addAttribute("username", username);
 		model.addAttribute("loggedIn", loggedIn);
 		model.addAttribute("maze", mazeRepo.findByTitle(title));
-		model.addAttribute("symbolMaze", mazeDisplayWriter(title));		
+		model.addAttribute("symbolMaze", maze.mazeVisualizer());		
 		
 		return "displaymaze";
-
 	}	
-	public String mazeDisplayWriter(String title) {
-		
-		Maze maze = mazeRepo.findByTitle(title);
-		
-		StringBuilder result = new StringBuilder(maze.getWidth() * (maze.getHeight() + 1));
-        for (int row = 0; row < maze.getHeight(); row++) {
-            for (int col = 0; col < maze.getWidth(); col++) {
-                if (maze.getMazeGrid()[row][col] == 0) { //Based on final variables, 0 generates a wall 
-                    result.append("#  ");
-                } else if (maze.getMazeGrid()[row][col] == 1) { //Based on final variables, 1 generates open space
-                    result.append("0  ");
-                } else if (maze.getMazeGrid()[row][col] == 2) { //Based on final variables, 2 generates maze start point
-                    result.append("S  ");
-                } else if (maze.getMazeGrid()[row][col] == 3) { //Based on final variables, 3 generates maze end point
-                    result.append("E  ");
-                } else {
-                    result.append('.'); //Everything else is the path
-                }
-            }
-            result.append("<br>");
-        }
-        return result.toString();
-	}
 	
 	public static String hashPassword(String password) {
 		String result = "";

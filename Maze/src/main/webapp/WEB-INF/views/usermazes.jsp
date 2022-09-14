@@ -33,6 +33,7 @@
 		</form>
 	</div>
 	<h1>${username}'s Mazes</h1>
+	<h2>Live Mazes</h2>
 	<ul>
 		<c:forEach var="title" items="${userMazes}">
 			<li>
@@ -58,7 +59,27 @@
 			</li>
 		</c:forEach>
 	</ul>
-	<h1>${username}'s Favorite Mazes</h1>
+	<h2>${username}'s Mazes in Progress</h2>
+		<ul>
+		<c:forEach var="title" items="${userTempMazes}">
+			<li>
+				<form action="/mazeeditor" method="POST">
+					<input type="hidden" name="username" value="${username}"/>
+					<input type="hidden" name="loggedIn" value="${loggedIn}"/>
+					<input type="hidden" name="title" value="${title}"/>
+					<input type="submit" value="Edit ${title}"/>
+				</form>
+				<form action="/deleteusermaze" method="POST">
+					<input type="hidden" name="username" value="${username}"/>
+					<input type="hidden" name="loggedIn" value="${loggedIn}"/>
+					<input type="hidden" name="title" value="${title}"/>
+					<input type="submit" value="Delete ${title}"/>
+				</form>
+			</li>
+		</c:forEach>
+	</ul>
+	
+	<h2>${username}'s Favorite Mazes</h2>
 	<ul>
 		<c:forEach var="title" items="${userFavorites}">
 			<li>
@@ -68,7 +89,7 @@
 					<input type="hidden" name="title" value="${title}"/>
 					<input type="submit" value="${title}"/>
 				</form>
-				<form action="/deleteuserfavorite" method="POST">
+				<form action="/deleteusermaze" method="POST">
 					<input type="hidden" name="username" value="${username}"/>
 					<input type="hidden" name="loggedIn" value="${loggedIn}"/>
 					<input type="hidden" name="title" value="${title}"/>

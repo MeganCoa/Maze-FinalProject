@@ -42,13 +42,13 @@
 	<h1>Maze Search</h1>
 	
 	<form class="form" action="searchforamaze" method="post">
-					<label for="searchTerm">Search Term</label> 
-					<input type="text" name="searchTerm" placeholder="Search Term" /> 
-						<label for="searchCategory">Search Category</label> <br>
-						Title <input type="radio" name="searchCategory" value="title" placeholder="Search Category" /> <br>
-						Author <input type="radio" name="searchCategory" value="author" placeholder="Search Category" /><br>
-						<input type="submit" class="button" />
-				</form>
+		<label for="searchTerm">Search Term</label> 
+		<input type="text" name="searchTerm" placeholder="Search Term" /> 
+		<label for="searchCategory">Search Category</label> <br>
+		Title <input type="radio" name="searchCategory" value="title" placeholder="Search Category" /> <br>
+		Author <input type="radio" name="searchCategory" value="author" placeholder="Search Category" /><br>
+		<input type="submit" class="button" />
+	</form>
 	
 	<ul>
 		<c:forEach var="maze" items="${allMazes}">

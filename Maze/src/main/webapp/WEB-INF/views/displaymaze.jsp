@@ -76,7 +76,7 @@
 	</c:if>
 	
 	<br>
-	<img src="${picture}" 
+	<img src="${picture}"
        width="100" 
        height="100"
        />
