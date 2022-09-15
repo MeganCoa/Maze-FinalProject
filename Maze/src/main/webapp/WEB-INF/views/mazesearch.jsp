@@ -42,6 +42,8 @@
 	<h1>Maze Search</h1>
 	
 	<form class="form" action="searchforamaze" method="post">
+		<input type="hidden" name="username" value="${username}"/>
+		<input type="hidden" name="loggedIn" value="${loggedIn}"/>
 		<label for="searchTerm">Search Term</label> 
 		<input type="text" name="searchTerm" placeholder="Search Term" /> 
 		<label for="searchCategory">Search Category</label> <br>

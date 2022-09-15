@@ -45,28 +45,40 @@ public class HomeController {
 	}
 
 	@RequestMapping("/searchforamaze")
-	public String showMazeSearch(@RequestParam(required = false) String searchTerm, @RequestParam(required = false) String searchCategory, @RequestParam(required = false) String username,
-			@RequestParam(required = false) boolean loggedIn, Model model) {
-		List<Maze> mazes = new ArrayList<>();
-		try {			
-			 if(searchCategory.equals("title")) {
-				mazes = mazeRepo.findByTitleContaining(searchTerm);
-			}else if(searchCategory.equals("author")) {
-				mazes =  mazeRepo.findByAuthorNameContaining(searchTerm);
-			}else {
-				throw new Exception("Search Category not real.");
-			}
-			}catch(Exception e) {
-				mazes = mazeRepo.findAll();
-				model.addAttribute("searchError", "There was an error with the search." );
-				model.addAttribute("exceptionError", e.getMessage());
-			}
+		public String showMazeSearch(@RequestParam(required = false) String searchTerm, @RequestParam(required = false) String searchCategory, @RequestParam(required = false) String username,
+				@RequestParam(required = false) boolean loggedIn, Model model) {
+			List<Maze> mazes = mazeRepo.findAll();
+			
+			
+			model.addAttribute("username", username);
+			model.addAttribute("loggedIn", loggedIn);
+			model.addAttribute("allMazes", mazes);
+			return "mazesearch";
+		}
 		
-		model.addAttribute("username", username);
-		model.addAttribute("loggedIn", loggedIn);
-		model.addAttribute("allMazes", mazes);
-		return "mazesearch";
-	}
+		@PostMapping("/searchforamaze")
+		public String searchResults(@RequestParam(required = false) String searchTerm, @RequestParam(required = false) String searchCategory, @RequestParam(required = false) String username,
+				@RequestParam(required = false) boolean loggedIn, Model model) {
+			List<Maze> mazes = new ArrayList<>();
+			try {			
+				 if(searchCategory.equals("title")) {
+					mazes = mazeRepo.findByTitleContaining(searchTerm);
+				}else if(searchCategory.equals("author")) {
+					mazes =  mazeRepo.findByAuthorNameContaining(searchTerm);
+				}else {
+					throw new Exception("Search Category not real.");
+				}
+				}catch(Exception e) {
+					mazes = mazeRepo.findAll();
+					model.addAttribute("searchError", "There was an error with the search." );
+					model.addAttribute("exceptionError", e.getMessage());
+				}
+			
+			model.addAttribute("username", username);
+			model.addAttribute("loggedIn", loggedIn);
+			model.addAttribute("allMazes", mazes);
+			return "mazesearch";
+		}
 
 	
 
