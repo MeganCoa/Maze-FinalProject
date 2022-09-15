@@ -280,5 +280,25 @@ public class Maze {
         for (int i = 0; i < visitedCoordinates.length; i++)
             Arrays.fill(visitedCoordinates[i], false);
     }
+    public String mazeJSVisualizer() {
+    	StringBuilder result = new StringBuilder(this.mazeGrid.length * this.mazeGrid[0].length + 1);
+    	for (int row = 0; row < this.mazeGrid.length; row++) {
+            for (int col = 0; col < this.mazeGrid[0].length; col++) {
+                if (this.mazeGrid[row][col] == 0) { //Based on final variables, 0 generates a wall 
+                	result.append("#  ");
+                } else if (this.mazeGrid[row][col] == 1) { //Based on final variables, 1 generates open space
+                	result.append("0  ");
+                } else if (this.mazeGrid[row][col] == 2) { //Based on final variables, 2 generates maze start point
+                	result.append("S  ");
+                } else if (this.mazeGrid[row][col] == 3) { //Based on final variables, 3 generates maze end point
+                	result.append("E  ");
+                } else {
+                	result.append(".  "); //Everything else is the path
+                }
+            }
+            result.append("<br>");
+    	}
+    	return result.toString();
+    }
 		
 }

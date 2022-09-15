@@ -10,14 +10,26 @@ import co.grandcircus.Maze.models.Maze;
 
 @Controller
 public class RandomMazeController {
-	@GetMapping("/randommaze")
+	@GetMapping("/temprandommaze")
 	public ModelAndView displayMaze(@RequestParam(required=false) String username, @RequestParam(required=false) boolean loggedIn) {	
 		
-		ModelAndView modelAndView = new ModelAndView("randommaze");
+		ModelAndView modelAndView = new ModelAndView("temprandommaze");
 	       
 		modelAndView.addObject("username", username);
 		modelAndView.addObject("loggedIn", loggedIn);
 		
 		return modelAndView;
 	}
+	@GetMapping("/tempcreatemaze")
+	public ModelAndView tempCreateMaze(@RequestParam(required=false) String username, @RequestParam(required=false) boolean loggedIn) {	
+		
+		ModelAndView modelAndView = new ModelAndView("tempcreatemaze");
+	       
+		modelAndView.addObject("username", username);
+		modelAndView.addObject("loggedIn", loggedIn);
+		
+		return modelAndView;
+	}
+	
+	
 }
