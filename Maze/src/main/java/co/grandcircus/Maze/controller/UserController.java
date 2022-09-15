@@ -24,8 +24,9 @@ public class UserController {
 	@Autowired
 	private UserRepository repo;
 	
+	
 	//reset
-	@GetMapping("/resetUsers")
+	@GetMapping("/resetusers")
 	public String resetusers() {
 		repo.deleteAll();
 		return "Data reset";
@@ -40,6 +41,11 @@ public class UserController {
 	@GetMapping("/users/{id}")
 	public User oneUser(@PathVariable("id") String id) {
 		return repo.findById(id).orElseThrow(() -> new UserNotFoundException(id));
+	}
+	@PostMapping("/addtolist")
+	public void addTest() {
+		
+		repo.findAndPushToUserTempMazesByUsername("test", "userTempmazetestpleasework");
 	}
 	//create a user
 	@PostMapping("/createuser")

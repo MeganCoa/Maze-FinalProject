@@ -57,6 +57,12 @@
 	</c:if>
 	
 	<c:if test="${invalidMaze}">
+		<c:if test="${loggedIn}">
+			<h3>We saved your unfinished maze!</h3>
+		</c:if>
+		<c:if test="${not loggedIn}">
+			<h3>If you don't finish your maze, you'll never see it ever again.</h3>
+		</c:if>
 		<form action="/mazeeditor" method="POST">
 			<input type="hidden" name="username" value="${username}"/>
 			<input type="hidden" name="loggedIn" value="${loggedIn}"/>
@@ -72,7 +78,6 @@
 			<input type="submit" value="Delete Maze"/>
 		</form>
 	</c:if>
-	
 	
 </body>
 </html>

@@ -14,6 +14,7 @@ public class User {
 	private String password;
 	private ArrayList<String> userMazes; //(maze titles for mazes this user has made)
 	private ArrayList<String> userFavorites; //(maze titles for mazes this user favorites)
+	private ArrayList<String> userTempMazes; //(maze titles for mazes that are being edited)
 	private ArrayList<Trophy> trophies;
 	public User() {
 		super();
@@ -25,6 +26,7 @@ public class User {
 		this.password = password;
 		this.userMazes = new ArrayList<String>();
 		this.userFavorites = new ArrayList<String>();
+		this.userTempMazes = new ArrayList<String>();
 		this.trophies = new ArrayList<Trophy>();
 	}
 
@@ -51,6 +53,12 @@ public class User {
 	}
 	public void setUserFavorites(ArrayList<String> userFavorites) {
 		this.userFavorites = userFavorites;
+	}
+	public ArrayList<String> getUserTempMazes() {
+		return userTempMazes;
+	}
+	public void setUserTempMazes(ArrayList<String> userTempMazes) {
+		this.userTempMazes = userTempMazes;
 	}
 	public ArrayList<Trophy> getTrophies() {
 		return trophies;

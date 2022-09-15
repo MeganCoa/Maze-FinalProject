@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Maze Creator</title>
+<title>Maze Created!</title>
 <link href="/style.css" rel="stylesheet">
 </head>
 <body>
@@ -15,6 +15,11 @@
 			<input type="hidden" name="username" value="${username}"/>
 			<input type="hidden" name="loggedIn" value="${loggedIn}"/>
 			<input type="submit" value="Home"/>
+		</form>
+		<form action="/usercreatemaze" method="POST">
+			<input type="hidden" name="username" value="${username}"/>
+			<input type="hidden" name="loggedIn" value="${loggedIn}"/>
+			<input type="submit" value="Create a Maze"/>
 		</form>
 		<form action="/searchforamaze" method="POST">
 			<input type="hidden" name="username" value="${username}"/>
@@ -39,24 +44,34 @@
 		</c:if>
 	</div>
 	
-	<h1>Create a Maze</h1>
-	
+	<h1>Confirmation Page</h1>
 	<h3>${message}</h3>
 	
-	<form action="/tempmazeeditor" method="POST">
-				<input type="hidden" name="username" value="${username}"/>
-				<input type="hidden" name="loggedIn" value="${loggedIn}"/>
- 				 Maze Title:
-				<textarea name="title" placeholder="Enter maze title here..."></textarea>
-				<br>
-				<label for="rows">Rows (between 3-20):</label>
-				<input type="number" id="rows" name="rows" min="3" max="20" value=5>
-				<br>
-				<label for="columns">Columns (between 3-20):</label>
-				<input type="number" id="columns" name="columns" min="3" max="20" value=5>
-				<br>
-				<input type="submit" value="Create Maze Design"/>
-	</form>
+	<c:if test="${not invalidMaze}">
+		<form action="/tempdisplaymaze" method="POST">
+			<input type="hidden" name="username" value="${username}"/>
+			<input type="hidden" name="loggedIn" value="${loggedIn}"/>
+			<input type="hidden" name="title" value="${title}"/>
+			<input type="submit" value="View Maze"/>
+		</form>
+	</c:if>
+	
+	<c:if test="${invalidMaze}">
+		<form action="/tempmazeeditor" method="POST">
+			<input type="hidden" name="username" value="${username}"/>
+			<input type="hidden" name="loggedIn" value="${loggedIn}"/>
+			<input type="hidden" name="title" value="${title}"/>
+			<input type="hidden" name="invalidMaze" value="${invalidMaze}"/>
+			<input type="submit" value="Continue Editing"/>
+		</form>
+		<form action="/deleteusermaze" method="POST">
+			<input type="hidden" name="username" value="${username}"/>
+			<input type="hidden" name="loggedIn" value="${loggedIn}"/>
+			<input type="hidden" name="title" value="${title}"/>
+			<input type="hidden" name="invalidMaze" value="${invalidMaze}"/>
+			<input type="submit" value="Delete Maze"/>
+		</form>
+	</c:if>
 	
 	
 </body>

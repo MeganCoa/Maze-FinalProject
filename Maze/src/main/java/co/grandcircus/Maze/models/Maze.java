@@ -13,26 +13,26 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Maze {
 	
 	//Add maze generating final variables to draw maze
-	private static final int WALL = 0;
-    private static final int OPENSPACE = 1;
-    private static final int START = 2;
-    private static final int EXIT = 3;
-    private static final int PATH = 4;
+	protected static final int WALL = 0;
+	protected static final int OPENSPACE = 1;
+	protected static final int START = 2;
+	protected static final int EXIT = 3;
+	protected static final int PATH = 4;
 	
 	@Id
-	private String id;
-	private String title;
-	private String authorName;
-	private int[][] mazeGrid; //(0 = wall, 1 = open space, 2,3,4 = special)
+	protected String id;
+	protected String title;
+	protected String authorName;
+	protected int[][] mazeGrid; //(0 = wall, 1 = open space, 2,3,4 = special)
 	//removed start row, start column, end row, end column in favor of a starting Coordinate and ending Coordinate that encompasses both
-	private Coordinate startCoordinate;
-	private Coordinate endCoordinate;
+	protected Coordinate startCoordinate;
+	protected Coordinate endCoordinate;
 	//adding a boolean double ArrayList to track Coordinates visited during BFS shortest path traversal
-	private boolean[][] visitedCoordinates;
-	private ArrayList<Special> specials; //(index of special corresponds to the order of specials above)
-	private int playTotal; //(number of times people have played this maze)
-	private ArrayList<Integer> ratings; //or a map? key=userID, value=rating
-	private double avgRating;
+	protected boolean[][] visitedCoordinates;
+	protected ArrayList<Special> specials; //(index of special corresponds to the order of specials above)
+	protected int playTotal; //(number of times people have played this maze)
+	protected ArrayList<Integer> ratings; //or a map? key=userID, value=rating
+	protected double avgRating;
 	
 	//constructors:
 	public Maze() {
@@ -55,6 +55,19 @@ public class Maze {
 		this.mazeGrid = mazeGrid;
 		this.startCoordinate = startCoordinate;
 		this.endCoordinate = endCoordinate;
+	}
+	
+	public Maze(TemporaryMaze tempMaze) {
+		this.title = tempMaze.getTitle();
+		this.authorName = tempMaze.getAuthorName();
+		this.mazeGrid = tempMaze.getMazeGrid();
+		this.startCoordinate = tempMaze.getStartCoordinate();
+		this.endCoordinate = tempMaze.getEndCoordinate();
+		this.visitedCoordinates = tempMaze.getVisitedCoordinates();
+		this.specials = tempMaze.getSpecials();
+		this.playTotal = tempMaze.getPlayTotal();
+		this.ratings = tempMaze.getRatings();
+		this.avgRating = tempMaze.getAvgRating();
 	}
 	
 	//getters and setters:
@@ -239,20 +252,6 @@ public class Maze {
         return true;
     }
 
-    //Prints the BFS-determined shortest path through the maze (implementation in ShortestPathChecker)
-//    public void printPath(List<Coordinate> path) {
-//        int[][] tempMaze = Arrays.stream(mazeGrid)
-//            .map(int[]::clone)
-//            .toArray(int[][]::new);
-//        for (Coordinate coordinate : path) {
-//            if (isThisMazeEntrance(coordinate.getX(), coordinate.getY()) || isThisMazeEnd(coordinate.getX(), coordinate.getY())) {
-//                continue;
-//            }
-//            tempMaze[coordinate.getX()][coordinate.getY()] = PATH;
-//        }
-//        System.out.println(toString(tempMaze));
-//    }
-
     //Prints a simple visual representation of a maze
     public String mazeVisualizer() {
     	StringBuilder result = new StringBuilder(this.mazeGrid.length * this.mazeGrid[0].length + 1);
@@ -276,7 +275,7 @@ public class Maze {
     }
     
     //Resets the visitedCoordinates double array to read false across the board (not accessed)
-    public void reset() {
+    public void resetVisitedCoordinates() {
         for (int i = 0; i < visitedCoordinates.length; i++)
             Arrays.fill(visitedCoordinates[i], false);
     }

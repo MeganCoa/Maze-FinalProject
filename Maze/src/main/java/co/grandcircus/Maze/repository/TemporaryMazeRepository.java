@@ -6,14 +6,14 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Update;
 
 import co.grandcircus.Maze.models.Coordinate;
-import co.grandcircus.Maze.models.Maze;
+import co.grandcircus.Maze.models.TemporaryMaze;
 
-public interface MazeRepository extends MongoRepository<Maze, String> {
-	
-	Maze findByAuthorName(String author);
-	Maze findByTitle(String title);
-	Maze save(Maze entity);
+public interface TemporaryMazeRepository extends MongoRepository<TemporaryMaze, String> {
+	TemporaryMaze findByAuthorName(String author);
+	TemporaryMaze findByTitle(String title);
+	TemporaryMaze save(TemporaryMaze entity);
 	void deleteByTitle(String title);
+	void deleteAll();
 	
 	@Update("{'$set' : { 'mazeGrid' : ?1 } }")
 	void findAndUpdateMazeGridByTitle(String title, int[][] newMazeGrid);
@@ -22,7 +22,7 @@ public interface MazeRepository extends MongoRepository<Maze, String> {
 	@Update("{'$set' : { 'endCoordinate' : ?1 } }")
 	void findAndUpdateEndCoordinateByTitle(String title, Coordinate endCoordinate);
 	
-	List<Maze> findByTitleContaining(String title);
-	List<Maze> findByAuthorNameContaining(String author);
-	List<Maze> findAll();
+	List<TemporaryMaze> findByTitleContaining(String title);
+	List<TemporaryMaze> findByAuthorNameContaining(String author);
+	List<TemporaryMaze> findAll();
 }

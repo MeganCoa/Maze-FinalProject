@@ -18,9 +18,6 @@
 <script src="/tempmazing.js"></script>
 
 
-
-
-
 <div id="maze_container">
 <div id="maze" data-steps="???">
 <!-- insert the maze HTML code here -->
@@ -30,7 +27,7 @@
 
   window.addEventListener("DOMContentLoaded", function(e) {
 	  let Maze = new MazeBuilder(16, 12);
-	  Maze.placeKey();
+	  //Maze.placeKey();
 	  Maze.display("maze_container");
 	  
 	  var maze = new Mazing("maze");
@@ -44,9 +41,9 @@
 
 <fieldset>
 <legend>Maze Generator</legend>
-<label for="field_height">No. columns</label><span><input id="field_height" type="number" min="2" max="21" name="cols" value="12"></span>
-<label for="field_width">No. rows</label><span><input id="field_width" type="number" min="2" max="21" name="rows" value="8"></span>
-<span><input type="button" value="Generate maze »" onclick="onGenerateMaze()" /></span>
+<label for="field_height">No. columns</label><span><input id="field_height" type="number" min="3" max="20" name="cols" value="${mazeCol}"></span>
+<label for="field_width">No. rows</label><span><input id="field_width" type="number" min="3" max="20" name="rows" value="${mazeRow}"></span>
+<span><input type="button" value="Generate maze »" onclick="onGenerateMaze(${mazegrid})" /></span>
 </fieldset>
 
 

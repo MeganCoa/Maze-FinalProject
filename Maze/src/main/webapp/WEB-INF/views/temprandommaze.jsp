@@ -14,8 +14,8 @@
 </head>
 <body>
 <h1>RandomMaze</h1>
-<script src="/mazegame.js"></script>
-<script src="/mazing.js"></script>
+<script src="/tempmazegame.js"></script>
+<script src="/tempmazing.js"></script>
 
 
 
