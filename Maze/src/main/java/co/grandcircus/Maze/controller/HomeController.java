@@ -2,30 +2,26 @@ package co.grandcircus.Maze.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
-import javax.swing.text.html.HTML;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import co.grandcircus.Maze.models.Maze;
-import co.grandcircus.Maze.models.User;
-import co.grandcircus.Maze.repository.MazeRepository;
-import co.grandcircus.Maze.repository.UserRepository;
+import co.grandcircus.Maze.Service.MazeService;
+import co.grandcircus.Maze.Service.UserService;
+import co.grandcircus.Maze.models.MazeResponse;
+import co.grandcircus.Maze.models.UserResponse;
 
 @Controller
 public class HomeController {
 	@Autowired
-	private UserRepository userRepo;
+	private MazeService mazeService;
 	@Autowired
-	private MazeRepository mazeRepo;
+	private UserService userService;
+	
 	@RequestMapping("/")
 	public String showIndex(@RequestParam(required = false) String message,
 			@RequestParam(required = false) String username, @RequestParam(required = false) boolean loggedIn,
@@ -33,6 +29,7 @@ public class HomeController {
 		model.addAttribute("message", message);
 		model.addAttribute("username", username);
 		model.addAttribute("loggedIn", loggedIn);
+		
 		return "index";
 	}
 
@@ -47,17 +44,17 @@ public class HomeController {
 	@RequestMapping("/searchforamaze")
 	public String showMazeSearch(@RequestParam(required = false) String searchTerm, @RequestParam(required = false) String searchCategory, @RequestParam(required = false) String username,
 			@RequestParam(required = false) boolean loggedIn, Model model) {
-		List<Maze> mazes = new ArrayList<>();
+		List<MazeResponse> mazes = new ArrayList<>();
 		try {			
 			 if(searchCategory.equals("title")) {
-				mazes = mazeRepo.findByTitleContaining(searchTerm);
+				mazes = mazeService.findByTitleContaining(searchTerm);
 			}else if(searchCategory.equals("author")) {
-				mazes =  mazeRepo.findByAuthorNameContaining(searchTerm);
+				mazes =  mazeService.findByAuthorNameContaining(searchTerm);
 			}else {
 				throw new Exception("Search Category not real.");
 			}
 			}catch(Exception e) {
-				mazes = mazeRepo.findAll();
+				mazes = mazeService.findAllMazes();
 				model.addAttribute("searchError", "There was an error with the search." );
 				model.addAttribute("exceptionError", e.getMessage());
 			}
@@ -81,9 +78,8 @@ public class HomeController {
 
 	@PostMapping("/login")
 	public String loginUser(@RequestParam String username, @RequestParam String password, Model model) {
-		Optional<User> optUser = userRepo.findByUsername(username);
-		if (optUser.isPresent()) {
-			if (optUser.get().getPassword().equals(hashPassword(password))) {
+		if (userService.findByUsername(username) != null) {
+			if (userService.findByUsername(username).getPassword().equals(hashPassword(password))) {
 				boolean loggedIn = true;
 				model.addAttribute("loggedIn", loggedIn);
 				model.addAttribute("username", username);
@@ -108,29 +104,20 @@ public class HomeController {
 
 	@PostMapping("/signup")
 	public String newUserSignUp(@RequestParam String username, @RequestParam String email, @RequestParam String password, Model model) {
-		Optional<User> optUser = userRepo.findByUsername(username);
-		if (optUser.isPresent()) {
+		if (userService.findByUsername(username) != null) {
 			model.addAttribute("message", "That username exists already. Login instead?");
 			return "login";
 		} else if (username.equalsIgnoreCase("Anonymous") || username.equalsIgnoreCase("null") || username.equals("")) {
 			model.addAttribute("message", "That username is not permitted.");
 			return "signup";
 		} else {
-			User user = new User(username, email, hashPassword(password));
-			userRepo.insert(user);
+			UserResponse user = new UserResponse(username, email, hashPassword(password));
+			userService.saveUser(user);
 			model.addAttribute("message", "Welcome, " + username + "!");
 			model.addAttribute("username", username);
 			model.addAttribute("loggedIn", true);
 			return "index";
 		}
-	}
-
-	@RequestMapping("/userhome")
-	public String showUserHome(@RequestParam String username, Model model) {
-		boolean loggedIn = true;
-		model.addAttribute("loggedIn", loggedIn);
-		model.addAttribute("username", username);
-		return "userhome";
 	}
 
 	@RequestMapping("/signout")
@@ -144,22 +131,21 @@ public class HomeController {
 	public String userMazes(@RequestParam String username, @RequestParam boolean loggedIn, Model model) {
 		model.addAttribute("username", username);
 		model.addAttribute("loggedIn", loggedIn);
-		model.addAttribute("userMazes", userRepo.findByUsername(username).get().getUserMazes());
-		model.addAttribute("userFavorites", userRepo.findByUsername(username).get().getUserFavorites());
-		model.addAttribute("userTempMazes", userRepo.findByUsername(username).get().getUserTempMazes());
+		model.addAttribute("userMazes", userService.findByUsername(username).getUserMazes());
+		model.addAttribute("userFavorites", userService.findByUsername(username).getUserFavorites());
+		model.addAttribute("userTempMazes", userService.findByUsername(username).getUserTempMazes());
 		return "usermazes";
 	}
 	@PostMapping("/addUserFavorite")
 	public String addToUserFavorites(@RequestParam String username, @RequestParam String title, @RequestParam boolean loggedIn, Model model) {
-		Optional<User> optUser = userRepo.findByUsername(username);
-		if (!optUser.get().getUserFavorites().contains(title)) {
-			userRepo.findAndPushToUserFavoritesByUsername(username, title);
+		if (!userService.findByUsername(username).getUserFavorites().contains(title)) {
+			userService.findAndPushToUserFavoritesByUsername(username, title);
 		}
 		
-		Maze maze = mazeRepo.findByTitle(title);
+		MazeResponse maze = mazeService.findByTitle(title);
 		model.addAttribute("username", username);
 		model.addAttribute("loggedIn", loggedIn);
-		model.addAttribute("maze", mazeRepo.findByTitle(title));
+		model.addAttribute("maze", mazeService.findByTitle(title));
 		model.addAttribute("symbolMaze", maze.mazeVisualizer());		
 		
 		return "displaymaze";

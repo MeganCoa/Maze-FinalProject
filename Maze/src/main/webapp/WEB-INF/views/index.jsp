@@ -11,6 +11,7 @@
 <link href="/style.css" rel="stylesheet">
 </head>
 <body>
+	<h1>${test.title}</h1>
 	<div class="buttons">
 		<form action="/usercreatemaze" method="POST">
 			<input type="hidden" name="username" value="${username}"/>

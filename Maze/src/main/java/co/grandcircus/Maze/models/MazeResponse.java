@@ -1,16 +1,9 @@
 package co.grandcircus.Maze.models;
 
-import java.math.BigDecimal;
-import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-@Document("mazes")
-public class Maze {
+public class MazeResponse {
 	
 	//Add maze generating final variables to draw maze
 	protected static final int WALL = 0;
@@ -19,7 +12,6 @@ public class Maze {
 	protected static final int EXIT = 3;
 	protected static final int PATH = 4;
 	
-	@Id
 	protected String id;
 	protected String title;
 	protected String authorName;
@@ -35,11 +27,11 @@ public class Maze {
 	protected double avgRating;
 	
 	//constructors:
-	public Maze() {
+	public MazeResponse() {
 		super();
 	}
 	
-	public Maze(String title, String authorName, int rows, int columns) {
+	public MazeResponse(String title, String authorName, int rows, int columns) {
 		super();
 		this.title = title;
 		this.authorName = authorName;
@@ -48,7 +40,7 @@ public class Maze {
 	}
 	
 	//Updated Maze constructor to include start and end Coordinates in place of rows and columns
-	public Maze(String title, String authorName, int[][] mazeGrid, Coordinate startCoordinate, Coordinate endCoordinate) {
+	public MazeResponse(String title, String authorName, int[][] mazeGrid, Coordinate startCoordinate, Coordinate endCoordinate) {
 		super();
 		this.title = title;
 		this.authorName = authorName;
@@ -57,7 +49,7 @@ public class Maze {
 		this.endCoordinate = endCoordinate;
 	}
 	
-	public Maze(TemporaryMaze tempMaze) {
+	public MazeResponse(TemporaryMazeResponse tempMaze) {
 		this.title = tempMaze.getTitle();
 		this.authorName = tempMaze.getAuthorName();
 		this.mazeGrid = tempMaze.getMazeGrid();

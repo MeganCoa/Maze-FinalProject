@@ -12,7 +12,7 @@ public class ShortestPathChecker {
 	private static final int[][] POSSIBLE_DIRECTIONS = { { 0, 1 }, { 1, 0 }, { 0, -1 }, { -1, 0 } };
 
 	//Algorithm to solve the maze 
-    public List<Coordinate> solve(Maze maze) {
+    public List<Coordinate> solve(MazeResponse maze) {
     	
     	//Initialize a nextToVisit LinkedList and add the starting point
         LinkedList<Coordinate> nextToVisit = new LinkedList<>();

@@ -7,14 +7,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import co.grandcircus.Maze.models.Maze;
-import co.grandcircus.Maze.repository.MazeRepository;
+import co.grandcircus.Maze.models.MazeResponse;
 
 @Controller
 public class GamepageController {
 	
-	@Autowired
-	private MazeRepository repo;
+//	@Autowired
+//	private MazeRepository repo;
 	
 	@RequestMapping("/mazegamepage")
 	public String showIndex() {

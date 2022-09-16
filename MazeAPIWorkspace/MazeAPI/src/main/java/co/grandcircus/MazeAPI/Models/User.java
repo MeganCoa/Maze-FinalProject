@@ -1,4 +1,4 @@
-package co.grandcircus.Maze.models;
+package co.grandcircus.MazeAPI.Models;
 
 import java.util.ArrayList;
 

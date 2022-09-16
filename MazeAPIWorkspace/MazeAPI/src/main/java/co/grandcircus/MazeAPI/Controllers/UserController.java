@@ -1,6 +1,7 @@
-package co.grandcircus.Maze.controller;
+package co.grandcircus.MazeAPI.Controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,19 +12,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import co.grandcircus.Maze.models.User;
-import co.grandcircus.Maze.repository.UserRepository;
+import co.grandcircus.MazeAPI.Models.Maze;
+import co.grandcircus.MazeAPI.Models.User;
+import co.grandcircus.MazeAPI.Repositories.UserRepository;
 
 @RestController
 public class UserController {
 	@Autowired
 	private UserRepository repo;
-	
 	
 	//reset
 	@GetMapping("/resetusers")
@@ -31,22 +31,38 @@ public class UserController {
 		repo.deleteAll();
 		return "Data reset";
 	}
+	@GetMapping("/findByUsername/{username}")
+	public Optional<User> findByUsername(@PathVariable("username") String username) {
+		return repo.findByUsername(username);
+	}
 	
 	//read all
-	@GetMapping("/users")
-	public List<User> allUsers() {
+	@GetMapping("/findAllUsers")
+	public List<User> findAllUsers() {
 		return repo.findAll();
+	}
+	@PutMapping("/saveUser")
+	public User save(@RequestBody User user) {
+		return repo.save(user);
+	}	
+	@PutMapping("/findAndPushToUserMazesByUsername/{username}")
+	public void findAndPushToUserMazesByUsername(@PathVariable("username") String username, @RequestBody String title) {
+		repo.findAndPushToUserMazesByUsername(username, title);
+	}
+	@PutMapping("/findAndPushToUserFavoritesByUsername/{username}")
+	public void findAndPushToUserFavoritesByUsername(@PathVariable("username") String username, @RequestBody String title) {
+		repo.findAndPushToUserFavoritesByUsername(username, title);
+	}
+	@PutMapping("/findAndPushToUserTempMazesByUsername/{username}")
+	public void findAndPushToUserTempMazesByUsername(@PathVariable("username") String username, @RequestBody String title) {
+		repo.findAndPushToUserTempMazesByUsername(username, title);
 	}
 	//read one
 	@GetMapping("/users/{id}")
 	public User oneUser(@PathVariable("id") String id) {
 		return repo.findById(id).orElseThrow(() -> new UserNotFoundException(id));
 	}
-	@PostMapping("/addtolist")
-	public void addTest() {
-		
-		repo.findAndPushToUserTempMazesByUsername("test", "userTempmazetestpleasework");
-	}
+	
 	//create a user
 	@PostMapping("/createuser")
 	public User createUser(@RequestBody User user) {

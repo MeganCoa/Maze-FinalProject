@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import co.grandcircus.Maze.models.Maze;
+import co.grandcircus.Maze.models.MazeResponse;
 
 @Controller
 public class RandomMazeController {

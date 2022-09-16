@@ -1,4 +1,4 @@
-package co.grandcircus.Maze.controller;
+package co.grandcircus.MazeAPI.Controllers;
 
 public class UserNotFoundException extends RuntimeException{
 	private static final long serialVersionUID = 1L;
