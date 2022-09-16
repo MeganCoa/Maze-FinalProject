@@ -9,7 +9,6 @@ import co.grandcircus.MazeAPI.Models.Coordinate;
 import co.grandcircus.MazeAPI.Models.Maze;
 
 
-
 public interface MazeRepository extends MongoRepository<Maze, String> {
 	
 	Maze findByTitle(String title);
