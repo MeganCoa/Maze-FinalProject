@@ -262,7 +262,7 @@ public class MazeDisplayController {
 		
 		//pull rows and columns from mazeGrid (from the correct DB collection):
 //		if (mazeRepo.findByTitle(title) != null) {
-//			rows = mazeRepo.findByTitle(title).getMazeGrid().length;
+//			rows = mazeRepo.findByTitle(title).getMazeGrid().length; //repo
 //			columns = mazeRepo.findByTitle(title).getMazeGrid()[0].length;
 //		} else {
 			rows = tempMazeService.findByTemporaryTitle(title).getMazeGrid().length;
