@@ -17,7 +17,7 @@ public class MazeService {
 	private RestTemplate restTemplate = new RestTemplate();
 	
 	public MazeResponse findByTitle(String title) {
-		String url = "/findByTitle/{title}";
+		String url = "/findByTitle/" + title;
 		MazeResponse response = restTemplate.getForObject(baseUrl + url, MazeResponse.class, title);
 		return response;
 	}

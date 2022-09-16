@@ -1,4 +1,4 @@
-package co.grandcircus.MazeAPI.Controllers;
+package co.grandcircus.MazeAPI;
 
 import java.util.List;
 
@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import co.grandcircus.MazeAPI.Controllers.MazeNotFoundException;
 import co.grandcircus.MazeAPI.Models.Coordinate;
 import co.grandcircus.MazeAPI.Models.Maze;
 import co.grandcircus.MazeAPI.Repositories.MazeRepository;
