@@ -134,14 +134,14 @@ public class HomeController {
 	public String userMazes(@RequestParam String username, @RequestParam boolean loggedIn, Model model) {
 		model.addAttribute("username", username);
 		model.addAttribute("loggedIn", loggedIn);
-		model.addAttribute("userMazes", userService.findByUsername(username).getUserMazes());
-		model.addAttribute("userFavorites", userService.findByUsername(username).getUserFavorites());
-		model.addAttribute("userTempMazes", userService.findByUsername(username).getUserTempMazes());
+		model.addAttribute("userMazes", userService.findByUsername(username).get().getUserMazes());
+		model.addAttribute("userFavorites", userService.findByUsername(username).get().getUserFavorites());
+		model.addAttribute("userTempMazes", userService.findByUsername(username).get().getUserTempMazes());
 		return "usermazes";
 	}
 	@PostMapping("/addUserFavorite")
 	public String addToUserFavorites(@RequestParam String username, @RequestParam String title, @RequestParam boolean loggedIn, Model model) {
-		if (!userService.findByUsername(username).getUserFavorites().contains(title)) {
+		if (!userService.findByUsername(username).get().getUserFavorites().contains(title)) {
 			userService.findAndPushToUserFavoritesByUsername(username, title);
 		}
 		

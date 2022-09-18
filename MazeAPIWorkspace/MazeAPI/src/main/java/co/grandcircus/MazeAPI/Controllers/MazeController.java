@@ -68,7 +68,7 @@ public class MazeController {
 	public Maze[] findByTitleContaining(@PathVariable("title") String title) {
 		return repo.findByTitleContaining(title);
 	}
-	@GetMapping("/findByAuthorNameContaining/{title}")
+	@GetMapping("/findByAuthorNameContaining/{author}")
 	public Maze[] findByAuthorNameContaining(@PathVariable("author") String author) {
 		return repo.findByAuthorNameContaining(author);
 	}

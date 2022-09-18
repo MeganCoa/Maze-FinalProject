@@ -161,7 +161,7 @@ public class MazeDisplayController {
 				mazeService.deleteByTitle(title);
 
 				//remove maze from userMazes
-				UserResponse user = userService.findByUsername(username);
+				UserResponse user = userService.findByUsername(username).get();
 				user.getUserMazes().remove(title);
 				userService.saveUser(user);
 				
@@ -257,17 +257,8 @@ public class MazeDisplayController {
 			cellDataArrayList.add(Integer.parseInt(cellData));
 		}
 		
-		int rows;
-		int columns;
-		
-		//pull rows and columns from mazeGrid (from the correct DB collection):
-//		if (mazeRepo.findByTitle(title) != null) {
-//			rows = mazeRepo.findByTitle(title).getMazeGrid().length; //repo
-//			columns = mazeRepo.findByTitle(title).getMazeGrid()[0].length;
-//		} else {
-			rows = tempMazeService.findByTemporaryTitle(title).getMazeGrid().length;
-			columns = tempMazeService.findByTemporaryTitle(title).getMazeGrid()[0].length;
-//		}
+		int rows = tempMazeService.findByTemporaryTitle(title).getMazeGrid().length;
+		int columns = tempMazeService.findByTemporaryTitle(title).getMazeGrid()[0].length;
 		
 		int[][] newMazeGrid = new int[rows][columns];
 		
@@ -278,10 +269,6 @@ public class MazeDisplayController {
 		
 		//does maze have exactly one start and one end cell?
 		if (startEndCount(cellDataArrayList, 2) != 1 || startEndCount(cellDataArrayList, 3) != 1) {
-			
-			//if they need a start, or need an end
-			//if they have more than one start, or more than one end
-			//if they got one right but not the other
 			
 			String startMessage = "";
 			String endMessage = "";
@@ -321,9 +308,11 @@ public class MazeDisplayController {
 			return modelAndView;
 		}
 		
-		Coordinate startCoordinate = tempMazeService.findByTemporaryTitle(title).getUserMazeStartCoordinate();
-		Coordinate endCoordinate = tempMazeService.findByTemporaryTitle(title).getUserMazeEndCoordinate();
+		//create start/end coordinates from mazeGrid 
+		Coordinate startCoordinate = new Coordinate(tempMazeService.findByTemporaryTitle(title).getMazeGrid(), 2);
+		Coordinate endCoordinate = new Coordinate(tempMazeService.findByTemporaryTitle(title).getMazeGrid(), 3);
 		
+		//add them to the database
 		tempMazeService.findAndUpdateTemporaryStartCoordinateByTitle(title, startCoordinate);
 		tempMazeService.findAndUpdateTemporaryEndCoordinateByTitle(title, endCoordinate);
 		
@@ -342,9 +331,9 @@ public class MazeDisplayController {
 		mazeService.saveMaze(maze);
 		tempMazeService.deleteTemporaryByTitle(title);
 		
-		if (userService.findByUsername(username) != null) {
+		if (userService.findByUsername(username).isPresent()) {
 			//if user is logged in, delete maze from usertempMazes, add it to userMazes
-			UserResponse user = userService.findByUsername(username);
+			UserResponse user = userService.findByUsername(username).get();
 			user.getUserTempMazes().remove(title);
 			userService.saveUser(user);
 			userService.findAndPushToUserMazesByUsername(username, title);
@@ -376,15 +365,20 @@ public class MazeDisplayController {
 			UserResponse user = userService.findByUsername(username).get();
 			if (userService.findByUsername(username).get().getUserMazes().contains(title)) {
 				user.getUserMazes().remove(title);
-				message = " from your mazes.";
+				message = " from your mazes";
 			} else if (userService.findByUsername(username).get().getUserTempMazes().contains(title)) {
 				user.getUserTempMazes().remove(title);
-				message = " from your mazes in progress.";
+				message = " from your mazes in progress";
+			}
+			if (userService.findByUsername(username).get().getUserFavorites().contains(title)) {
+				message += " and your favorites.";
+			} else {
+				message += ".";
 			}
 			userService.saveUser(user);
 		}
 		
-		//delete maze from all other users favorites lists
+		//delete maze from all users favorites lists
 		List<UserResponse> allUsers = userService.findAllUsers();
 		for (UserResponse eachUser : allUsers) {
 			if (eachUser.getUserFavorites().contains(title)) {
