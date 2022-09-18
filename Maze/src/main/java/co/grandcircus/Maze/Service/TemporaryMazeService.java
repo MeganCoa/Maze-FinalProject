@@ -22,16 +22,14 @@ public class TemporaryMazeService {
 		return response;
 	}
 	
-	public TemporaryMazeResponse saveTemporaryMaze(TemporaryMazeResponse temporaryMazeResponse) {
+	public void saveTemporaryMaze(TemporaryMazeResponse temporaryMazeResponse) {
 		String url = "/saveTemporaryMaze";
-		TemporaryMazeResponse response = restTemplate.getForObject(baseUrl + url, TemporaryMazeResponse.class);
-		return response;
+		restTemplate.put(baseUrl + url, temporaryMazeResponse, TemporaryMazeResponse.class);
 	}
 	
-	public TemporaryMazeResponse deleteTemporaryByTitle(String title) {
-		String url = "/deleteTemporaryByTitle/{title}";
-		TemporaryMazeResponse response = restTemplate.getForObject(baseUrl + url, TemporaryMazeResponse.class, title);
-		return response;
+	public void deleteTemporaryByTitle(String title) {
+		String url = "/deleteTemporaryByTitle/" + title;
+		restTemplate.delete(baseUrl + url);
 	}
 	
 	public void findAndUpdateTemporaryMazeGridByTitle(String title, int[][] newMazeGrid) {		

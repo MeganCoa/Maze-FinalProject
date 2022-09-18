@@ -43,8 +43,8 @@ public class MazeController {
 	//update a maze
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@PutMapping("/saveMaze")
-	public void save(@RequestBody Maze maze) {
-		repo.save(maze);
+	public Maze save(@RequestBody Maze maze) {
+		return repo.save(maze);
 	}	
 	//delete a maze
 	@DeleteMapping("/deleteByTitle/{title}")
@@ -79,6 +79,7 @@ public class MazeController {
 	}
 	//create a maze
 	@PostMapping("/createmaze")
+	@ResponseStatus(HttpStatus.CREATED)
 	public Maze createMaze(@RequestBody Maze maze) {
 		repo.insert(maze);
 		return maze;

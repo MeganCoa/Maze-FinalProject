@@ -44,6 +44,7 @@ public class HomeController {
 	@RequestMapping("/searchforamaze")
 	public String showMazeSearch(@RequestParam(required = false) String searchTerm, @RequestParam(required = false) String searchCategory, @RequestParam(required = false) String username,
 			@RequestParam(required = false) boolean loggedIn, Model model) {
+		
 		List<MazeResponse> mazes = new ArrayList<>();
 		try {			
 			 if(searchCategory.equals("title")) {
@@ -78,18 +79,20 @@ public class HomeController {
 
 	@PostMapping("/login")
 	public String loginUser(@RequestParam String username, @RequestParam String password, Model model) {
-		if (userService.findByUsername(username) != null) {
-			if (userService.findByUsername(username).getPassword().equals(hashPassword(password))) {
+		if (userService.findByUsername(username).isPresent()) {
+			if (userService.findByUsername(username).get().getPassword().equals(hashPassword(password))) {
 				boolean loggedIn = true;
 				model.addAttribute("loggedIn", loggedIn);
 				model.addAttribute("username", username);
 				model.addAttribute("message", "Welcome back, " + username + "!");
 			} else {
 				model.addAttribute("message", "That password was incorrect.");
+				model.addAttribute("loggedIn", false);
 				return "login";
 			}
 		} else {
 			model.addAttribute("message", "That username/password combo does not exist.");
+			model.addAttribute("loggedIn", false);
 			return "login";
 		}
 		return "index";
@@ -104,7 +107,7 @@ public class HomeController {
 
 	@PostMapping("/signup")
 	public String newUserSignUp(@RequestParam String username, @RequestParam String email, @RequestParam String password, Model model) {
-		if (userService.findByUsername(username) != null) {
+		if (userService.findByUsername(username).isPresent()) {
 			model.addAttribute("message", "That username exists already. Login instead?");
 			return "login";
 		} else if (username.equalsIgnoreCase("Anonymous") || username.equalsIgnoreCase("null") || username.equals("")) {

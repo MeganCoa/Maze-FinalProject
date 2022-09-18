@@ -22,9 +22,14 @@ public class MazeService {
 		return response;
 	}
 	
-	public MazeResponse saveMaze(MazeResponse mazeResponse) {
-		String url = "/saveMaze";
-		return restTemplate.postForObject(baseUrl + url, mazeResponse, MazeResponse.class);
+	public void saveMaze(MazeResponse mazeResponse) {
+		String url = baseUrl +  "/saveMaze";
+		restTemplate.put(url, mazeResponse, MazeResponse.class);
+	}
+	
+	public MazeResponse createMaze(MazeResponse mazeResponse) {
+		String url = baseUrl + "/createmaze";
+		return restTemplate.postForObject(url, mazeResponse, MazeResponse.class);
 	}
 	
 	public void deleteByTitle(String title) {
@@ -46,8 +51,8 @@ public class MazeService {
 		restTemplate.put(baseUrl + url, endCoordinate, title);
 	}
 	public ArrayList<MazeResponse> findByTitleContaining(String title) {
-		String url = "/findByTitleContaining/{title}";
-		MazeResponse[] arr = restTemplate.getForObject(baseUrl + url, MazeResponse[].class, title);
+		String url = baseUrl + "/findByTitleContaining/{title}";
+		MazeResponse[] arr = restTemplate.getForObject(url, MazeResponse[].class, title);
 		ArrayList<MazeResponse> result = new ArrayList<>();
 		for (int i = 0; i < arr.length; i++) {
 			result.add(arr[i]);
@@ -55,9 +60,8 @@ public class MazeService {
 		return result;
 	}
 	public ArrayList<MazeResponse> findByAuthorNameContaining(String author) {
-		String url = "/findByAuthorNameContaining/{author}";
-		MazeResponse[] arr = restTemplate.getForObject(baseUrl + url, MazeResponse[].class, author);
-		
+		String url = baseUrl + "/findByAuthorNameContaining/{author}";
+		MazeResponse[] arr = restTemplate.getForObject(url, MazeResponse[].class, author);
 		ArrayList<MazeResponse> result = new ArrayList<>();
 		for (int i = 0; i < arr.length; i++) {
 			result.add(arr[i]);

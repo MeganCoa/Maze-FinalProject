@@ -1,8 +1,12 @@
 package co.grandcircus.Maze.Service;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.MediaType;
+import org.springframework.http.RequestEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -16,9 +20,12 @@ public class UserService {
 	private String baseUrl;
 	private RestTemplate restTemplate = new RestTemplate();
 	
-	public UserResponse findByUsername(String username) {
-		String url = "/findByUsername/{username}";
-		UserResponse response = restTemplate.getForObject(baseUrl + url, UserResponse.class, username);
+	public Optional<UserResponse> findByUsername(String username) {
+		String url = baseUrl + "/findByUsername/" + username;
+		
+		ParameterizedTypeReference<Optional<UserResponse>> responseType = new ParameterizedTypeReference<Optional<UserResponse>>(){};
+		RequestEntity<Void> request = RequestEntity.get(url).accept(MediaType.APPLICATION_JSON).build();
+		Optional<UserResponse> response = restTemplate.exchange(request, responseType).getBody();
 		return response;
 	}
 	public ArrayList<UserResponse> findAllUsers() {
@@ -30,14 +37,14 @@ public class UserService {
 		}
 		return result;
 	}
-	public UserResponse saveUser(UserResponse userResponse) {
-		String url = "/saveUser";
-		UserResponse response = restTemplate.getForObject(baseUrl + url, UserResponse.class);
-		return response;
+	public void saveUser(UserResponse userResponse) {
+		String url = baseUrl + "/saveUser";
+		restTemplate.put(url, userResponse, UserResponse.class);
+		
 	}
 	public void findAndPushToUserMazesByUsername(String username, String title) {	
-		String url = "/findAndPushToUserMazesByUsername/{username}";
-		restTemplate.put(baseUrl + url, title, username);
+		String url = baseUrl +  "/findAndPushToUserMazesByUsername/{username}";
+		restTemplate.put(url, title, username);
 	}
 	public void findAndPushToUserFavoritesByUsername(String username, String title) {
 		String url = "/findAndPushToUserFavoritesByUsername/{username}";

@@ -372,12 +372,12 @@ public class MazeDisplayController {
 		
 		//delete maze from user's lists (owner of maze)
 		String message = ".";
-		if (userService.findByUsername(username) != null) {
-			UserResponse user = userService.findByUsername(username);
-			if (userService.findByUsername(username).getUserMazes().contains(title)) {
+		if (userService.findByUsername(username).isPresent()) {
+			UserResponse user = userService.findByUsername(username).get();
+			if (userService.findByUsername(username).get().getUserMazes().contains(title)) {
 				user.getUserMazes().remove(title);
 				message = " from your mazes.";
-			} else if (userService.findByUsername(username).getUserTempMazes().contains(title)) {
+			} else if (userService.findByUsername(username).get().getUserTempMazes().contains(title)) {
 				user.getUserTempMazes().remove(title);
 				message = " from your mazes in progress.";
 			}
