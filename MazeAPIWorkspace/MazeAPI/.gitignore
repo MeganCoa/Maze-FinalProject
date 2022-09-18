@@ -1,6 +1,6 @@
-<<<<<<< HEAD
+
 /.gradle/
-=======
+
 HELP.md
 .gradle
 build/
@@ -40,4 +40,4 @@ out/
 .vscode/
 
 src/main/resources/config/application.properties
->>>>>>> 32cdc3cbc21a9dd9fcde73a4c0d2431a187cf562
+
