@@ -1,0 +1,14 @@
+package co.grandcircus.Maze.IconSearch;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+public class Main {
+	@Autowired
+	private static IconSearchService apiService;
+	
+	public static void main(String[] args) {
+		
+		System.out.println("Hello Please show up");
+	}
+
+}

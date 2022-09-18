@@ -1,0 +1,39 @@
+package co.grandcircus.Maze.IconSearch;
+
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public class IconSearchResponse {
+	@JsonProperty("objects")
+	private List<Objects> objects;
+	@JsonProperty("meta")
+	private Meta meta;
+
+	public List<Objects> getObjects() {
+		return objects;
+	}
+
+	public void setObjects(List<Objects> objects) {
+		this.objects = objects;
+	}
+
+	public Meta getMeta() {
+		return meta;
+	}
+
+	public void setMeta(Meta meta) {
+		this.meta = meta;
+	}
+
+	public IconSearchResponse(List<Objects> objects, Meta meta) {
+		super();
+		this.objects = objects;
+		this.meta = meta;
+	}
+	public IconSearchResponse() {
+		
+	}
+	
+	
+}

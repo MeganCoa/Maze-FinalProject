@@ -1,0 +1,39 @@
+package co.grandcircus.Maze.IconSearch;
+
+public class Assets {
+private Integer cleaned;
+private Integer size;
+private String url;
+
+
+public Integer getCleaned() {
+	return cleaned;
+}
+public void setCleaned(Integer cleaned) {
+	this.cleaned = cleaned;
+}
+public Integer getSize() {
+	return size;
+}
+public void setSize(Integer size) {
+	this.size = size;
+}
+public String getUrl() {
+	return url;
+}
+public void setUrl(String url) {
+	this.url = url;
+}
+
+public Assets(Integer cleaned, Integer size, String url) {
+	super();
+	this.cleaned = cleaned;
+	this.size = size;
+	this.url = url;
+}
+public Assets() {
+	
+}
+
+
+}

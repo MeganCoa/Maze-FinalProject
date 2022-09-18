@@ -1,0 +1,36 @@
+package co.grandcircus.Maze.IconSearch;
+
+
+import java.util.Collections;
+import java.util.List;
+
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+@Service
+public class IconSearchService {
+	
+	private RestTemplate request = new RestTemplate();
+	private HttpHeaders headers = new HttpHeaders();
+	
+	
+	 public Objects getIconObjects(String searchTerm) {
+		 	String url = "https://open-source-icons-search.p.rapidapi.com/vectors/search?query={0}";
+		    headers.add("X-RapidAPI-Key", "7b8a3bdb90msh0ff5db43a345edbp1f4944jsna216b4df412b");
+	        headers.add("X-RapidAPI-Host", "open-source-icons-search.p.rapidapi.com");
+	    	       
+	        HttpEntity<String> requestEntity = new HttpEntity<>(headers);	        
+	        
+	        ResponseEntity<Objects> response = request.exchange(url, HttpMethod.GET,
+	                requestEntity, Objects.class, searchTerm); 
+	         
+
+	        return response.getBody();
+	 }
+}

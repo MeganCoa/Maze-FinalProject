@@ -1,0 +1,36 @@
+package co.grandcircus.Maze.IconSearch;
+
+import java.util.List;
+
+public class IconSearchResponse {
+
+	private List<Objects> objects;
+	private List<Meta>	meta;
+
+	public List<Objects> getObjects() {
+		return objects;
+	}
+
+	public void setObjects(List<Objects> objects) {
+		this.objects = objects;
+	}
+
+	public List<Meta> getMeta() {
+		return meta;
+	}
+
+	public void setMeta(List<Meta> meta) {
+		this.meta = meta;
+	}
+
+	public IconSearchResponse(List<Objects> objects, List<Meta> meta) {
+		super();
+		this.objects = objects;
+		this.meta = meta;
+	}
+	public IconSearchResponse() {
+		
+	}
+	
+	
+}

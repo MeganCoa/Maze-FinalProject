@@ -1,0 +1,17 @@
+package co.grandcircus.Maze.IconSearch;
+
+import java.util.logging.Logger;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+public class Main {
+	@Autowired
+	private static IconSearchService apiService;
+	
+	public static void main(String[] args) {
+		
+		Logger logger = new Logger(Objects.toString());
+		
+	}
+
+}
