@@ -11,11 +11,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+<<<<<<< HEAD
 import co.grandcircus.Maze.IconSearch.IconSearchService;
 import co.grandcircus.Maze.models.Coordinate;
 import co.grandcircus.Maze.models.Maze;
 import co.grandcircus.Maze.repository.MazeRepository;
 import co.grandcircus.Maze.repository.UserRepository;
+=======
+import co.grandcircus.Maze.models.MazeResponse;
+>>>>>>> 32cdc3cbc21a9dd9fcde73a4c0d2431a187cf562
 
 @Controller
 public class RandomMazeController {

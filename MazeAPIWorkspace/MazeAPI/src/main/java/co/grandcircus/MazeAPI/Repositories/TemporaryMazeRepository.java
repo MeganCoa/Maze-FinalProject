@@ -1,12 +1,12 @@
-package co.grandcircus.Maze.repository;
+package co.grandcircus.MazeAPI.Repositories;
 
 import java.util.List;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Update;
 
-import co.grandcircus.Maze.models.Coordinate;
-import co.grandcircus.Maze.models.TemporaryMaze;
+import co.grandcircus.MazeAPI.Models.Coordinate;
+import co.grandcircus.MazeAPI.Models.TemporaryMaze;
 
 public interface TemporaryMazeRepository extends MongoRepository<TemporaryMaze, String> {
 	TemporaryMaze findByAuthorName(String author);

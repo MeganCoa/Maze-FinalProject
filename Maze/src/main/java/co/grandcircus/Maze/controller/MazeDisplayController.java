@@ -5,8 +5,6 @@ import java.util.Arrays;
 import java.util.LinkedList;
 
 import java.util.List;
-import java.util.Random;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,23 +13,24 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import co.grandcircus.Maze.IconSearch.IconSearchService;
+import co.grandcircus.Maze.Service.MazeService;
+import co.grandcircus.Maze.Service.TemporaryMazeService;
+import co.grandcircus.Maze.Service.UserService;
 import co.grandcircus.Maze.models.Coordinate;
-import co.grandcircus.Maze.models.Maze;
-import co.grandcircus.Maze.models.TemporaryMaze;
-import co.grandcircus.Maze.models.User;
-import co.grandcircus.Maze.repository.MazeRepository;
-import co.grandcircus.Maze.repository.TemporaryMazeRepository;
-import co.grandcircus.Maze.repository.UserRepository;
+import co.grandcircus.Maze.models.MazeResponse;
+import co.grandcircus.Maze.models.TemporaryMazeResponse;
+import co.grandcircus.Maze.models.UserResponse;
 
 @Controller
 public class MazeDisplayController {
+	
+	@Autowired
+	private MazeService mazeService;
+	@Autowired
+	private UserService userService;
+	@Autowired
+	private TemporaryMazeService tempMazeService;
 
-	@Autowired
-	private MazeRepository mazeRepo;
-	@Autowired
-	private UserRepository userRepo;
-	@Autowired
-	private TemporaryMazeRepository tempMazeRepo;
 	@Autowired
 	private IconSearchService iconService;
 
@@ -39,11 +38,11 @@ public class MazeDisplayController {
 	@PostMapping("/displaymaze")
 	public ModelAndView displayMaze(@RequestParam String title, @RequestParam(required=false) String username, @RequestParam(required=false) boolean loggedIn, @RequestParam(required=false) Integer newMazeRating) {
 		
-		Maze maze = mazeRepo.findByTitle(title);
+		MazeResponse maze = mazeService.findByTitle(title);
 		
 		if (newMazeRating != null) {
 			maze.addAndUpdateRatings(newMazeRating);
-			mazeRepo.save(maze);
+			mazeService.saveMaze(maze);
 		}
 		
 		ModelAndView modelAndView = new ModelAndView("displaymaze");
@@ -60,7 +59,7 @@ public class MazeDisplayController {
 	@PostMapping("/solvemaze")
 	public ModelAndView solveMaze(@RequestParam String title, @RequestParam(required=false) String username, @RequestParam(required=false) boolean loggedIn) {
 		
-		Maze maze = mazeRepo.findByTitle(title);
+		MazeResponse maze = mazeService.findByTitle(title);
 		ModelAndView modelAndView = new ModelAndView("solvemaze");
 		
 		//Generates new boolean[][] equal in size to the Maze's mazegrid, in order to set the starting state visitedCoordinates property of the maze (not included in constructor)
@@ -128,7 +127,7 @@ public class MazeDisplayController {
 	public ModelAndView mazeEditor(@RequestParam String title, @RequestParam(required=false) String username, @RequestParam(required=false) boolean loggedIn, @RequestParam(required=false) Integer rows, @RequestParam(required=false) Integer columns) {
 		
 		ModelAndView modelAndView = new ModelAndView("mazeeditor");
-		TemporaryMaze tempMaze;
+		TemporaryMazeResponse tempMaze;
 		
 		if (title.equals("")) {
 			ModelAndView modelAndView2 = new ModelAndView("createmaze");
@@ -140,7 +139,7 @@ public class MazeDisplayController {
 		}
 		
 		//if maze title already exists...
-		if (mazeRepo.findByTitle(title) != null || tempMazeRepo.findByTitle(title) != null) {
+		if (mazeService.findByTitle(title) != null || tempMazeService.findByTemporaryTitle(title) != null) {
 			
 			//reject if they're trying to create one with that title
 			if (rows != null) {
@@ -152,29 +151,29 @@ public class MazeDisplayController {
 				return modelAndView2;
 			
 			//if editing maze from maze repo:
-			} else if (mazeRepo.findByTitle(title) != null) {
+			} else if (mazeService.findByTitle(title) != null) {
 				
 				//create new tempMaze for editing
-				Maze maze = mazeRepo.findByTitle(title);
-				tempMaze = new TemporaryMaze(maze);
+				MazeResponse maze = mazeService.findByTitle(title);
+				tempMaze = new TemporaryMazeResponse(maze);
 				
 				//remove maze from regular db
-				mazeRepo.deleteByTitle(title);
+				mazeService.deleteByTitle(title);
 
 				//remove maze from userMazes
-				User user = userRepo.findByUsername(username).get();
+				UserResponse user = userService.findByUsername(username);
 				user.getUserMazes().remove(title);
-				userRepo.save(user);
+				userService.saveUser(user);
 				
 				//add to userTempMazes
-				userRepo.findAndPushToUserTempMazesByUsername(username, title);
+				userService.findAndPushToUserTempMazesByUsername(username, title);
 				
 				rows = tempMaze.getHeight();
 				columns = tempMaze.getWidth();
 				
 			//if editing from temp maze repo (previous page):
 			} else {
-				tempMaze = tempMazeRepo.findByTitle(title);
+				tempMaze = tempMazeService.findByTemporaryTitle(title);
 				rows = tempMaze.getHeight();
 				columns = tempMaze.getWidth();
 			}
@@ -188,14 +187,14 @@ public class MazeDisplayController {
 				authorName = "Anonymous";
 			}
 			
-			tempMaze = new TemporaryMaze(title, authorName, rows, columns);
+			tempMaze = new TemporaryMazeResponse(title, authorName, rows, columns);
 			
 			if (!authorName.equals("Anonymous")) {
-				userRepo.findAndPushToUserTempMazesByUsername(username, title);
+				userService.findAndPushToUserTempMazesByUsername(username, title);
 			}
 		}
 		
-		tempMazeRepo.save(tempMaze);
+		tempMazeService.saveTemporaryMaze(tempMaze);
 		
 		ArrayList<Coordinate> mazeGridCoordinates = new ArrayList<>();
 		
@@ -223,9 +222,9 @@ public class MazeDisplayController {
 		String message = "";
 		boolean successful = false;
 		
-		Maze maze = mazeRepo.findByTitle(title);
+		MazeResponse maze = mazeService.findByTitle(title);
 		maze.setPlayTotal(maze.getPlayTotal() + 1);
-		mazeRepo.save(maze);
+		mazeService.saveMaze(maze);
 		
 		ArrayList<Integer> userPathDataArrayList = new ArrayList<>();
 		for (String userPathData : userPathDataList) {
@@ -263,11 +262,11 @@ public class MazeDisplayController {
 		
 		//pull rows and columns from mazeGrid (from the correct DB collection):
 //		if (mazeRepo.findByTitle(title) != null) {
-//			rows = mazeRepo.findByTitle(title).getMazeGrid().length;
+//			rows = mazeRepo.findByTitle(title).getMazeGrid().length; //repo
 //			columns = mazeRepo.findByTitle(title).getMazeGrid()[0].length;
 //		} else {
-			rows = tempMazeRepo.findByTitle(title).getMazeGrid().length;
-			columns = tempMazeRepo.findByTitle(title).getMazeGrid()[0].length;
+			rows = tempMazeService.findByTemporaryTitle(title).getMazeGrid().length;
+			columns = tempMazeService.findByTemporaryTitle(title).getMazeGrid()[0].length;
 //		}
 		
 		int[][] newMazeGrid = new int[rows][columns];
@@ -275,7 +274,7 @@ public class MazeDisplayController {
 		for (int i = 0; i < rows * columns; i++) {
 			newMazeGrid[i/columns][i%columns] = cellDataArrayList.get(i);
 		}
-		tempMazeRepo.findAndUpdateMazeGridByTitle(title, newMazeGrid);
+		tempMazeService.findAndUpdateTemporaryMazeGridByTitle(title, newMazeGrid);
 		
 		//does maze have exactly one start and one end cell?
 		if (startEndCount(cellDataArrayList, 2) != 1 || startEndCount(cellDataArrayList, 3) != 1) {
@@ -322,14 +321,14 @@ public class MazeDisplayController {
 			return modelAndView;
 		}
 		
-		Coordinate startCoordinate = tempMazeRepo.findByTitle(title).getUserMazeStartCoordinate();
-		Coordinate endCoordinate = tempMazeRepo.findByTitle(title).getUserMazeEndCoordinate();
+		Coordinate startCoordinate = tempMazeService.findByTemporaryTitle(title).getUserMazeStartCoordinate();
+		Coordinate endCoordinate = tempMazeService.findByTemporaryTitle(title).getUserMazeEndCoordinate();
 		
-		tempMazeRepo.findAndUpdateStartCoordinateByTitle(title, startCoordinate);
-		tempMazeRepo.findAndUpdateEndCoordinateByTitle(title, endCoordinate);
+		tempMazeService.findAndUpdateTemporaryStartCoordinateByTitle(title, startCoordinate);
+		tempMazeService.findAndUpdateTemporaryEndCoordinateByTitle(title, endCoordinate);
 		
 		//does maze have valid solution?
-		if(!userMazeHasValidSolution(tempMazeRepo.findByTitle(title))) {
+		if(!userMazeHasValidSolution(tempMazeService.findByTemporaryTitle(title))) {
 			modelAndView.addObject("invalidMaze", true);
 			modelAndView.addObject("title", title);
 			modelAndView.addObject("message", "Your maze doesn't even have a solution...");
@@ -339,16 +338,16 @@ public class MazeDisplayController {
 			return modelAndView;
 		}
 		
-		Maze maze = new Maze(tempMazeRepo.findByTitle(title));
-		mazeRepo.save(maze);
-		tempMazeRepo.deleteByTitle(title);
+		MazeResponse maze = new MazeResponse(tempMazeService.findByTemporaryTitle(title));
+		mazeService.saveMaze(maze);
+		tempMazeService.deleteTemporaryByTitle(title);
 		
-		if (userRepo.findByUsername(username).isPresent()) {
+		if (userService.findByUsername(username) != null) {
 			//if user is logged in, delete maze from usertempMazes, add it to userMazes
-			User user = userRepo.findByUsername(username).get();
+			UserResponse user = userService.findByUsername(username);
 			user.getUserTempMazes().remove(title);
-			userRepo.save(user);
-			userRepo.findAndPushToUserMazesByUsername(username, title);
+			userService.saveUser(user);
+			userService.findAndPushToUserMazesByUsername(username, title);
 		}
 		
 		modelAndView.addObject("message", "Your maze looks great!");
@@ -365,32 +364,32 @@ public class MazeDisplayController {
 		ModelAndView modelAndView = new ModelAndView("deleteconfirmation");
 		
 		//delete maze from databases
-		if (mazeRepo.findByTitle(title) != null) {
-			mazeRepo.deleteByTitle(title);
+		if (mazeService.findByTitle(title) != null) {
+			mazeService.deleteByTitle(title);
 		} else {
-			tempMazeRepo.deleteByTitle(title);
+			tempMazeService.deleteTemporaryByTitle(title);
 		}
 		
 		//delete maze from user's lists (owner of maze)
 		String message = ".";
-		if (userRepo.findByUsername(username).isPresent()) {
-			User user = userRepo.findByUsername(username).get();
-			if (userRepo.findByUsername(username).get().getUserMazes().contains(title)) {
+		if (userService.findByUsername(username).isPresent()) {
+			UserResponse user = userService.findByUsername(username).get();
+			if (userService.findByUsername(username).get().getUserMazes().contains(title)) {
 				user.getUserMazes().remove(title);
 				message = " from your mazes.";
-			} else if (userRepo.findByUsername(username).get().getUserTempMazes().contains(title)) {
+			} else if (userService.findByUsername(username).get().getUserTempMazes().contains(title)) {
 				user.getUserTempMazes().remove(title);
 				message = " from your mazes in progress.";
 			}
-			userRepo.save(user);
+			userService.saveUser(user);
 		}
 		
 		//delete maze from all other users favorites lists
-		List<User> allUsers = userRepo.findAll();
-		for (User eachUser : allUsers) {
+		List<UserResponse> allUsers = userService.findAllUsers();
+		for (UserResponse eachUser : allUsers) {
 			if (eachUser.getUserFavorites().contains(title)) {
 				eachUser.getUserFavorites().remove(title);
-				userRepo.save(eachUser);
+				userService.saveUser(eachUser);
 			}
 		}
 		
@@ -403,7 +402,7 @@ public class MazeDisplayController {
 	public ModelAndView userSolveMaze(@RequestParam String title, @RequestParam(required=false) String username, @RequestParam(required=false) boolean loggedIn) {
 		ModelAndView modelAndView = new ModelAndView("playmaze");
 		
-		Maze maze = mazeRepo.findByTitle(title);
+		MazeResponse maze = mazeService.findByTitle(title);
 		int rows = maze.getHeight();
 		int columns = maze.getWidth();
 		ArrayList<Coordinate> mazeGridCoordinates = new ArrayList<>();
@@ -424,7 +423,7 @@ public class MazeDisplayController {
 		modelAndView.addObject("maze", maze);
 		return modelAndView;
 	}
-	public boolean userMazeHasValidSolution(Maze maze) {
+	public boolean userMazeHasValidSolution(MazeResponse maze) {
 		
 		//Generates new boolean[][] equal in size to the Maze's mazegrid, in order to set the starting state visitedCoordinates property of the maze (not included in constructor)
 		boolean[][] visitedCoordinates = new boolean[maze.getHeight()][maze.getWidth()];
@@ -473,7 +472,7 @@ public class MazeDisplayController {
 	}
 	
 	public boolean isUserSolutionValid(String title, ArrayList<Integer> userPathDataArrayList) {
-		Maze maze = mazeRepo.findByTitle(title);
+		MazeResponse maze = mazeService.findByTitle(title);
 		
 		//Generates new boolean[][] equal in size to the Maze's mazegrid, in order to set the starting state visitedCoordinates property of the maze (not included in constructor)
 		boolean[][] visitedCoordinates = new boolean[maze.getHeight()][maze.getWidth()];

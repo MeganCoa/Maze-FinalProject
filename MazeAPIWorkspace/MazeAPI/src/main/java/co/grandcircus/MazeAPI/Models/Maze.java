@@ -1,10 +1,7 @@
-package co.grandcircus.Maze.models;
+package co.grandcircus.MazeAPI.Models;
 
-import java.math.BigDecimal;
-import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -20,7 +17,7 @@ public class Maze {
 	protected static final int PATH = 4;
 	
 	@Id
-	protected String id;
+	public String id;
 	protected String title;
 	protected String authorName;
 	protected int[][] mazeGrid; //(0 = wall, 1 = open space, 2,3,4 = special)
@@ -301,3 +298,4 @@ public class Maze {
     }
 		
 }
+
