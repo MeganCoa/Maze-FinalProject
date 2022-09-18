@@ -1,4 +1,4 @@
-package co.grandcircus.MazeAPI;
+package co.grandcircus.MazeAPI.Controllers;
 
 import java.util.List;
 
@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import co.grandcircus.MazeAPI.Controllers.MazeNotFoundException;
 import co.grandcircus.MazeAPI.Models.Coordinate;
 import co.grandcircus.MazeAPI.Models.Maze;
 import co.grandcircus.MazeAPI.Repositories.MazeRepository;
@@ -42,9 +41,10 @@ public class MazeController {
 		return repo.findByTitle(title);
 	}
 	//update a maze
+	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@PutMapping("/saveMaze")
-	public Maze save(@RequestBody Maze maze) {
-		return repo.save(maze);
+	public void save(@RequestBody Maze maze) {
+		repo.save(maze);
 	}	
 	//delete a maze
 	@DeleteMapping("/deleteByTitle/{title}")

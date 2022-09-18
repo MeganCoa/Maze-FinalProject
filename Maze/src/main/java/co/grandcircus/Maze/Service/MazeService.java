@@ -24,14 +24,12 @@ public class MazeService {
 	
 	public MazeResponse saveMaze(MazeResponse mazeResponse) {
 		String url = "/saveMaze";
-		MazeResponse response = restTemplate.getForObject(baseUrl + url, MazeResponse.class);
-		return response;
+		return restTemplate.postForObject(baseUrl + url, mazeResponse, MazeResponse.class);
 	}
 	
-	public MazeResponse deleteByTitle(String title) {
+	public void deleteByTitle(String title) {
 		String url = "/deleteByTitle/{title}";
-		MazeResponse response = restTemplate.getForObject(baseUrl + url, MazeResponse.class, title);
-		return response;
+		restTemplate.delete(baseUrl + url, MazeResponse.class, title);
 	}
 	
 	public void findAndUpdateMazeGridByTitle(String title, int[][] newMazeGrid) {		
@@ -67,8 +65,8 @@ public class MazeService {
 		return result;
 	}
 	public ArrayList<MazeResponse> findAllMazes() {
-		String url = "/findallmazes";
-		MazeResponse[] arr = restTemplate.getForObject(baseUrl + url, MazeResponse[].class);
+		String url = baseUrl + "/findallmazes";
+		MazeResponse[] arr = restTemplate.getForObject(url, MazeResponse[].class);
 		ArrayList<MazeResponse> result = new ArrayList<>();
 		for (int i = 0; i < arr.length; i++) {
 			result.add(arr[i]);

@@ -1,7 +1,5 @@
 package co.grandcircus.MazeAPI.Repositories;
 
-import java.util.List;
-
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Update;
 
