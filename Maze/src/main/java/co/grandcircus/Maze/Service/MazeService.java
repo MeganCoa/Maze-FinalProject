@@ -22,6 +22,11 @@ public class MazeService {
 		return response;
 	}
 	
+	public int[][] jsonmazegrid(String title) {
+		String url = baseUrl + "/jsonmazegrid/" + title;
+		return restTemplate.getForObject(url, int[][].class, title);
+	}
+	
 	public void saveMaze(MazeResponse mazeResponse) {
 		String url = baseUrl +  "/saveMaze";
 		restTemplate.put(url, mazeResponse, MazeResponse.class);

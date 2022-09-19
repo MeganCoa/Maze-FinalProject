@@ -46,7 +46,7 @@
 <legend>Maze Generator</legend>
 <label for="field_height">No. columns</label><span><input id="field_height" type="number" min="2" max="21" name="cols" value="${rows}"></span>
 <label for="field_width">No. rows</label><span><input id="field_width" type="number" min="2" max="21" name="rows" value="${columns}"></span>
-<span><input type="button" value="Generate maze »" onclick="onGenerateMaze('${strMazeGrid}')" /></span>
+<span><input type="button" value="Generate maze »" onclick="fetch('/jsonmazegrid/${title}').then((response) => response.json()).then((data) => onGenerateMaze(data))" /></span>
 </fieldset>
 
 

@@ -134,3 +134,24 @@
   flex: 3;
   text-align: right;
 }
+img
+{
+	position:absolute;
+	top: 0px;
+	left: 0px;
+}
+#povContainer {
+	position: relative;
+}
+#img0 {
+	z-index: 40;
+}
+#img1 {
+	z-index: 30;
+}
+#img2 {
+	z-index: 20
+}
+#img3 {
+	z-index: 10;
+}
