@@ -13,7 +13,7 @@
 	type="text/css">
 </head>
 <body>
-	<h1>${test.title}</h1>
+	
 	<div class="topnav">
 		<div class="form-container">
 			<form action="/usercreatemaze" method="POST">
@@ -58,7 +58,7 @@
 			</div>
 		</c:if>
 	</div>
-
+	<h1>${test.title}</h1>
 	<h1>Maze Town</h1>
 
 	<h3>${message}</h3>
