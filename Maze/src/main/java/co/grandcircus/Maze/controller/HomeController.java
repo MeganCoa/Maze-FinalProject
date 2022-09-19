@@ -79,8 +79,8 @@ public class HomeController {
 
 	@PostMapping("/login")
 	public String loginUser(@RequestParam String username, @RequestParam String password, Model model) {
-		if (userService.findByUsername(username).isPresent()) {
-			if (userService.findByUsername(username).get().getPassword().equals(hashPassword(password))) {
+		if (userService.findByUsername(username) != null) {
+			if (userService.findByUsername(username).getPassword().equals(hashPassword(password))) {
 				boolean loggedIn = true;
 				model.addAttribute("loggedIn", loggedIn);
 				model.addAttribute("username", username);
@@ -107,7 +107,7 @@ public class HomeController {
 
 	@PostMapping("/signup")
 	public String newUserSignUp(@RequestParam String username, @RequestParam String email, @RequestParam String password, Model model) {
-		if (userService.findByUsername(username).isPresent()) {
+		if (username != null) {
 			model.addAttribute("message", "That username exists already. Login instead?");
 			return "login";
 		} else if (username.equalsIgnoreCase("Anonymous") || username.equalsIgnoreCase("null") || username.equals("")) {

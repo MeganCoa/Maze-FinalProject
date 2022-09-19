@@ -91,41 +91,8 @@ public class MazeResponse {
 		return startCoordinate;
 	}
 	
-	public Coordinate getUserMazeStartCoordinate() {
-		for (int i = 0; i < this.mazeGrid.length; i++) {
-			for (int j = 0; j < this.mazeGrid[0].length; j++) {
-				if (this.mazeGrid[i][j] == 2) {
-					Coordinate result = new Coordinate(i, j, START);
-					return result;
-				}
-			}
-		}
-		return null;
-	}
-	
-	public Coordinate getUserMazeEndCoordinate() {
-		for (int i = 0; i < this.mazeGrid.length; i++) {
-			for (int j = 0; j < this.mazeGrid[0].length; j++) {
-				if (this.mazeGrid[i][j] == 3) {
-					Coordinate result = new Coordinate(i, j, EXIT);
-					return result;
-				}
-			}
-		}
-		return null;
-	}
-	
 	public void setStartCoordinate(Coordinate startCoordinate) {
 		this.startCoordinate = startCoordinate;
-	}
-	public void setStartCoordinateByMazeGrid() {
-		for (int i = 0; i < this.mazeGrid.length; i++) {
-			for (int j = 0; j < this.mazeGrid[0].length; j++) {
-				if (this.mazeGrid[i][j] == 2) {
-					setStartCoordinate(new Coordinate(i, j, START));
-				}
-			}
-		}
 	}
 
 	public Coordinate getEndCoordinate() {
@@ -134,15 +101,6 @@ public class MazeResponse {
 
 	public void setEndCoordinate(Coordinate endCoordinate) {
 		this.endCoordinate = endCoordinate;
-	}
-	public void setEndCoordinateByMazeGrid() {
-		for (int i = 0; i < this.mazeGrid.length; i++) {
-			for (int j = 0; j < this.mazeGrid[0].length; j++) {
-				if (this.mazeGrid[i][j] == 3) {
-					setEndCoordinate(new Coordinate(i, j, EXIT));
-				}
-			}
-		}
 	}
 
 	public boolean[][] getVisitedCoordinates() {

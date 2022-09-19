@@ -60,7 +60,7 @@ public class MazeService {
 		return result;
 	}
 	public ArrayList<MazeResponse> findByAuthorNameContaining(String author) {
-		String url = baseUrl + "/findByAuthorNameContaining/{author}";
+		String url = baseUrl + "/findByAuthorNameContaining/" + author;
 		MazeResponse[] arr = restTemplate.getForObject(url, MazeResponse[].class, author);
 		ArrayList<MazeResponse> result = new ArrayList<>();
 		for (int i = 0; i < arr.length; i++) {

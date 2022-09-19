@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.repository.Update;
 import co.grandcircus.MazeAPI.Models.User;
 
 public interface UserRepository extends MongoRepository<User, String> {
-	Optional<User> findByUsername(String username);
+	User findByUsername(String username);
 	List<User> findAll();
 	User save(User entity);
 	@Update("{ '$push' : { 'userMazes' : ?1 } }")
