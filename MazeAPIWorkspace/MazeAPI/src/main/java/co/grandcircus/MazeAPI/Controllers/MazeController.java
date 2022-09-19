@@ -56,7 +56,7 @@ public class MazeController {
 	//delete a maze
 	@DeleteMapping("/deleteByTitle/{title}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void deleteMaze(@PathVariable("title") String title) {
+	public void deleteByTitle(@PathVariable("title") String title) {
 		repo.deleteByTitle(title);
 	}	
 	@PutMapping("/findAndUpdateMazeGridByTitle/{title}")

@@ -38,8 +38,8 @@ public class MazeService {
 	}
 	
 	public void deleteByTitle(String title) {
-		String url = "/deleteByTitle/{title}";
-		restTemplate.delete(baseUrl + url, MazeResponse.class, title);
+		String url = baseUrl + "/deleteByTitle/" + title;
+		restTemplate.delete(url, MazeResponse.class, title);
 	}
 	
 	public void findAndUpdateMazeGridByTitle(String title, int[][] newMazeGrid) {		
