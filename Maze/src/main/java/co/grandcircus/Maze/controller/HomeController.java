@@ -46,23 +46,31 @@ public class HomeController {
 			@RequestParam(required = false) boolean loggedIn, Model model) {
 		
 		List<MazeResponse> mazes = new ArrayList<>();
+		
 		try {			
-			 if(searchCategory.equals("title")) {
+			if(searchCategory.equals("title")) {
 				mazes = mazeService.findByTitleContaining(searchTerm);
 			}else if(searchCategory.equals("author")) {
 				mazes =  mazeService.findByAuthorNameContaining(searchTerm);
 			}else {
 				throw new Exception("Search Category not real.");
 			}
-			}catch(Exception e) {
-				mazes = mazeService.findAllMazes();
-				model.addAttribute("searchError", "There was an error with the search." );
-				model.addAttribute("exceptionError", e.getMessage());
+		}catch(Exception e) {
+			mazes = mazeService.findAllMazes();
+			model.addAttribute("searchError", "There was an error with the search." );
+			model.addAttribute("exceptionError", e.getMessage());
+		}
+		
+		ArrayList<MazeResponse> validMazes = new ArrayList<>();
+		for (MazeResponse maze : mazes) {
+			if (maze.getValidMaze()) {
+				validMazes.add(maze);
 			}
+		}
 		
 		model.addAttribute("username", username);
 		model.addAttribute("loggedIn", loggedIn);
-		model.addAttribute("allMazes", mazes);
+		model.addAttribute("allMazes", validMazes);
 		return "mazesearch";
 	}
 
@@ -79,23 +87,45 @@ public class HomeController {
 
 	@PostMapping("/login")
 	public String loginUser(@RequestParam String username, @RequestParam String password, Model model) {
-		if (userService.findByUsername(username) != null) {
-			if (userService.findByUsername(username).getPassword().equals(hashPassword(password))) {
-				boolean loggedIn = true;
-				model.addAttribute("loggedIn", loggedIn);
-				model.addAttribute("username", username);
-				model.addAttribute("message", "Welcome back, " + username + "!");
+		ArrayList<UserResponse> allUsers = userService.findAllUsers();
+		for (UserResponse user : allUsers) {
+			if (user.getUsername().equals(username)) {
+				if (user.getPassword().equals(hashPassword(password))) {
+					boolean loggedIn = true;
+					model.addAttribute("loggedIn", loggedIn);
+					model.addAttribute("username", username);
+					model.addAttribute("message", "Welcome back, " + username + "!");
+					break;
+				} else {
+					model.addAttribute("message", "That password was incorrect.");
+					model.addAttribute("loggedIn", false);
+					return "login";
+				}
 			} else {
-				model.addAttribute("message", "That password was incorrect.");
+				model.addAttribute("message", "That username/password combo does not exist.");
 				model.addAttribute("loggedIn", false);
 				return "login";
 			}
-		} else {
-			model.addAttribute("message", "That username/password combo does not exist.");
-			model.addAttribute("loggedIn", false);
-			return "login";
+			
 		}
 		return "index";
+//		if (userService.findByUsername(username) != null) {
+//			if (userService.findByUsername(username).getPassword().equals(hashPassword(password))) {
+//				boolean loggedIn = true;
+//				model.addAttribute("loggedIn", loggedIn);
+//				model.addAttribute("username", username);
+//				model.addAttribute("message", "Welcome back, " + username + "!");
+//			} else {
+//				model.addAttribute("message", "That password was incorrect.");
+//				model.addAttribute("loggedIn", false);
+//				return "login";
+//			}
+//		} else {
+//			model.addAttribute("message", "That username/password combo does not exist.");
+//			model.addAttribute("loggedIn", false);
+//			return "login";
+//		}
+//		return "index";
 	}
 
 	@RequestMapping("/signup")
@@ -107,10 +137,18 @@ public class HomeController {
 
 	@PostMapping("/signup")
 	public String newUserSignUp(@RequestParam String username, @RequestParam String email, @RequestParam String password, Model model) {
-		if (username != null) {
-			model.addAttribute("message", "That username exists already. Login instead?");
-			return "login";
-		} else if (username.equalsIgnoreCase("Anonymous") || username.equalsIgnoreCase("null") || username.equals("")) {
+		ArrayList<UserResponse> allUsers = userService.findAllUsers();
+		for (UserResponse user : allUsers) {
+			if (user.getUsername().equals(username)) {
+				model.addAttribute("message", "That username exists already. Login instead?");
+				return "login";
+			}
+		}
+//		if (username != null) {
+//			model.addAttribute("message", "That username exists already. Login instead?");
+//			return "login";
+//		} else 
+		if (username.equalsIgnoreCase("Anonymous") || username.equalsIgnoreCase("null") || username.equals("")) {
 			model.addAttribute("message", "That username is not permitted.");
 			return "signup";
 		} else {
@@ -132,18 +170,35 @@ public class HomeController {
 
 	@PostMapping("/usermazes")
 	public String userMazes(@RequestParam String username, @RequestParam boolean loggedIn, Model model) {
+		ArrayList<UserResponse> allUsers = userService.findAllUsers();
+		for (UserResponse user : allUsers) {
+			if (user.getUsername().equals(username)) {
+				ArrayList<MazeResponse> userMazes = new ArrayList<>();
+				for (String title : user.getUserMazes()) {
+					userMazes.add(mazeService.findByTitle(title));
+				}
+				model.addAttribute("userMazes", userMazes);
+				model.addAttribute("userFavorites", user.getUserFavorites());
+			}
+		}
+		
 		model.addAttribute("username", username);
 		model.addAttribute("loggedIn", loggedIn);
-		model.addAttribute("userMazes", userService.findByUsername(username).getUserMazes());
-		model.addAttribute("userFavorites", userService.findByUsername(username).getUserFavorites());
-		model.addAttribute("userTempMazes", userService.findByUsername(username).getUserTempMazes());
 		return "usermazes";
 	}
 	@PostMapping("/addUserFavorite")
 	public String addToUserFavorites(@RequestParam String username, @RequestParam String title, @RequestParam boolean loggedIn, Model model) {
-		if (!userService.findByUsername(username).getUserFavorites().contains(title)) {
-			userService.findAndPushToUserFavoritesByUsername(username, title);
+		ArrayList<UserResponse> allUsers = userService.findAllUsers();
+		for (UserResponse user : allUsers) {
+			if (user.getUsername().equals(username)) {
+				if (!user.getUserFavorites().contains(title)) {
+					userService.findAndPushToUserFavoritesByUsername(username, title);
+				}
+			}
 		}
+//		if (!userService.findByUsername(username).getUserFavorites().contains(title)) {
+//			userService.findAndPushToUserFavoritesByUsername(username, title);
+//		}
 		
 		MazeResponse maze = mazeService.findByTitle(title);
 		model.addAttribute("username", username);

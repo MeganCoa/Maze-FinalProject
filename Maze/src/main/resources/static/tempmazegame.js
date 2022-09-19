@@ -1,11 +1,14 @@
 // Original JavaScript code by Chirp Internet: chirpinternet.eu
 // Please acknowledge use of this code by including this header.
-function onGenerateMaze(mazegrid) {
+function onGenerateMaze(strMazeGrid) {
 	let width = document.getElementById("field_width").value;
 	let height = document.getElementById("field_height").value;
-alert("Start!")
-	let Maze = new MazeBuilder(String (mazegrid), Number(width), Number(height));
+	var numArray = strMazeGrid.split('').map(function(item) {
+		return parseInt(item, 10);
+	})
+	let Maze = new MazeBuilder(numArray, Number(width), Number(height));
 	//Maze.placeKey();
+	
 	Maze.display("maze_container");
 	var maze = new Mazing("maze");
 
@@ -15,15 +18,27 @@ alert("Start!")
 class MazeBuilder {
 
 
-	constructor(mazegrid, width, height) {
-alert("Works!")
+	constructor(numArray, width, height) {
+		
+		//for (var i = 0; i < strMazeGrid.length; i++) {
+		//	mazeGrid[i/width][i%width] = parseInt(strMazeGrid.charAt(i));
+		//}
+		numArray.reduce(function (rows, key, index) {
+			return (index % width == 0 ? rows.push([key])
+			: rows[rows.length - 1].push(key)) && rows;
+			}, []);
 		let mazegrid = [
 			[0, 3, 0, 0, 0],
 			[0, 1, 0, 0, 0],
-			[0, 1, 0, 0, 0],
+			[0, 1, 1, 0, 0],
 			[0, 1, 0, 0, 0],
 			[0, 2, 0, 0, 0],
 		];
+		
+		for (var i = 0; i < height; i++) {
+			//mazegrid[i] = numArray[i];
+		}
+		
 		this.width = width;
 		this.height = height;
 

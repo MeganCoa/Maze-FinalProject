@@ -25,7 +25,10 @@ public class MazeResponse {
 	protected int playTotal; //(number of times people have played this maze)
 	protected ArrayList<Integer> ratings; //or a map? key=userID, value=rating
 	protected double avgRating;
+	protected boolean validMaze;
 	
+	
+
 	//constructors:
 	public MazeResponse() {
 		super();
@@ -47,19 +50,6 @@ public class MazeResponse {
 		this.mazeGrid = mazeGrid;
 		this.startCoordinate = startCoordinate;
 		this.endCoordinate = endCoordinate;
-	}
-	
-	public MazeResponse(TemporaryMazeResponse tempMaze) {
-		this.title = tempMaze.getTitle();
-		this.authorName = tempMaze.getAuthorName();
-		this.mazeGrid = tempMaze.getMazeGrid();
-		this.startCoordinate = tempMaze.getStartCoordinate();
-		this.endCoordinate = tempMaze.getEndCoordinate();
-		this.visitedCoordinates = tempMaze.getVisitedCoordinates();
-		this.specials = tempMaze.getSpecials();
-		this.playTotal = tempMaze.getPlayTotal();
-		this.ratings = tempMaze.getRatings();
-		this.avgRating = tempMaze.getAvgRating();
 	}
 	
 	//getters and setters:
@@ -149,6 +139,13 @@ public class MazeResponse {
 		holder = holder.substring(0, 3);
 		
 		setAvgRating(Double.valueOf(holder));
+	}
+	public boolean getValidMaze() {
+		return validMaze;
+	}
+
+	public void setValidMaze(boolean validMaze) {
+		this.validMaze = validMaze;
 	}
 	//Maze generation and traversal logic:
 	

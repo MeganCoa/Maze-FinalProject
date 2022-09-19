@@ -35,47 +35,51 @@
 	<h1>${username}'s Mazes</h1>
 	<h2>Live Mazes</h2>
 	<ul>
-		<c:forEach var="title" items="${userMazes}">
-			<li>
-				<form action="/displaymaze" method="POST">
-					<input type="hidden" name="username" value="${username}"/>
-					<input type="hidden" name="loggedIn" value="${loggedIn}"/>
-					<input type="hidden" name="title" value="${title}"/>
-					<input type="submit" value="${title}"/>
-				</form>
-				
-				<form action="/mazeeditor" method="POST">
-					<input type="hidden" name="username" value="${username}"/>
-					<input type="hidden" name="loggedIn" value="${loggedIn}"/>
-					<input type="hidden" name="title" value="${title}"/>
-					<input type="submit" value="Edit ${title}"/>
-				</form>
-				<form action="/deleteusermaze" method="POST">
-					<input type="hidden" name="username" value="${username}"/>
-					<input type="hidden" name="loggedIn" value="${loggedIn}"/>
-					<input type="hidden" name="title" value="${title}"/>
-					<input type="submit" value="Delete ${title}"/>
-				</form>
-			</li>
+		<c:forEach var="maze" items="${userMazes}">
+			<c:if test="${maze.validMaze}">
+				<li>
+					<form action="/displaymaze" method="POST">
+						<input type="hidden" name="username" value="${username}"/>
+						<input type="hidden" name="loggedIn" value="${loggedIn}"/>
+						<input type="hidden" name="title" value="${maze.title}"/>
+						<input type="submit" value="${maze.title}"/>
+					</form>
+					
+					<form action="/mazeeditor" method="POST">
+						<input type="hidden" name="username" value="${username}"/>
+						<input type="hidden" name="loggedIn" value="${loggedIn}"/>
+						<input type="hidden" name="title" value="${maze.title}"/>
+						<input type="submit" value="Edit ${maze.title}"/>
+					</form>
+					<form action="/deleteusermaze" method="POST">
+						<input type="hidden" name="username" value="${username}"/>
+						<input type="hidden" name="loggedIn" value="${loggedIn}"/>
+						<input type="hidden" name="title" value="${maze.title}"/>
+						<input type="submit" value="Delete ${maze.title}"/>
+					</form>
+				</li>
+			</c:if>
 		</c:forEach>
 	</ul>
 	<h2>${username}'s Mazes in Progress</h2>
 		<ul>
-		<c:forEach var="title" items="${userTempMazes}">
-			<li>
-				<form action="/mazeeditor" method="POST">
-					<input type="hidden" name="username" value="${username}"/>
-					<input type="hidden" name="loggedIn" value="${loggedIn}"/>
-					<input type="hidden" name="title" value="${title}"/>
-					<input type="submit" value="Edit ${title}"/>
-				</form>
-				<form action="/deleteusermaze" method="POST">
-					<input type="hidden" name="username" value="${username}"/>
-					<input type="hidden" name="loggedIn" value="${loggedIn}"/>
-					<input type="hidden" name="title" value="${title}"/>
-					<input type="submit" value="Delete ${title}"/>
-				</form>
-			</li>
+		<c:forEach var="maze" items="${userMazes}">
+			<c:if test="${not maze.validMaze}">
+				<li>
+					<form action="/mazeeditor" method="POST">
+						<input type="hidden" name="username" value="${username}"/>
+						<input type="hidden" name="loggedIn" value="${loggedIn}"/>
+						<input type="hidden" name="title" value="${maze.title}"/>
+						<input type="submit" value="Edit ${maze.title}"/>
+					</form>
+					<form action="/deleteusermaze" method="POST">
+						<input type="hidden" name="username" value="${username}"/>
+						<input type="hidden" name="loggedIn" value="${loggedIn}"/>
+						<input type="hidden" name="title" value="${maze.title}"/>
+						<input type="submit" value="Delete ${maze.title}"/>
+					</form>
+				</li>
+			</c:if>
 		</c:forEach>
 	</ul>
 	

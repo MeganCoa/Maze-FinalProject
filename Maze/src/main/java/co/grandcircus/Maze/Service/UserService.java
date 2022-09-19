@@ -19,6 +19,7 @@ public class UserService {
 	@Value("${mazeapi.baseUrl}")
 	private String baseUrl;
 	private RestTemplate restTemplate = new RestTemplate();
+	
 	public UserResponse findByUsername(String username) {
 		String url = baseUrl + "/findByUsername";
 		UserResponse response = restTemplate.getForObject(url, UserResponse.class, username);

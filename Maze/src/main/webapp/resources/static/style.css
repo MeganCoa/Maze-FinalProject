@@ -124,3 +124,21 @@
 body {
   background-color: light blue;
 }
+img
+{
+	position:absolute;
+	top: 0px;
+	left: 0px;
+}
+#povContainer {
+	position: relative;
+}
+#img0 {
+	z-index: 10;
+}
+#img1 {
+	z-index: 20;
+}
+#img3 {
+	z-index: 40
+}

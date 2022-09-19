@@ -12,6 +12,19 @@ public class Coordinate {
 	public Coordinate() {
 		super();
 	}
+	
+	public Coordinate(int[][] mazeGrid, int startOrEnd) { //start = 2, end = 3
+		
+		for (int i = 0; i < mazeGrid.length; i++) {
+			for (int j = 0; j < mazeGrid[0].length; j++) {
+				if (mazeGrid[i][j] == startOrEnd) {
+					this.x = i;
+					this.y = j;
+					this.coordinateValue = startOrEnd;
+				}
+			}
+		}
+	}
 
 	public Coordinate(int x, int y) {
 		super();

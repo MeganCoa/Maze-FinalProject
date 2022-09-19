@@ -30,6 +30,7 @@ public class Maze {
 	protected int playTotal; //(number of times people have played this maze)
 	protected ArrayList<Integer> ratings; //or a map? key=userID, value=rating
 	protected double avgRating;
+	protected boolean validMaze;
 	
 	//constructors:
 	public Maze() {
@@ -52,19 +53,6 @@ public class Maze {
 		this.mazeGrid = mazeGrid;
 		this.startCoordinate = startCoordinate;
 		this.endCoordinate = endCoordinate;
-	}
-	
-	public Maze(TemporaryMaze tempMaze) {
-		this.title = tempMaze.getTitle();
-		this.authorName = tempMaze.getAuthorName();
-		this.mazeGrid = tempMaze.getMazeGrid();
-		this.startCoordinate = tempMaze.getStartCoordinate();
-		this.endCoordinate = tempMaze.getEndCoordinate();
-		this.visitedCoordinates = tempMaze.getVisitedCoordinates();
-		this.specials = tempMaze.getSpecials();
-		this.playTotal = tempMaze.getPlayTotal();
-		this.ratings = tempMaze.getRatings();
-		this.avgRating = tempMaze.getAvgRating();
 	}
 	
 	//getters and setters:
@@ -96,41 +84,8 @@ public class Maze {
 		return startCoordinate;
 	}
 	
-	public Coordinate getUserMazeStartCoordinate() {
-		for (int i = 0; i < this.mazeGrid.length; i++) {
-			for (int j = 0; j < this.mazeGrid[0].length; j++) {
-				if (this.mazeGrid[i][j] == 2) {
-					Coordinate result = new Coordinate(i, j, START);
-					return result;
-				}
-			}
-		}
-		return null;
-	}
-	
-	public Coordinate getUserMazeEndCoordinate() {
-		for (int i = 0; i < this.mazeGrid.length; i++) {
-			for (int j = 0; j < this.mazeGrid[0].length; j++) {
-				if (this.mazeGrid[i][j] == 3) {
-					Coordinate result = new Coordinate(i, j, EXIT);
-					return result;
-				}
-			}
-		}
-		return null;
-	}
-	
 	public void setStartCoordinate(Coordinate startCoordinate) {
 		this.startCoordinate = startCoordinate;
-	}
-	public void setStartCoordinateByMazeGrid() {
-		for (int i = 0; i < this.mazeGrid.length; i++) {
-			for (int j = 0; j < this.mazeGrid[0].length; j++) {
-				if (this.mazeGrid[i][j] == 2) {
-					setStartCoordinate(new Coordinate(i, j, START));
-				}
-			}
-		}
 	}
 
 	public Coordinate getEndCoordinate() {
@@ -139,15 +94,6 @@ public class Maze {
 
 	public void setEndCoordinate(Coordinate endCoordinate) {
 		this.endCoordinate = endCoordinate;
-	}
-	public void setEndCoordinateByMazeGrid() {
-		for (int i = 0; i < this.mazeGrid.length; i++) {
-			for (int j = 0; j < this.mazeGrid[0].length; j++) {
-				if (this.mazeGrid[i][j] == 3) {
-					setEndCoordinate(new Coordinate(i, j, EXIT));
-				}
-			}
-		}
 	}
 
 	public boolean[][] getVisitedCoordinates() {
@@ -196,6 +142,13 @@ public class Maze {
 		holder = holder.substring(0, 3);
 		
 		setAvgRating(Double.valueOf(holder));
+	}
+	public boolean isValidMaze() {
+		return validMaze;
+	}
+
+	public void setValidMaze(boolean validMaze) {
+		this.validMaze = validMaze;
 	}
 	//Maze generation and traversal logic:
 	
@@ -275,26 +228,6 @@ public class Maze {
     public void resetVisitedCoordinates() {
         for (int i = 0; i < visitedCoordinates.length; i++)
             Arrays.fill(visitedCoordinates[i], false);
-    }
-    public String mazeJSVisualizer() {
-    	StringBuilder result = new StringBuilder(this.mazeGrid.length * this.mazeGrid[0].length + 1);
-    	for (int row = 0; row < this.mazeGrid.length; row++) {
-            for (int col = 0; col < this.mazeGrid[0].length; col++) {
-                if (this.mazeGrid[row][col] == 0) { //Based on final variables, 0 generates a wall 
-                	result.append("#  ");
-                } else if (this.mazeGrid[row][col] == 1) { //Based on final variables, 1 generates open space
-                	result.append("0  ");
-                } else if (this.mazeGrid[row][col] == 2) { //Based on final variables, 2 generates maze start point
-                	result.append("S  ");
-                } else if (this.mazeGrid[row][col] == 3) { //Based on final variables, 3 generates maze end point
-                	result.append("E  ");
-                } else {
-                	result.append(".  "); //Everything else is the path
-                }
-            }
-            result.append("<br>");
-    	}
-    	return result.toString();
     }
 		
 }
