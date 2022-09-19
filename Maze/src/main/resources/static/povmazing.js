@@ -1,20 +1,20 @@
 // Original JavaScript code by Chirp Internet: chirpinternet.eu
 // Please acknowledge use of this code by including this header.
 
-function Position(x, y, z) {
+function Position(x, y, direction) {
   this.x = x;
   this.y = y;
-  this.z = z;
-  //z is direction: 0 = north, 1 = east, 2 = south, 3 = west
+  this.direction = direction;
+  
 }
 
 Position.prototype.toString = function() {
-  return this.x + ":" + this.y + ":" + this.z;
+  return this.x + ":" + this.y + ":" + this.direction;
 };
 
 function Mazing() {
 	
-	let mazegrid = [
+	this.mazegrid = [
 			[0, 1, 3, 0, 0],
 			[0, 1, 0, 0, 0],
 			[0, 1, 1, 0, 0],
@@ -23,7 +23,7 @@ function Mazing() {
 		];
 
 
-  this.maze = mazegrid;
+  this.maze = this.mazegrid;
   this.heroPos = {};
 //  this.heroHasKey = true;
   this.childMode = false;
@@ -32,13 +32,13 @@ function Mazing() {
   
   
 
-  for(i=0; i < mazegrid.length; i++) {
-    for(j=0; j < mazegrid[0].length; j++) {
-      var el =  mazegrid[i][j];
-      this.maze[new Position(i, j, 0)] = el;
+  for(i=0; i < this.mazegrid.length; i++) {
+    for(j=0; j < this.mazegrid[0].length; j++) {
+      var el =  this.mazegrid[i][j];
+      this.maze[new Position(i, j, null)] = el;
       if(maze[i][j] == 2) {
         // place hero at entrance
-        this.heroPos = new Position(i, j, 0);
+        this.heroPos = new Position(i, j, "north");
       }
     }
   }
@@ -105,21 +105,21 @@ Mazing.prototype.tryMoveHero = function(pos) {
 };
 
 Mazing.prototype.mazeKeyPressHandler = function(e) {
-  var tryPos = new Position(this.heroPos.x, this.heroPos.y);
+  var tryPos = new Position(this.heroPos.x, this.heroPos.y, this.heroPos.direction);
   switch(e.keyCode)
   {
     case 37: // left
     	if (this.heroPos.direction == 'north') {
-			//set heroPos.direction to west
+			tryPos.direction = "west";
 		}
 		if (this.heroPos.direction == 'west') {
-			//set heroPos.direction to south
+			tryPos.direction = "south";
 		}
 		if (this.heroPos.direction == 'south') {
-			//set heroPos.direction to east
+			tryPos.direction = "east";
 		}
 		if (this.heroPos.direction == 'east') {
-			//set heroPos.direction to north
+			tryPos.direction = "north";
 		}
       break;
 
@@ -139,16 +139,16 @@ Mazing.prototype.mazeKeyPressHandler = function(e) {
 		break;
     case 39: // right
       if (this.heroPos.direction == 'north') {
-			//set heroPos.direction to east
+			tryPos.direction = "east";
 		}
 		if (this.heroPos.direction == 'east') {
-			//set heroPos.direction to south
+			tryPos.direction = "south";
 		}
 		if (this.heroPos.direction == 'south') {
-			//set heroPos.direction to west
+			tryPos.direction = "west";
 		}
 		if (this.heroPos.direction == 'west') {
-			//set heroPos.direction to north
+			tryPos.direction = "north";
 		}
       break;
 
@@ -169,11 +169,113 @@ Mazing.prototype.mazeKeyPressHandler = function(e) {
 
     default:
       return;
-
+		
+		
+		//after he moves, it should do a function that creates his view
+		//first checks his direction
+		//then loops through the relevant grid
+		//creates two boolean arrays, one for blocks, one for goal
+		//in the html, these booleans go in order for the images of the blocks
   }
   this.tryMoveHero(tryPos);
+  this.setPOV(this.heroPos);
   e.preventDefault();
 };
+
+Mazing.prototype.setPOV = function(heroPos) {
+	let showBlock = [];
+	let showGoal = [];
+	
+	switch (hero.z) {
+	
+
+		case "north": //4 rows, 3 columns
+			{
+				for (let i = hero.row; i > hero.row - 4; i--) {
+				
+					for (let j = hero.column - 1; j < hero.column + 2; j++) {
+						if (this.mazegrid[i][j] !== undefined) {
+							if (mazegrid[i][j] === 0) {
+								showBlock.push(true);
+							} else {
+								showBlock.push(false);
+							}
+							if (mazegrid[i][j] === 3) {
+								showGoal.push(true);
+							} else {
+								showGoal.push(false);
+							}
+						}
+					}
+				}
+				break;
+			}
+		case "south": //4 rows, 3 columns
+			{
+				for (let i = hero.row; i < hero.row + 4; i++) {
+					for (let j = hero.column + 1; j > hero.column - 2; j--) {
+						if (this.mazegrid[i][j] !== undefined) {
+							if (mazegrid[i][j] === 0) {
+								showBlock.push(true);
+							} else {
+								showBlock.push(false);
+							}
+							if (mazegrid[i][j] === 3) {
+								showGoal.push(true);
+							} else {
+								showGoal.push(false);
+							}
+						}
+					}
+				}
+				break;	
+			}
+			
+		case "east":
+			{
+				for (let i = hero.row - 1; i < hero.row + 2; i++) {
+					for (let j = hero.column; j < hero.column + 4; j++) {
+						if (this.mazegrid[i][j] !== undefined) {
+							if (mazegrid[i][j] === 0) {
+								showBlock.push(true);
+							} else {
+								showBlock.push(false);
+							}
+							if (mazegrid[i][j] === 3) {
+								showGoal.push(true);
+							} else {
+								showGoal.push(false);
+							}
+						}
+					}
+				}
+				break;
+			}
+	
+		case "west":
+		{
+			for (let i = hero.row + 1; i < hero.row - 2; i--) {
+				for (let j = hero.column; j < hero.column - 4; j--) {
+					if (this.mazegrid[i][j] !== undefined) {
+							if (mazegrid[i][j] === 0) {
+								showBlock.push(true);
+							} else {
+								showBlock.push(false);
+							}
+							if (mazegrid[i][j] === 3) {
+								showGoal.push(true);
+							} else {
+								showGoal.push(false);
+							}
+						}
+				}
+			}
+			break;
+		}
+		default:
+			break;
+	}
+}
 
 Mazing.prototype.setChildMode = function() {
   this.childMode = true;

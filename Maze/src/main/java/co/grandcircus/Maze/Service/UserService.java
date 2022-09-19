@@ -47,6 +47,10 @@ public class UserService {
 		restTemplate.put(url, userResponse, UserResponse.class);
 		
 	}
+	public void createUser(UserResponse userResponse) {
+		String url = baseUrl + "/createuser";
+		restTemplate.put(url, userResponse);
+	}
 	public void findAndPushToUserMazesByUsername(String username, String title) {	
 		String url = baseUrl +  "/findAndPushToUserMazesByUsername/{username}";
 		restTemplate.put(url, title, username);

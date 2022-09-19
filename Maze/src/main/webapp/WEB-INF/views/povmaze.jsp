@@ -11,9 +11,12 @@
 </head>
 <body>
 	<div id="povContainer">
-		<img id="img0" src="/static/0l.png"/>
-		<img id="img1" src="/images/1l.png"/>
-		<img id="img3" src="images/3l.png"/>
+		<img id="img0" src="0l.png"/>
+		<img id="img1" src="1l.png"/>
+		<img id="img3" src="3l.png"/>
+		<img id="img3" src="3r.png"/>
+		
+		<img id="img1" src="1r.png"/>
 	</div>
 	
 	

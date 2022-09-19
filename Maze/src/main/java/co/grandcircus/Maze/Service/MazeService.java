@@ -22,6 +22,11 @@ public class MazeService {
 		return response;
 	}
 	
+	public int[][] jsonmazegrid(String title) {
+		String url = baseUrl + "/jsonmazegrid/" + title;
+		return restTemplate.getForObject(url, int[][].class, title);
+	}
+	
 	public void saveMaze(MazeResponse mazeResponse) {
 		String url = baseUrl +  "/saveMaze";
 		restTemplate.put(url, mazeResponse, MazeResponse.class);
@@ -33,8 +38,8 @@ public class MazeService {
 	}
 	
 	public void deleteByTitle(String title) {
-		String url = "/deleteByTitle/{title}";
-		restTemplate.delete(baseUrl + url, MazeResponse.class, title);
+		String url = baseUrl + "/deleteByTitle/" + title;
+		restTemplate.delete(url, MazeResponse.class, title);
 	}
 	
 	public void findAndUpdateMazeGridByTitle(String title, int[][] newMazeGrid) {		

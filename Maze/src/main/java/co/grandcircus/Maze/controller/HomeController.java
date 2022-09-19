@@ -88,27 +88,29 @@ public class HomeController {
 	@PostMapping("/login")
 	public String loginUser(@RequestParam String username, @RequestParam String password, Model model) {
 		ArrayList<UserResponse> allUsers = userService.findAllUsers();
+		
 		for (UserResponse user : allUsers) {
+			
 			if (user.getUsername().equals(username)) {
+				System.out.println("\n username = username");
 				if (user.getPassword().equals(hashPassword(password))) {
+					System.out.println("\n password = password");
 					boolean loggedIn = true;
 					model.addAttribute("loggedIn", loggedIn);
 					model.addAttribute("username", username);
 					model.addAttribute("message", "Welcome back, " + username + "!");
-					break;
+					return "index";
 				} else {
+					System.out.println("\n password != password");
 					model.addAttribute("message", "That password was incorrect.");
 					model.addAttribute("loggedIn", false);
 					return "login";
 				}
-			} else {
-				model.addAttribute("message", "That username/password combo does not exist.");
-				model.addAttribute("loggedIn", false);
-				return "login";
 			}
-			
 		}
-		return "index";
+		model.addAttribute("message", "That username/password combo does not exist.");
+		model.addAttribute("loggedIn", false);
+		return "login";
 //		if (userService.findByUsername(username) != null) {
 //			if (userService.findByUsername(username).getPassword().equals(hashPassword(password))) {
 //				boolean loggedIn = true;
@@ -144,16 +146,12 @@ public class HomeController {
 				return "login";
 			}
 		}
-//		if (username != null) {
-//			model.addAttribute("message", "That username exists already. Login instead?");
-//			return "login";
-//		} else 
 		if (username.equalsIgnoreCase("Anonymous") || username.equalsIgnoreCase("null") || username.equals("")) {
 			model.addAttribute("message", "That username is not permitted.");
 			return "signup";
 		} else {
 			UserResponse user = new UserResponse(username, email, hashPassword(password));
-			userService.saveUser(user);
+			userService.createUser(user);
 			model.addAttribute("message", "Welcome, " + username + "!");
 			model.addAttribute("username", username);
 			model.addAttribute("loggedIn", true);
