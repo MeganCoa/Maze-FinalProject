@@ -79,8 +79,8 @@ public class HomeController {
 
 	@PostMapping("/login")
 	public String loginUser(@RequestParam String username, @RequestParam String password, Model model) {
-		if (userService.findByUsername(username).isPresent()) {
-			if (userService.findByUsername(username).get().getPassword().equals(hashPassword(password))) {
+		if (userService.findByUsername(username) != null) {
+			if (userService.findByUsername(username).getPassword().equals(hashPassword(password))) {
 				boolean loggedIn = true;
 				model.addAttribute("loggedIn", loggedIn);
 				model.addAttribute("username", username);
@@ -107,7 +107,7 @@ public class HomeController {
 
 	@PostMapping("/signup")
 	public String newUserSignUp(@RequestParam String username, @RequestParam String email, @RequestParam String password, Model model) {
-		if (userService.findByUsername(username).isPresent()) {
+		if (username != null) {
 			model.addAttribute("message", "That username exists already. Login instead?");
 			return "login";
 		} else if (username.equalsIgnoreCase("Anonymous") || username.equalsIgnoreCase("null") || username.equals("")) {
@@ -134,14 +134,14 @@ public class HomeController {
 	public String userMazes(@RequestParam String username, @RequestParam boolean loggedIn, Model model) {
 		model.addAttribute("username", username);
 		model.addAttribute("loggedIn", loggedIn);
-		model.addAttribute("userMazes", userService.findByUsername(username).get().getUserMazes());
-		model.addAttribute("userFavorites", userService.findByUsername(username).get().getUserFavorites());
-		model.addAttribute("userTempMazes", userService.findByUsername(username).get().getUserTempMazes());
+		model.addAttribute("userMazes", userService.findByUsername(username).getUserMazes());
+		model.addAttribute("userFavorites", userService.findByUsername(username).getUserFavorites());
+		model.addAttribute("userTempMazes", userService.findByUsername(username).getUserTempMazes());
 		return "usermazes";
 	}
 	@PostMapping("/addUserFavorite")
 	public String addToUserFavorites(@RequestParam String username, @RequestParam String title, @RequestParam boolean loggedIn, Model model) {
-		if (!userService.findByUsername(username).get().getUserFavorites().contains(title)) {
+		if (!userService.findByUsername(username).getUserFavorites().contains(title)) {
 			userService.findAndPushToUserFavoritesByUsername(username, title);
 		}
 		

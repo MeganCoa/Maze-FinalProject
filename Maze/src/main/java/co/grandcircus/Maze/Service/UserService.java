@@ -19,15 +19,19 @@ public class UserService {
 	@Value("${mazeapi.baseUrl}")
 	private String baseUrl;
 	private RestTemplate restTemplate = new RestTemplate();
-	
-	public Optional<UserResponse> findByUsername(String username) {
-		String url = baseUrl + "/findByUsername/" + username;
-		
-		ParameterizedTypeReference<Optional<UserResponse>> responseType = new ParameterizedTypeReference<Optional<UserResponse>>(){};
-		RequestEntity<Void> request = RequestEntity.get(url).accept(MediaType.APPLICATION_JSON).build();
-		Optional<UserResponse> response = restTemplate.exchange(request, responseType).getBody();
+	public UserResponse findByUsername(String username) {
+		String url = baseUrl + "/findByUsername";
+		UserResponse response = restTemplate.getForObject(url, UserResponse.class, username);
 		return response;
 	}
+//	public Optional<UserResponse> findByUsername(String username) {
+//		String url = baseUrl + "/findByUsername/" + username;
+//		
+//		ParameterizedTypeReference<Optional<UserResponse>> responseType = new ParameterizedTypeReference<Optional<UserResponse>>(){};
+//		RequestEntity<Void> request = RequestEntity.get(url).accept(MediaType.APPLICATION_JSON).build();
+//		Optional<UserResponse> response = restTemplate.exchange(request, responseType).getBody();
+//		return response;
+//	}
 	public ArrayList<UserResponse> findAllUsers() {
 		String url = "/findAllUsers";
 		UserResponse[] arr = restTemplate.getForObject(baseUrl + url, UserResponse[].class);

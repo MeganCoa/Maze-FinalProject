@@ -45,6 +45,9 @@
 		</c:if>
 	</div>
 	
+	<h2>${maze.title}</h2>
+	<h2>${username}</h2>
+	
 	<h3>S: Start of maze</h3>
 	<h3>O: Maze Path</h3>
 	<h3>E: End of Maze</h3>

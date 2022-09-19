@@ -161,7 +161,7 @@ public class MazeDisplayController {
 				mazeService.deleteByTitle(title);
 
 				//remove maze from userMazes
-				UserResponse user = userService.findByUsername(username).get();
+				UserResponse user = userService.findByUsername(username);
 				user.getUserMazes().remove(title);
 				userService.saveUser(user);
 				
@@ -331,9 +331,10 @@ public class MazeDisplayController {
 		mazeService.saveMaze(maze);
 		tempMazeService.deleteTemporaryByTitle(title);
 		
-		if (userService.findByUsername(username).isPresent()) {
+		if (!username.equals("")) {
+			
 			//if user is logged in, delete maze from usertempMazes, add it to userMazes
-			UserResponse user = userService.findByUsername(username).get();
+			UserResponse user = userService.findByUsername(username);
 			user.getUserTempMazes().remove(title);
 			userService.saveUser(user);
 			userService.findAndPushToUserMazesByUsername(username, title);
@@ -361,16 +362,16 @@ public class MazeDisplayController {
 		
 		//delete maze from user's lists (owner of maze)
 		String message = ".";
-		if (userService.findByUsername(username).isPresent()) {
-			UserResponse user = userService.findByUsername(username).get();
-			if (userService.findByUsername(username).get().getUserMazes().contains(title)) {
+		if (!username.equals("")) {
+			UserResponse user = userService.findByUsername(username);
+			if (userService.findByUsername(username).getUserMazes().contains(title)) {
 				user.getUserMazes().remove(title);
 				message = " from your mazes";
-			} else if (userService.findByUsername(username).get().getUserTempMazes().contains(title)) {
+			} else if (userService.findByUsername(username).getUserTempMazes().contains(title)) {
 				user.getUserTempMazes().remove(title);
 				message = " from your mazes in progress";
 			}
-			if (userService.findByUsername(username).get().getUserFavorites().contains(title)) {
+			if (userService.findByUsername(username).getUserFavorites().contains(title)) {
 				message += " and your favorites.";
 			} else {
 				message += ".";
