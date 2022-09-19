@@ -43,7 +43,7 @@
 <legend>Maze Generator</legend>
 <label for="field_height">No. columns</label><span><input id="field_height" type="number" min="3" max="20" name="cols" value="${mazeCol}"></span>
 <label for="field_width">No. rows</label><span><input id="field_width" type="number" min="3" max="20" name="rows" value="${mazeRow}"></span>
-<span><input type="button" value="Generate maze »" onclick="onGenerateMaze(${mazegrid})" /></span>
+<span><input type="button" value="Generate maze »" onclick="onGenerateMaze('${mazegrid}')" /></span>
 </fieldset>
 
 

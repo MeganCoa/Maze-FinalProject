@@ -8,7 +8,8 @@ function onGenerateMaze(){
 	  Maze.placeKey();
 	  Maze.display("maze_container");
 	  var maze = new Mazing("maze");
-
+	 
+	
 }
 
 class MazeBuilder {
