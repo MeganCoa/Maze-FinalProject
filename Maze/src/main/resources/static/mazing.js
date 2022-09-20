@@ -48,7 +48,7 @@ function Mazing(id) {
 //  mazeOutputDiv.appendChild(this.mazeScore);
 //  mazeOutputDiv.appendChild(this.mazeMessage);
 
-  mazeOutputDiv.style.width = this.mazeContainer.scrollWidth + "px";
+  //mazeOutputDiv.style.width = this.mazeContainer.scrollWidth + "px";
   this.setMessage("first find the key");
 
   this.mazeContainer.insertAdjacentElement("afterend", mazeOutputDiv);
