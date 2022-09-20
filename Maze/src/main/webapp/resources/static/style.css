@@ -1,7 +1,8 @@
-
 #maze_container {
-  position: relative;
-  display: inline-block;
+  display: flex;
+  align-items: center !important;
+  justify-content: center !important;
+   zoom: 3;
 }
 #maze {
   position: relative;
@@ -87,11 +88,11 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-  content: "Game Over";
+  content: "You Did It!";
   background: rgba(0,0,0,0.4);
   text-transform: uppercase;
   font-family: monospace;
-  font-size: 5em;
+  font-size: 1em;
   text-shadow: 2px 2px 2px rgba(0,0,0,0.8);
   color: #fff;
   z-index: 10;
@@ -105,11 +106,6 @@
   font-family: fantasy;
   font-weight: bold;
   font-size: 1em;
-}
-#maze_score {
-  flex: 1;
-  white-space: nowrap;
-  text-align: left;
 }
 #maze_score::before {
   content: "Score: ";
@@ -234,4 +230,18 @@ body {
 
 .icon {
 	position: relative;
+}
+
+.begin button{
+	margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.title{
+	font-family: fantasy;
+	text-align: center;
 }
