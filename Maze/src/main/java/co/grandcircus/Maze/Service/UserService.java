@@ -59,10 +59,6 @@ public class UserService {
 		String url = "/findAndPushToUserFavoritesByUsername/{username}";
 		restTemplate.put(baseUrl + url, title, username);
 	}
-	public void findAndRemoveFromUserFavoritesByUsername(String username, String title) {
-		String url = "/findAndRemoveFromUserFavoritesByUsername/{username}";
-		restTemplate.put(baseUrl + url, title, username);
-	}
 	public void findAndPushToUserTempMazesByUsername(String username, String title) {
 		String url = "/findAndPushToUserTempMazesByUsername/{username}";
 		restTemplate.put(baseUrl + url, title, username);
