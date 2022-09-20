@@ -135,15 +135,36 @@ img
 #povContainer {
 	position: relative;
 }
-#img0 {
+#0L, #0R {
+	z-index: 110;
+}
+#1 {
+	z-index: 100;
+}
+#1L, #1R {
+	z-index: 90
+}
+#2 {
+	z-index: 80;
+}
+#2L, #2R {
+	z-index: 70;
+}
+#3 {
+	z-index: 60;
+}
+#3L, #3R {
+	z-index: 50;
+}
+#4 {
 	z-index: 40;
 }
-#img1 {
+#4L, #4R {
 	z-index: 30;
 }
-#img2 {
-	z-index: 20
+#5 {
+	z-index: 20;
 }
-#img3 {
+.goal {
 	z-index: 10;
 }
