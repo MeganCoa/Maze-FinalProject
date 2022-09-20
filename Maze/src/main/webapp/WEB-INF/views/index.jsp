@@ -12,7 +12,6 @@
 <link href="/resources/static/style.css" rel="stylesheet"
 	type="text/css">
 </head>
-<body>
 	
 	<h1>${test.title}</h1>
 	<h1 class="indexTitle" >Maze Town</h1>

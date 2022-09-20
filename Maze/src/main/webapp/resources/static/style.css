@@ -300,7 +300,7 @@ body {
 #mazeList {
   font-family: Rockwell;
   border-collapse: collapse;
-  width: 80%;
+  width: 60%;
 }
 
 #mazeList td, #mazeList th {
@@ -381,4 +381,3 @@ padding-top: 12px;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
-

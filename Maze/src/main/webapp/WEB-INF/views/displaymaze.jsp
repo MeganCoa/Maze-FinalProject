@@ -71,6 +71,35 @@
 		<p>Total Plays: ${maze.playTotal}</p>
 		<p>Average Rating: ${maze.avgRating} Stars</p>
 	</div>
+	
+	<br>
+	<div class="center" id="maze_output" >
+
+		<form action="/solvemaze" method="POST">
+			<input type="hidden" name="username" value="${username}" /> <input
+				type="hidden" name="loggedIn" value="${loggedIn}" /> <input
+				type="hidden" name="title" value="${maze.title}" /> 
+		<button type="submit">See Solution</button>
+		</form>
+		<form action="/usersolvemaze" method="POST">
+			<input type="hidden" name="username" value="${username}" /> <input
+				type="hidden" name="loSggedIn" value="${loggedIn}" /> <input
+				type="hidden" name="title" value="${maze.title}" /> 
+				<button type="submit">Solve Maze Myself</button>
+		</form>
+
+		<c:if test="${loggedIn}">
+			<form action="/addUserFavorite" method="POST">
+				<input type="hidden" name="loggedIn" value="${loggedIn}" /> <input
+					type="hidden" name="username" value="${username}" /> <input
+					type="hidden" name="title" value="${maze.title}" /> 
+					<button type="submit">Add to Favorites</button>
+			</form>
+		</c:if>
+	</div>
+	
+	<br>
+	
 	<div id="maze_container">
 		<div id="maze">
 			<div>${IconMaze}</div>
@@ -79,35 +108,6 @@
 
 	<br>
 	<br>
-
-	<div class="center" id="maze_output" style="width: 80px;">
-
-		<form action="/solvemaze" method="POST">
-			<input type="hidden" name="username" value="${username}" /> <input
-				type="hidden" name="loggedIn" value="${loggedIn}" /> <input
-				type="hidden" name="title" value="${maze.title}" /> <input
-				type="submit" value="See Solution" />
-		</form>
-		<form action="/usersolvemaze" method="POST">
-			<input type="hidden" name="username" value="${username}" /> <input
-				type="hidden" name="loSggedIn" value="${loggedIn}" /> <input
-				type="hidden" name="title" value="${maze.title}" /> <input
-				type="submit" value="Solve Maze Myself" />
-		</form>
-
-		<c:if test="${loggedIn}">
-			<form action="/addUserFavorite" method="POST">
-				<input type="hidden" name="loggedIn" value="${loggedIn}" /> <input
-					type="hidden" name="username" value="${username}" /> <input
-					type="hidden" name="title" value="${maze.title}" /> <input
-					type="submit" value="Add To Favorites" />
-			</form>
-		</c:if>
-	</div>
-
-
-
-
 
 
 </body>

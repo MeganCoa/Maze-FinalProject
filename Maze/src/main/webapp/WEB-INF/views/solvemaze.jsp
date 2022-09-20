@@ -62,14 +62,17 @@
 			</div>
 		</c:if>
 	</div>
-	<h1>${title}</h1>
+	<h1 class="pageTitle">${title}'s Shortest Route</h1>
+	
+	<div class="center">
 	<div id="maze_container">
 		<div id="maze">
 		<div>
 		${IconMaze}
 		</div>
        </div>
-		<div id="maze_output" style="width: 80px;">
+		</div>
+		</div>
 
 </body>
 </html>
