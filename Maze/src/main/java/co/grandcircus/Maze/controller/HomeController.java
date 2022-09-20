@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import co.grandcircus.Maze.IconSearch.IconSearchService;
 import co.grandcircus.Maze.Service.MazeService;
 import co.grandcircus.Maze.Service.UserService;
 import co.grandcircus.Maze.models.MazeResponse;
@@ -21,6 +22,8 @@ public class HomeController {
 	private MazeService mazeService;
 	@Autowired
 	private UserService userService;
+	@Autowired 
+	private IconSearchService iconService;
 	
 	@RequestMapping("/")
 	public String showIndex(@RequestParam(required = false) String message,
@@ -151,7 +154,7 @@ public class HomeController {
 			return "signup";
 		} else {
 			UserResponse user = new UserResponse(username, email, hashPassword(password));
-			userService.createUser(user);
+			userService.saveUser(user);
 			model.addAttribute("message", "Welcome, " + username + "!");
 			model.addAttribute("username", username);
 			model.addAttribute("loggedIn", true);
@@ -203,8 +206,32 @@ public class HomeController {
 		model.addAttribute("loggedIn", loggedIn);
 		model.addAttribute("maze", mazeService.findByTitle(title));
 		model.addAttribute("symbolMaze", maze.mazeVisualizer());		
+		model.addAttribute("picture", iconService.getIconObjects("dog").getData().getObjects().get(5).getAssets().get(2).getUrl());
 		
 		return "displaymaze";
+	}	
+	
+	@PostMapping("/removeUserFavorite")
+	public String removeFromUserFavorites(@RequestParam String username, @RequestParam String title, @RequestParam boolean loggedIn, Model model) {
+	
+		ArrayList<UserResponse> allUsers = userService.findAllUsers();
+		
+		for (UserResponse user : allUsers) {
+			if (user.getUsername().equals(username)) {
+		
+				if (user.getUserFavorites().contains(title)) {
+					user.getUserFavorites().remove(title);
+					userService.saveUser(user);
+				}
+			}
+		}
+		String message = "We found and removed " + title + " from your favorites!";
+		
+		model.addAttribute("username", username);
+		model.addAttribute("loggedIn", loggedIn);
+		model.addAttribute("message", message);
+		
+		return "deleteconfirmation";
 	}	
 	
 	public static String hashPassword(String password) {
