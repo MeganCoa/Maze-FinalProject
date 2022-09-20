@@ -7,41 +7,59 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Make a Maze!</title>
-<link href="/style.css" rel="stylesheet">
+<link href="/resources/static/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 
-	<div class="buttons">
-		<form action="/" method="Post">
-			<input type="hidden" name="username" value="${username}"/>
-			<input type="hidden" name="loggedIn" value="${loggedIn}"/>
-			<input type="submit" value="Home"/>
-		</form>
-		<form action="/usercreatemaze" method="POST">
-			<input type="hidden" name="username" value="${username}"/>
-			<input type="hidden" name="loggedIn" value="${loggedIn}"/>
-			<input type="submit" value="Create a Maze"/>
-		</form>
-		<form action="/searchforamaze" method="POST">
-			<input type="hidden" name="username" value="${username}"/>
-			<input type="hidden" name="loggedIn" value="${loggedIn}"/>
-			<input type="submit" value="Search for a Maze"/>
-		</form>
+	<div class="topnav">
+		<div class="form-container">
+			<form action="/" method="POST">
+				<input type="hidden" name="username" value="${username}" /> <input
+					type="hidden" name="loggedIn" value="${loggedIn}" />
+				<button type="submit">Home</button>
+			</form>
+		</div>
+		<div class="form-container">
+			<form action="/usercreatemaze" method="POST">
+				<input type="hidden" name="username" value="${username}" /> <input
+					type="hidden" name="loggedIn" value="${loggedIn}" />
+				<button type="submit">Create A Maze</button>
+			</form>
+		</div>
+		<div class="form-container">
+			<form action="/searchforamaze" method="POST">
+				<input type="hidden" name="username" value="${username}" /> <input
+					type="hidden" name="loggedIn" value="${loggedIn}" />
+				<button type="submit">Search Mazes</button>
+			</form>
+		</div>
 		<c:if test="${loggedIn}">
-			<form action="/usermazes" method="POST">
-				<input type="hidden" name="username" value="${username}"/>
-				<input type="hidden" name="loggedIn" value="${loggedIn}"/>
-				<input type="submit" value="My Mazes"/>
-			</form>
-			<form action="/signout" method="POST">
-				<input type="hidden" name="username" value="${username}"/>
-				<input type="hidden" name="loggedIn" value="${loggedIn}"/>
-				<input type="submit" value="Sign Out"/>
-			</form>
+			<div class="form-container">
+				<form action="/usermazes" method="POST">
+					<input type="hidden" name="username" value="${username}" /> <input
+						type="hidden" name="loggedIn" value="${loggedIn}" />
+					<button type="submit">My Mazes</button>
+				</form>
+			</div>
+			<div class="form-container-right">
+				<form action="/signout" method="POST">
+					<input type="hidden" name="username" value="${username}" /> <input
+						type="hidden" name="loggedIn" value="${loggedIn}" />
+					<button type="submit">Sign Out</button>
+				</form>
+			</div>
 		</c:if>
 		<c:if test="${not loggedIn}">
-			<a href="/login">Log In</a>
-			<a href="/signup">Sign Up</a>
+			<div class="form-container-right">
+				<form action="/login">
+					<button type="submit">Log In</button>
+				</form>
+			</div>
+			<div class="form-container-right">
+				<form action="/signup">
+					<button type="submit">Sign Up</button>
+				</form>
+			</div>
 		</c:if>
 	</div>
 	

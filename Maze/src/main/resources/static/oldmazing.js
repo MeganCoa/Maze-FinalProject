@@ -25,7 +25,7 @@ function Mazing(id) {
 
   this.maze = [];
   this.heroPos = {};
-  this.heroHasKey = true;
+  this.heroHasKey = false;
   this.childMode = false;
 
   this.utter = null;
