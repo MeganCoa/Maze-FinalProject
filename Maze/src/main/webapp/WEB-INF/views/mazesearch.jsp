@@ -83,6 +83,12 @@
 					<input type="hidden" name="title" value="${maze.title}"/>
 					<input type="submit" value="Play ${maze.title}"/>
 				</form>
+				<form action="/povmaze" method="POST">
+					<input type="hidden" name="username" value="${username}"/>
+					<input type="hidden" name="loggedIn" value="${loggedIn}"/>
+					<input type="hidden" name="title" value="${maze.title}"/>
+					<input type="submit" value="Enter ${maze.title}"/>
+				</form>
 			</li> ${maze.avgRating} Stars
 		</c:forEach>
 	</ul>

@@ -18,17 +18,9 @@ class MazeBuilder {
 
 	constructor(mazegrid, width, height) {
 		
-		//for (var i = 0; i < strMazeGrid.length; i++) {
-		//	mazeGrid[i/width][i%width] = parseInt(strMazeGrid.charAt(i));
-		//}
-		
-		
-		
 		this.width = width;
 		this.height = height;
 
-		//this.cols = 2 * this.width + 1;
-		//this.rows = 2 * this.height + 1;
 		this.cols =  this.width ;
 		this.rows =  this.height ;
 
@@ -51,11 +43,6 @@ class MazeBuilder {
 				}
 			}
 		}
-		
-
-
-		// start partitioning
-		//this.partition(1, this.height - 2, 1, this.width - 2);
 	}
 
 	initArray(value) {

@@ -37,11 +37,9 @@ public class MazePlayController {
 		return mazeService.jsonmazegrid(title);
 	}
 	
-	@GetMapping("/povmaze")
-	public ModelAndView displayPovMaze(@RequestParam(required=false) String username, @RequestParam(required=false) boolean loggedIn) {
+	@PostMapping("/povmaze")
+	public ModelAndView displayPovMaze(@RequestParam String title, @RequestParam(required=false) String username, @RequestParam(required=false) boolean loggedIn) {
 		ModelAndView modelAndView = new ModelAndView("povmaze");
-		
-		String title = "Complicated";
 		
 		modelAndView.addObject("title", title);
 		modelAndView.addObject("username", username);

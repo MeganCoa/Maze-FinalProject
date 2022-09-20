@@ -1,6 +1,11 @@
 // Original JavaScript code by Chirp Internet: chirpinternet.eu
 // Please acknowledge use of this code by including this header.
 
+function onGeneratePOVMaze(){
+	
+	var maze = new Mazing();
+}
+
 function Position(x, y, direction) {
   this.x = x;
   this.y = y;
@@ -12,15 +17,10 @@ Position.prototype.toString = function() {
   return this.x + ":" + this.y + ":" + this.direction;
 };
 
-function Mazing() {
+function Mazing(mazegrid) {
 	
-	this.mazegrid = [
-			[0, 1, 3, 0, 0],
-			[0, 1, 0, 0, 0],
-			[0, 1, 1, 0, 0],
-			[0, 1, 0, 0, 0],
-			[0, 2, 0, 0, 0],
-		];
+	this.mazegrid = mazegrid;
+	console.log(mazegrid);
 
 
   this.maze = this.mazegrid;
@@ -28,18 +28,18 @@ function Mazing() {
 //  this.heroHasKey = true;
   this.childMode = false;
 
-  
-  
-  
-
   for(i=0; i < this.mazegrid.length; i++) {
+	
     for(j=0; j < this.mazegrid[0].length; j++) {
-      var el =  this.mazegrid[i][j];
-      this.maze[new Position(i, j, "none")] = el;
-      if(maze[i][j] == 2) {
+      
+      if(this.mazegrid[i][j] === 2) {
+		
         // place hero at entrance
         this.heroPos = new Position(i, j, "north");
+        this.setPOV(this.heroPos);
+        
       }
+      
     }
   }
 
@@ -51,7 +51,7 @@ function Mazing() {
 Mazing.prototype.gameOver = function(text) {
   // de-activate control keys
   document.removeEventListener("keydown", this.keyPressHandler, false);
-  this.setMessage(text);
+  
 };
 
 Mazing.prototype.heroWins = function() {
@@ -60,11 +60,8 @@ Mazing.prototype.heroWins = function() {
 
 Mazing.prototype.tryMoveHero = function(pos) {
 
-  if("object" !== typeof this.maze[pos]) {
-    return;
-  }
 
-	let nextStep = this.maze[pos.x][pos.y];
+	let nextStep = this.mazegrid[pos.x][pos.y];
 
   if(nextStep === 0) {
     return;
@@ -72,6 +69,7 @@ Mazing.prototype.tryMoveHero = function(pos) {
   if(nextStep === 3) {
     
     this.heroWins();
+    alert('you won!');
     
   }
 
@@ -157,45 +155,95 @@ Mazing.prototype.mazeKeyPressHandler = function(e) {
 		//in the html, these booleans go in order for the images of the blocks
   }
   this.tryMoveHero(tryPos);
+  console.log(this.heroPos)
   this.setPOV(this.heroPos);
   e.preventDefault();
 };
 
 Mazing.prototype.POVdisplay = function(showBlock, showGoal) {
-	document.getElementById('stat').style.display = 'none';
-	document.getElementById('stat').style.display = 'none';
-	document.getElementById('stat').style.display = 'none';
-	document.getElementById('stat').style.display = 'none';
-	document.getElementById('stat').style.display = 'none';
-	document.getElementById('stat').style.display = 'none';
-	document.getElementById('stat').style.display = 'none';
-	document.getElementById('stat').style.display = 'none';
-	document.getElementById('stat').style.display = 'none';
+	let blocks = [];
+	blocks.push('0L');
+	blocks.push('blank');
+	blocks.push('0R');
+	blocks.push('1L');
+	blocks.push('1');
+	blocks.push('1R');
+	blocks.push('2L');
+	blocks.push('2');
+	blocks.push('2R');
+	blocks.push('3L');
+	blocks.push('3');
+	blocks.push('3R');
+	blocks.push('4L');
+	blocks.push('4');
+	blocks.push('4R');
+	
+	for (let i = 0; i < blocks.length; i++) {
+		if (blocks[i] != 'blank') {
+			if (showBlock[i]) {
+				document.getElementById(blocks[i]).style.display = 'block';
+			} else {
+				document.getElementById(blocks[i]).style.display = 'none';
+			}
+		}
+	}
+	
+	let goals = [];
+	goals.push('0LG');
+	goals.push('blank');
+	goals.push('0RG');
+	goals.push('1LG');
+	goals.push('1G');
+	goals.push('1RG');
+	goals.push('2LG');
+	goals.push('2G');
+	goals.push('2RG');
+	goals.push('3LG');
+	goals.push('3G');
+	goals.push('3RG');
+	goals.push('4LG');
+	goals.push('4G');
+	goals.push('4RG');
+
+	for (let i = 0; i < goals.length; i++) {
+		if (goals[i] != 'blank') {
+			if (showGoal[i]) {
+				document.getElementById(goals[i]).style.display = 'block';
+			} else {
+				document.getElementById(goals[i]).style.display = 'none';
+			}
+		}	
+	}
+	
 }
 
-Mazing.prototype.setPOV = function(heroPos) {
+Mazing.prototype.setPOV = function(hero) {
 	let showBlock = [];
 	let showGoal = [];
 	
+	console.log(hero.direction);
 	switch (hero.direction) {
 	
-
+		
 		case "north": //4 rows, 3 columns
 			{
-				for (let i = hero.row; i > hero.row - 4; i--) {
-				
-					for (let j = hero.column - 1; j < hero.column + 2; j++) {
-						if (this.mazegrid[i][j] !== undefined) {
-							if (mazegrid[i][j] === 0) {
+				for (let i = hero.x; i > hero.x - 5; i--) {
+					for (let j = hero.y - 1; j < hero.y + 2; j++) {
+						
+						if (this.mazegrid[i] !== undefined && this.mazegrid[i][j] !== undefined) {
+							if (this.mazegrid[i][j] === 0) {
 								showBlock.push(true);
 							} else {
 								showBlock.push(false);
 							}
-							if (mazegrid[i][j] === 3) {
+							if (this.mazegrid[i][j] === 3) {
 								showGoal.push(true);
 							} else {
 								showGoal.push(false);
 							}
+						} else {
+							showBlock.push(true);
+							showGoal.push(false);
 						}
 					}
 				}
@@ -203,19 +251,22 @@ Mazing.prototype.setPOV = function(heroPos) {
 			}
 		case "south": //4 rows, 3 columns
 			{
-				for (let i = hero.row; i < hero.row + 4; i++) {
-					for (let j = hero.column + 1; j > hero.column - 2; j--) {
-						if (this.mazegrid[i][j] !== undefined) {
-							if (mazegrid[i][j] === 0) {
+				for (let i = hero.x; i < hero.x + 5; i++) {
+					for (let j = hero.y + 1; j > hero.y - 2; j--) {
+						if (this.mazegrid[i] !== undefined && this.mazegrid[i][j] !== undefined) {
+							if (this.mazegrid[i][j] === 0) {
 								showBlock.push(true);
 							} else {
 								showBlock.push(false);
 							}
-							if (mazegrid[i][j] === 3) {
+							if (this.mazegrid[i][j] === 3) {
 								showGoal.push(true);
 							} else {
 								showGoal.push(false);
 							}
+						} else {
+							showBlock.push(true);
+							showGoal.push(false);
 						}
 					}
 				}
@@ -224,48 +275,59 @@ Mazing.prototype.setPOV = function(heroPos) {
 			
 		case "east":
 			{
-				for (let i = hero.row - 1; i < hero.row + 2; i++) {
-					for (let j = hero.column; j < hero.column + 4; j++) {
-						if (this.mazegrid[i][j] !== undefined) {
-							if (mazegrid[i][j] === 0) {
+				for (let j = hero.y; j < hero.y + 5; j++) {
+					for (let i = hero.x - 1; i < hero.x + 2; i++) {
+						if (this.mazegrid[i] !== undefined && this.mazegrid[i][j] !== undefined) {
+							if (this.mazegrid[i][j] === 0) {
 								showBlock.push(true);
+								
 							} else {
 								showBlock.push(false);
 							}
-							if (mazegrid[i][j] === 3) {
+							if (this.mazegrid[i][j] === 3) {
 								showGoal.push(true);
 							} else {
 								showGoal.push(false);
 							}
+						} else {
+							showBlock.push(true);
+							showGoal.push(false);
 						}
 					}
 				}
+				
 				break;
 			}
 	
 		case "west":
 		{
-			for (let i = hero.row + 1; i < hero.row - 2; i--) {
-				for (let j = hero.column; j < hero.column - 4; j--) {
-					if (this.mazegrid[i][j] !== undefined) {
-							if (mazegrid[i][j] === 0) {
+			for (let j = hero.y; j > hero.y - 5; j--) {
+				for (let i = hero.x + 1; i > hero.x - 2; i--) {
+					if (this.mazegrid[i] !== undefined && this.mazegrid[i][j] !== undefined) {
+							if (this.mazegrid[i][j] === 0) {
 								showBlock.push(true);
 							} else {
 								showBlock.push(false);
 							}
-							if (mazegrid[i][j] === 3) {
+							if (this.mazegrid[i][j] === 3) {
 								showGoal.push(true);
 							} else {
 								showGoal.push(false);
 							}
+						} else {
+							showBlock.push(true);
+							showGoal.push(false);
 						}
 				}
 			}
 			break;
 		}
 		default:
+		console.log('default case');
 			break;
 	}
+	console.log(showGoal);
+	this.POVdisplay(showBlock, showGoal);
 }
 
 Mazing.prototype.setChildMode = function() {
