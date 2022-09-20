@@ -37,3 +37,5 @@ out/
 .vscode/
 
 src/main/resources/config/application.properties
+/MazeAPI/bin/main/config/application.properties
+/MazeAPI/.gitignore
