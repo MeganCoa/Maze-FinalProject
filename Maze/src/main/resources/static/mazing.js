@@ -16,10 +16,10 @@ function Mazing(id) {
   this.mazeContainer = document.getElementById(id);
 
   this.mazeScore = document.createElement("div");
-  this.mazeScore.id = "maze_score";
+  //this.mazeScore.id = "maze_score";
 
   this.mazeMessage = document.createElement("div");
-  this.mazeMessage.id = "maze_message";
+  //this.mazeMessage.id = "maze_message";
 
   this.heroScore = this.mazeContainer.getAttribute("data-steps") - 2;
 
@@ -43,10 +43,10 @@ function Mazing(id) {
   }
 
   var mazeOutputDiv = document.createElement("div");
-  mazeOutputDiv.id = "maze_output";
+  //mazeOutputDiv.id = "maze_output";
 
-  mazeOutputDiv.appendChild(this.mazeScore);
-  mazeOutputDiv.appendChild(this.mazeMessage);
+//  mazeOutputDiv.appendChild(this.mazeScore);
+//  mazeOutputDiv.appendChild(this.mazeMessage);
 
   mazeOutputDiv.style.width = this.mazeContainer.scrollWidth + "px";
   this.setMessage("first find the key");
@@ -98,7 +98,7 @@ Mazing.prototype.heroWins = function() {
   this.mazeScore.classList.remove("has-key");
   this.maze[this.heroPos].classList.remove("door");
   this.heroScore += 50;
-  this.gameOver("you finished !!!");
+  this.gameOver("Maze Completed!");
 };
 
 Mazing.prototype.tryMoveHero = function(pos) {

@@ -9,38 +9,59 @@
 
 <title>Play!</title>
 
-<link href="/style.css" rel="stylesheet">
-
+<link href="/resources/static/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-	<div class="buttons">
-		<form action="/usercreatemaze" method="POST">
-			<input type="hidden" name="username" value="${username}"/>
-			<input type="hidden" name="loggedIn" value="${loggedIn}"/>
-			<input type="submit" value="Create a Maze"/>
-		</form>
-		<form action="/searchforamaze" method="POST">
-			<input type="hidden" name="username" value="${username}"/>
-			<input type="hidden" name="loggedIn" value="${loggedIn}"/>
-			<input type="submit" value="Search for a Maze"/>
-		</form>
+	<div class="topnav">
+	<div class="form-container">
+			<form action="/" method="POST">
+				<input type="hidden" name="username" value="${username}" /> <input
+					type="hidden" name="loggedIn" value="${loggedIn}" />
+				<button type="submit">Home</button>
+			</form>
+		</div>
+		<div class="form-container">
+			<form action="/usercreatemaze" method="POST">
+				<input type="hidden" name="username" value="${username}" /> <input
+					type="hidden" name="loggedIn" value="${loggedIn}" />
+				<button type="submit">Create A Maze</button>
+			</form>
+		</div>
+		<div class="form-container">
+			<form action="/searchforamaze" method="POST">
+				<input type="hidden" name="username" value="${username}" /> <input
+					type="hidden" name="loggedIn" value="${loggedIn}" />
+				<button type="submit">Search Mazes</button>
+			</form>
+		</div>
 		<c:if test="${loggedIn}">
-			<form action="/usermazes" method="POST">
-				<input type="hidden" name="username" value="${username}"/>
-				<input type="hidden" name="loggedIn" value="${loggedIn}"/>
-				<input type="submit" value="My Mazes"/>
-			</form>
-			<form action="/signout" method="POST">
-				<input type="hidden" name="username" value="${username}"/>
-				<input type="hidden" name="loggedIn" value="${loggedIn}"/>
-				<input type="submit" value="Sign Out"/>
-			</form>
+			<div class="form-container">
+				<form action="/usermazes" method="POST">
+					<input type="hidden" name="username" value="${username}" /> <input
+						type="hidden" name="loggedIn" value="${loggedIn}" />
+					<button type="submit">My Mazes</button>
+				</form>
+			</div>
+			<div class="form-container-right">
+				<form action="/signout" method="POST">
+					<input type="hidden" name="username" value="${username}" /> <input
+						type="hidden" name="loggedIn" value="${loggedIn}" />
+					<button type="submit">Sign Out</button>
+				</form>
+			</div>
 		</c:if>
 		<c:if test="${not loggedIn}">
-			<a href="/login">Log In</a>
-			<a href="/signup">Sign Up</a>
+			<div class="form-container-right">
+				<form action="/login">
+					<button type="submit">Log In</button>
+				</form>
+			</div>
+			<div class="form-container-right">
+				<form action="/signup">
+					<button type="submit">Sign Up</button>
+				</form>
+			</div>
 		</c:if>
-		
 	</div>
 	
 	
@@ -50,11 +71,14 @@
 
 
 
-<br><br><br><br><br><br><br><br>
+<br><br><br><br>
+<h1 class="title">${title}</h1>
+<br><br><br><br>
 <div id="maze_container">
 <div id="maze" data-steps="???">
+</div>
 <!-- insert the maze HTML code here -->
-<br><br><br><br><br><br><br><br>
+<br><br><br><br><br>
 
 <script>
 
@@ -64,17 +88,15 @@
 	  Maze.display("maze_container");
 	  
 	  var maze = new Mazing("maze");
-/*  maze.setChildMode(); */
+ maze.setChildMode(); 
   }, false);
 
 </script>
 </div>
+
+<div id="begin" class="begin">
+<button onclick="fetch('/jsonmazegrid/${title}').then((response) => response.json()).then((data) => onGenerateMaze(data)); change()">Begin Maze</button>
 </div>
-
-
-<fieldset>
-<span><input type="button" value="Begin Maze" onclick="fetch('/jsonmazegrid/${title}').then((response) => response.json()).then((data) => onGenerateMaze(data))" /></span>
-</fieldset>
 
 
 </body>
