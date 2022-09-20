@@ -7,7 +7,8 @@
 <head>
 <meta charset="UTF-8">
 <title>POV Maze</title>
-<link href="/style.css" rel="stylesheet">
+<link href="/resources/static/style.css" rel="stylesheet"
+	type="text/css">
 </head>
 <body>
 <div class="topnav">
@@ -23,6 +24,13 @@
 				<input type="hidden" name="username" value="${username}" /> <input
 					type="hidden" name="loggedIn" value="${loggedIn}" />
 				<button type="submit">Create A Maze</button>
+			</form>
+		</div>
+		<div class="form-container">
+			<form action="/searchforamaze" method="POST">
+				<input type="hidden" name="username" value="${username}" /> <input
+					type="hidden" name="loggedIn" value="${loggedIn}" />
+				<button type="submit">Search Mazes</button>
 			</form>
 		</div>
 		<c:if test="${loggedIn}">
@@ -69,7 +77,7 @@
 </script>
 
 <div>
-<br><br><br>
+<br><br>
 	<div id="povContainer">
 				
 		<img class=goal id="4G" src="4G.png"/>
@@ -105,7 +113,7 @@
 	</div>
 </div>
 <div id="maze_container">
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 <fieldset>
 <span><input type="button" value="Begin Maze" onclick="fetch('/jsonmazegrid/${title}').then((response) => response.json()).then((data) => onGenerateMaze(data))" /></span>
 </fieldset>

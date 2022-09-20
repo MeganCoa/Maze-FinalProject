@@ -20,7 +20,7 @@ Position.prototype.toString = function() {
 function Mazing(mazegrid) {
 	
 	this.mazegrid = mazegrid;
-	console.log(mazegrid);
+	
 
 
   this.maze = this.mazegrid;
@@ -55,6 +55,8 @@ Mazing.prototype.gameOver = function(text) {
 };
 
 Mazing.prototype.heroWins = function() {
+	
+	alert('you won!');
   this.gameOver("you finished !!!");
 };
 
@@ -68,8 +70,6 @@ Mazing.prototype.tryMoveHero = function(pos) {
   }
   if(nextStep === 3) {
     
-    this.heroWins();
-    alert('you won!');
     
   }
 
@@ -155,7 +155,6 @@ Mazing.prototype.mazeKeyPressHandler = function(e) {
 		//in the html, these booleans go in order for the images of the blocks
   }
   this.tryMoveHero(tryPos);
-  console.log(this.heroPos)
   this.setPOV(this.heroPos);
   e.preventDefault();
 };
@@ -217,18 +216,18 @@ Mazing.prototype.POVdisplay = function(showBlock, showGoal) {
 	
 }
 
-Mazing.prototype.setPOV = function(hero) {
+Mazing.prototype.setPOV = function(heroPos) {
 	let showBlock = [];
 	let showGoal = [];
 	
-	console.log(hero.direction);
-	switch (hero.direction) {
+	
+	switch (heroPos.direction) {
 	
 		
 		case "north": //4 rows, 3 columns
 			{
-				for (let i = hero.x; i > hero.x - 5; i--) {
-					for (let j = hero.y - 1; j < hero.y + 2; j++) {
+				for (let i = heroPos.x; i > heroPos.x - 5; i--) {
+					for (let j = heroPos.y - 1; j < heroPos.y + 2; j++) {
 						
 						if (this.mazegrid[i] !== undefined && this.mazegrid[i][j] !== undefined) {
 							if (this.mazegrid[i][j] === 0) {
@@ -251,8 +250,8 @@ Mazing.prototype.setPOV = function(hero) {
 			}
 		case "south": //4 rows, 3 columns
 			{
-				for (let i = hero.x; i < hero.x + 5; i++) {
-					for (let j = hero.y + 1; j > hero.y - 2; j--) {
+				for (let i = heroPos.x; i < heroPos.x + 5; i++) {
+					for (let j = heroPos.y + 1; j > heroPos.y - 2; j--) {
 						if (this.mazegrid[i] !== undefined && this.mazegrid[i][j] !== undefined) {
 							if (this.mazegrid[i][j] === 0) {
 								showBlock.push(true);
@@ -275,8 +274,8 @@ Mazing.prototype.setPOV = function(hero) {
 			
 		case "east":
 			{
-				for (let j = hero.y; j < hero.y + 5; j++) {
-					for (let i = hero.x - 1; i < hero.x + 2; i++) {
+				for (let j = heroPos.y; j < heroPos.y + 5; j++) {
+					for (let i = heroPos.x - 1; i < heroPos.x + 2; i++) {
 						if (this.mazegrid[i] !== undefined && this.mazegrid[i][j] !== undefined) {
 							if (this.mazegrid[i][j] === 0) {
 								showBlock.push(true);
@@ -301,8 +300,8 @@ Mazing.prototype.setPOV = function(hero) {
 	
 		case "west":
 		{
-			for (let j = hero.y; j > hero.y - 5; j--) {
-				for (let i = hero.x + 1; i > hero.x - 2; i--) {
+			for (let j = heroPos.y; j > heroPos.y - 5; j--) {
+				for (let i = heroPos.x + 1; i > heroPos.x - 2; i--) {
 					if (this.mazegrid[i] !== undefined && this.mazegrid[i][j] !== undefined) {
 							if (this.mazegrid[i][j] === 0) {
 								showBlock.push(true);
@@ -323,10 +322,10 @@ Mazing.prototype.setPOV = function(hero) {
 			break;
 		}
 		default:
-		console.log('default case');
+		
 			break;
 	}
-	console.log(showGoal);
+	
 	this.POVdisplay(showBlock, showGoal);
 }
 

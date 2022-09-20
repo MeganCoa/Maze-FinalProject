@@ -100,6 +100,14 @@
 						<input type="submit" value="Delete ${maze.title}" />
 					</form>
 					</div>
+					<div class="table-divs">
+					<form action="povmaze" method="POST">
+						<input type="hidden" name="username" value="${username}" />
+						<input type="hidden" name="loggedIn" value="${loggedIn}" />
+						<input type="hidden" name="title" value="${maze.title}" />
+						<input type="submit" value="Enter ${maze.title}" />
+					</form>
+					</div>
 				</td>
 				</tr>
 			</c:if>
@@ -147,29 +155,37 @@
 		<c:forEach var="title" items="${userFavorites}">
 				<tr>
 				<td>
-				<div class="table-divs">
-					<form action="/displaymaze" method="POST">
-					<input type="hidden" name="username" value="${username}" /> <input
-						type="hidden" name="loggedIn" value="${loggedIn}" /> <input
-						type="hidden" name="title" value="${title}" /> <input
-						type="submit" value="${title}" />
-				</form>
+					<div class="table-divs">
+						<form action="/displaymaze" method="POST">
+							<input type="hidden" name="username" value="${username}" />
+							<input type="hidden" name="loggedIn" value="${loggedIn}" /> 
+							<input type="hidden" name="title" value="${maze.title}" /> 
+							<input type="submit" value="View ${title}" />
+						</form>
 					</div>
 					<div class="table-divs">
-					<form action="/playjsmaze" method="POST">
-					<input type="hidden" name="username" value="${username}"/>
-					<input type="hidden" name="loggedIn" value="${loggedIn}"/>
-					<input type="hidden" name="title" value="${maze.title}"/>
-					<input type="submit" value="Play ${maze.title}"/>
-				</form>
+						<form action="/playjsmaze" method="POST">
+							<input type="hidden" name="username" value="${username}"/>
+							<input type="hidden" name="loggedIn" value="${loggedIn}"/>
+							<input type="hidden" name="title" value="${maze.title}"/>
+							<input type="submit" value="Play ${title}"/>
+						</form>
 					</div>
 					<div class="table-divs">
-					<form action="/removeUserFavorite" method="POST">
-					<input type="hidden" name="username" value="${username}"/>
-					<input type="hidden" name="loggedIn" value="${loggedIn}"/>
-					<input type="hidden" name="title" value="${title}"/>
-					<input type="submit" value="Remove From Favorites"/>
-				</form>
+						<form action="/povmaze" method="POST">
+							<input type="hidden" name="username" value="${username}"/>
+							<input type="hidden" name="loggedIn" value="${loggedIn}"/>
+							<input type="hidden" name="title" value="${maze.title}"/>
+							<input type="submit" value="Enter ${title}"/>
+						</form>
+					</div>
+					<div class="table-divs">
+						<form action="/removeUserFavorite" method="POST">
+							<input type="hidden" name="username" value="${username}"/>
+							<input type="hidden" name="loggedIn" value="${loggedIn}"/>
+							<input type="hidden" name="title" value="${title}"/>
+							<input type="submit" value="Remove From Favorites"/>
+						</form>
 					</div>
 				</td>
 				</tr>
