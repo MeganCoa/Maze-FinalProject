@@ -61,7 +61,7 @@
 					<input type="hidden" name="title" value="${maze.title}"/>
 					<input type="submit" value="View ${maze.title}"/>
 				</form>
-				<form action="/displaymaze" method="POST">
+				<form action="/playjsmaze" method="POST">
 					<input type="hidden" name="username" value="${username}"/>
 					<input type="hidden" name="loggedIn" value="${loggedIn}"/>
 					<input type="hidden" name="title" value="${maze.title}"/>
