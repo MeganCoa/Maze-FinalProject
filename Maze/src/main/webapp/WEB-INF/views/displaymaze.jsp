@@ -64,9 +64,13 @@
   	<h2>By ${maze.authorName}</h2>
   	<p>Total Plays: ${maze.playTotal}</p>
   	<p>Average Rating: ${maze.avgRating} Stars</p>
-	<div class = "mazeDisplay">
-	${symbolMaze}
-	</div>
+	 <div id="maze_container">
+		<div id="maze">
+		<div>
+		${IconMaze}
+		</div>
+       </div>
+		<div id="maze_output" style="width: 80px;">
 	
 	<form action="/solvemaze" method="POST">
 		<input type="hidden" name="username" value="${username}"/>
@@ -90,12 +94,9 @@
 		</form>
 	</c:if>
 	
-	<br>
-	<div class="icon">
-	<img src="${picture}"
-       width="100" 
-       height="100"
-       />
-       </div>
+	
+       
+      
+       
 </body>
 </html>

@@ -7,6 +7,7 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>A-MAZE-ING SOLUTION!</title>
+<link href="/style.css" rel="stylesheet">
 <link href="/resources/static/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
@@ -62,9 +63,13 @@
 		</c:if>
 	</div>
 	<h1>${title}</h1>
-	<div class = "mazeDisplay">
-	${symbolMaze}
-	</div>
+	<div id="maze_container">
+		<div id="maze">
+		<div>
+		${IconMaze}
+		</div>
+       </div>
+		<div id="maze_output" style="width: 80px;">
 
 </body>
 </html>
