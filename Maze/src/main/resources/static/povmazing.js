@@ -35,7 +35,7 @@ function Mazing() {
   for(i=0; i < this.mazegrid.length; i++) {
     for(j=0; j < this.mazegrid[0].length; j++) {
       var el =  this.mazegrid[i][j];
-      this.maze[new Position(i, j, null)] = el;
+      this.maze[new Position(i, j, "none")] = el;
       if(maze[i][j] == 2) {
         // place hero at entrance
         this.heroPos = new Position(i, j, "north");
@@ -64,43 +64,22 @@ Mazing.prototype.tryMoveHero = function(pos) {
     return;
   }
 
-  var nextStep = this.maze[pos].className;
+	let nextStep = this.maze[pos.x][pos.y];
 
-  if(nextStep.match(/wall/)) {
+  if(nextStep === 0) {
     return;
   }
-  if(nextStep.match(/exit/)) {
+  if(nextStep === 3) {
     
     this.heroWins();
     
   }
 
   // move hero one step
-  this.maze[this.heroPos].classList.remove("hero");
-  this.maze[pos].classList.add("hero");
   this.heroPos = pos;
 
-  // after moving
-  if(nextStep.match(/nubbin/)) {
-    this.heroTakeTreasure();
+  if(nextStep === 3) {
     return;
-  }
-  if(nextStep.match(/key/)) {
-    this.heroTakeKey();
-    return;
-  }
-  if(nextStep.match(/exit/)) {
-    return;
-  }
-  if(this.heroScore >= 1) {
-    if(!this.childMode) {
-      this.heroScore--;
-    }
-    if(!this.childMode && (this.heroScore <= 0)) {
-      this.gameOver("sorry, you didn't make it");
-    } else {
-      this.setMessage("...");
-    }
   }
 };
 
@@ -182,11 +161,23 @@ Mazing.prototype.mazeKeyPressHandler = function(e) {
   e.preventDefault();
 };
 
+Mazing.prototype.POVdisplay = function(showBlock, showGoal) {
+	document.getElementById('stat').style.display = 'none';
+	document.getElementById('stat').style.display = 'none';
+	document.getElementById('stat').style.display = 'none';
+	document.getElementById('stat').style.display = 'none';
+	document.getElementById('stat').style.display = 'none';
+	document.getElementById('stat').style.display = 'none';
+	document.getElementById('stat').style.display = 'none';
+	document.getElementById('stat').style.display = 'none';
+	document.getElementById('stat').style.display = 'none';
+}
+
 Mazing.prototype.setPOV = function(heroPos) {
 	let showBlock = [];
 	let showGoal = [];
 	
-	switch (hero.z) {
+	switch (hero.direction) {
 	
 
 		case "north": //4 rows, 3 columns
