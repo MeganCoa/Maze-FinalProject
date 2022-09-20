@@ -55,39 +55,59 @@
 		</c:if>
 	</div>
 	
-	<h1>Maze Search</h1>
+	<h1 class="pageTitle">Maze Search</h1>
 	
-	<form class="form" action="/searchforamaze" method="post">
-		<label for="searchTerm">Search Term</label> 
-		<input type="text" name="searchTerm" placeholder="Search Term" /> 
-		<label for="searchCategory">Search Category</label> <br>
-		Title <input type="radio" name="searchCategory" value="title" placeholder="Search Category" /> <br>
-		Author <input type="radio" name="searchCategory" value="author" placeholder="Search Category" /><br>
+	<div class="center">
+	<form style= "font-size: 24px;" class="form" action="/searchforamaze" method="post">
+	<div class="buttonHolder">
+		<input id="textboxid" style="width: 500px;" type="text" name="searchTerm" placeholder="Whatcha looking for?" />
+		</div> 
+		<label for="searchCategory">Search By: </label>
+		<input type="radio" name="searchCategory" value="title" placeholder="Search Category" /> Title 
+		<input type="radio" name="searchCategory" value="author" placeholder="Search Category" /> Author 
 		<input type="hidden" name="username" value="${username}"/>
 		<input type="hidden" name="loggedIn" value="${loggedIn}"/>
-		<input type="submit" class="button" />
+		<button type="submit">Search</button>
 	</form>
+	</div>
 	
-	<ul>
+	<br><br>
+	
+	<div class="center">
+	<table id="mazeList">
+		<tr>
+			<th>Maze Title</th>
+			<th>Architect</th>
+			<th>Rating</th>
+		</tr>
 		<c:forEach var="maze" items="${allMazes}">
-			<li>
-				<form action="/displaymaze" method="POST">
-					<input type="hidden" name="username" value="${username}"/>
-					<input type="hidden" name="loggedIn" value="${loggedIn}"/>
-					<input type="hidden" name="title" value="${maze.title}"/>
-					<input type="submit" value="View ${maze.title}"/>
-				</form>
-				<form action="/playjsmaze" method="POST">
-					<input type="hidden" name="username" value="${username}"/>
-					<input type="hidden" name="loggedIn" value="${loggedIn}"/>
-					<input type="hidden" name="title" value="${maze.title}"/>
-					<input type="submit" value="Play ${maze.title}"/>
-				</form>
-			</li> ${maze.avgRating} Stars
+			<tr>
+				<td>${maze.title}</td>
+				<td>${maze.authorName}</td>
+				<td>${maze.avgRating}</td>
+				<td>
+					<div class="table-divs">
+						<form action="/displaymaze" method="POST">
+							<input type="hidden" name="username" value="${username}"/>
+							<input type="hidden" name="loggedIn" value="${loggedIn}"/>
+							<input type="hidden" name="title" value="${maze.title}"/>
+							<button type="submit">View</button>
+						</form>
+						</div>
+						<div class="table-divs">
+						<form action="/playjsmaze" method="POST">
+							<input type="hidden" name="username" value="${username}"/>
+							<input type="hidden" name="loggedIn" value="${loggedIn}"/>
+							<input type="hidden" name="title" value="${maze.title}"/>
+							<button type="submit">Play ${maze.title}</button>
+					</form>
+					</div>
+				</td>
+			</tr>
 		</c:forEach>
-	</ul>
-	
-	
+		</tbody>
+	</table>
+	</div>
 	
 	
 </body>
