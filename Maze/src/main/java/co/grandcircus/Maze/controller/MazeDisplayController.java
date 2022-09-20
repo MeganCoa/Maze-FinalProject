@@ -45,8 +45,10 @@ public class MazeDisplayController {
 		modelAndView.addObject("maze", maze);
 		modelAndView.addObject("username", username);
 		modelAndView.addObject("loggedIn", loggedIn);
-		modelAndView.addObject("picture", iconService.getIconObjects("dog").getData().getObjects().get(5).getAssets().get(2).getUrl());
+		modelAndView.addObject("picture", iconService.getIconObjects("brick wall").getData().getObjects().get(1).getAssets().get(2).getUrl());
 		
+	    modelAndView.addObject("IconMaze", mazePictureVisualizer(maze));
+	    
 		return modelAndView;
 	}
 	
@@ -103,6 +105,7 @@ public class MazeDisplayController {
      	        modelAndView.addObject("title", title);
      	        modelAndView.addObject("username", username);
      	       	modelAndView.addObject("loggedIn", loggedIn);
+     	        modelAndView.addObject("IconMaze", mazePictureVisualizer(maze));
      	        return modelAndView;                    
             }
 
@@ -499,4 +502,28 @@ public class MazeDisplayController {
 		}
 		return counter;
 	}
+	
+	//Prints a simple visual representation of a maze using pictures
+    public String mazePictureVisualizer(MazeResponse maze) {
+    	
+    	StringBuilder result = new StringBuilder(maze.getMazeGrid().length *maze.getMazeGrid()[0].length+1);
+    	for (int row = 0; row < maze.getMazeGrid().length; row++) {
+            for (int col = 0; col < maze.getMazeGrid()[0].length; col++) {
+                if (maze.getMazeGrid()[row][col] == 0) { //Based on final variables, 0 generates a wall 
+                	result.append("<div class=\"wall\"></div>  ");
+                } else if (maze.getMazeGrid()[row][col] == 1) { //Based on final variables, 1 generates open space
+                	result.append("<div class=\"space\"></div>  ");
+                } else if (maze.getMazeGrid()[row][col] == 2) { //Based on final variables, 2 generates maze start point
+                	result.append("<div class=\"door entrance hero\"></div>  ");
+                } else if (maze.getMazeGrid()[row][col] == 3) { //Based on final variables, 3 generates maze end point
+                	result.append("<div class=\"door exit\"></div>  ");
+                } else {
+                	result.append("<div class=\"path\"></div>  "); //Everything else is the path
+                }
+            }
+            result.append("</div><div>");
+    	}
+    	
+    	return result.toString();
+    }
 }

@@ -63,13 +63,23 @@
 		</c:if>
 	</div>
 	
+	<div class="center">
 	<h2>${maze.title}</h2>
-	<h2>${username}</h2>
+	</div>
+	<div class="center">
+	<h3>${username}</h3>
+	</div>
 	
+	<div class="center">
+	<div>
 	<h3>S: Start of maze</h3>
 	<h3>O: Maze Path</h3>
 	<h3>E: End of Maze</h3>
 	<h3>#: Maze Wall</h3>
+	</div>
+	</div>
+	
+	<div class="center">
 	<form action="/confirmation" method="POST">
 		<c:forEach var="coordinate" items="${mazegridcoordinates}">
 				<select name="cellData" id="cell" class="cell">
@@ -103,10 +113,13 @@
 		<input type="hidden" name="title" value="${maze.title}"/>
 		<input type="hidden" name="username" value="${username}"/>
 		<input type="hidden" name="loggedIn" value="${loggedIn}"/>
-		<input type="submit" value="Save Maze"/>
+		<br>
+		<div class="buttonHolder">
+		<button type="submit">Save Maze</button>
+		</div>
 	</form>
 
-	
+	</div>
 
 </body>
 </html>

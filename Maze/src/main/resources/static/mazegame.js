@@ -13,6 +13,10 @@ function onGenerateMaze(mazegrid) {
 
 }
 
+function change(){
+	document.getElementById("begin").style.display = "none";
+}
+
 class MazeBuilder {
 
 
@@ -204,7 +208,7 @@ class MazeBuilder {
 
 		const container = document.createElement("div");
 		container.id = "maze";
-		container.dataset.steps = this.totalSteps;
+//		container.dataset.steps = this.totalSteps;
 
 		this.maze.forEach((row) => {
 			let rowDiv = document.createElement("div");

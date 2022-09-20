@@ -1,0 +1,383 @@
+#maze_container {
+  display: flex;
+  align-items: center !important;
+  justify-content: center !important;
+   zoom: 3;
+}
+#maze {
+  position: relative;
+  background-color: #a7c53f;
+  background-image: radial-gradient(circle at 0% 0%, transparent 50%, rgba(0,0,0,0.1) 50%), radial-gradient(circle at center, rgba(0,0,0,0.1) 50%, transparent 50%), radial-gradient(circle at 100% 100%, transparent 50%, rgba(0,0,0,0.1) 50%), radial-gradient(circle at 0% 100%, transparent 50%, rgba(0,0,0,0.1) 50%), radial-gradient(circle at 100% 0%, transparent 50%, rgba(0,0,0,0.1) 50%);
+  background-size: 8em 8em;
+}
+#maze div {
+  display: flex;
+}
+#maze div div {
+  position: relative;
+  width: 1em;
+  height: 1em;
+}
+#maze div div::after {
+  position: absolute;
+  left: -3px;
+  top: -4px;
+  text-align: center;
+  text-shadow: 0 0 1px black;
+  font-size: 1.2em;
+  z-index: 10;
+}
+#maze div div.door.exit::after {
+  content: "\1F6AA";
+}
+#maze div div.nubbin::after {
+  content: "\1F33C";
+}
+#maze div.nubbin:nth-of-type(3n)::after {
+  content: "\1F344";
+}
+#maze div.nubbin:nth-of-type(5n)::after {
+  content: "\1F33B";
+}
+#maze div.nubbin:nth-of-type(7n)::after {
+  content: "\1F48E";
+}
+#maze div.nubbin:nth-of-type(13n)::after {
+  content: "\1F381";
+}
+#maze div.hero::after {
+  content: "\1F6B6" !important;
+}
+#maze.face-right div.hero::after {
+  transform: scale(-1, 1);
+}
+#maze div div.wall, #maze div div.nubbin.wall, #maze div div.door.exit {
+  background-color: #454545;
+  background-image: linear-gradient(45deg, rgba(0,0,0,0.2) 45%, transparent 55%), linear-gradient(to bottom, rgba(0,0,0,0.2) 45%, transparent 55%);
+  background-size: 0.5em 0.5em;
+}
+#maze div div.nubbin.wall::after {
+  content: "";
+}
+#maze div div.sentinel.wall {
+  background: transparent;
+}
+#maze div div.sentinel.wall::after {
+  content: "\1F40A";
+}
+#maze div.sentinel.wall:nth-of-type(3n)::after {
+  content: "\1F40D";
+}
+#maze div div.key::after {
+  content: "\1F511";
+}
+
+#maze div div:nth-child(odd) {
+  width: 1em;
+}
+#maze div:nth-child(odd) div {
+  height: 1em;
+}
+
+#maze.finished::after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  content: "You Did It!";
+  background: rgba(0,0,0,0.4);
+  text-transform: uppercase;
+  font-family: monospace;
+  font-size: 1em;
+  text-shadow: 2px 2px 2px rgba(0,0,0,0.8);
+  color: #fff;
+  z-index: 10;
+}
+
+#maze_output {
+  display: flex;
+  margin: 0.5em auto;
+}
+#maze_score, #maze_message {
+  font-family: fantasy;
+  font-weight: bold;
+  font-size: 1em;
+}
+#maze_score::before {
+  content: "Score: ";
+}
+#maze_score.has-key::after {
+  content: "\00a0\1F511";
+}
+#maze_message {
+  flex: 3;
+  text-align: right;
+}
+body {
+  background-color: light blue;
+}
+img
+{
+	position:absolute;
+	top: 0px;
+	left: 0px;
+}
+#povContainer {
+	position: relative;
+}
+#img0 {
+	z-index: 10;
+}
+#img1 {
+	z-index: 20;
+}
+#img3 {
+	z-index: 40
+}
+
+* {box-sizing: border-box;}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.topnav {
+  overflow: hidden;
+  background-color: #e9e9e9;
+}
+
+.topnav a {
+  float: left;
+  display: block;
+  color: black;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav a.active {
+  background-color: #2196F3;
+  color: white;
+}
+
+.topnav .form-container {
+  float: left;
+}
+
+.topnav .form-container button {
+  float: right;
+  padding: 6px 10px;
+  margin-top: 8px;
+  margin-right: 16px;
+  background-color: #555;
+  color: white;
+  font-size: 17px;
+  border: none;
+  cursor: pointer;
+}
+
+.topnav .form-container button:hover {
+  background-color: green;
+}
+
+.topnav .form-container-right {
+  float: right;
+}
+
+.topnav .form-container-right button {
+  float: right;
+  padding: 6px 10px;
+  margin-top: 8px;
+  margin-right: 16px;
+  background-color: #555;
+  color: white;
+  font-size: 17px;
+  border: none;
+  cursor: pointer;
+}
+
+.topnav .form-container-right button:hover {
+  background-color: green;
+}
+
+@media screen and (max-width: 600px) {
+  .topnav .form-container {
+    float: none;
+  }
+  .topnav a, .topnav input[type=text], .topnav .form-container button {
+    float: none;
+    display: block;
+    text-align: left;
+    width: 100%;
+    margin: 0;
+    padding: 14px;
+  }
+  .topnav input[type=text] {
+    border: 1px solid #ccc;  
+  }
+}
+
+.icon {
+	position: relative;
+}
+
+.begin button{
+	margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+   display: block;
+  width: 100%;
+  border: none;
+  background-color: #04AA6D;
+  padding: 14px 28px;
+  font-size: 36px;
+  cursor: pointer;
+  text-align: center;
+  font-family: Rockwell
+}
+
+.title{
+	font-family: Rockwell;
+	text-align: center;
+}
+
+.viewMaze p{
+	text-align: center;
+}
+.viewMaze h2{
+	text-align: center;
+}
+
+.center{
+	font-family: Rockwell;
+	display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.center button{
+  color: #ffffff;
+  font-size: 16px;
+  background: #04AA6D;
+  padding: 7px 20px 10px 20px;
+  font-family: Rockwell;
+}
+
+.center button:hover{
+	background-color: #ddd;
+  color: black;
+}
+
+.buttonHolder{
+	text-align: center;
+}
+
+.pageTitle{
+	text-align: center;
+	font-family: Rockwell;
+}
+.indexTitle{
+	font-size: 50px;
+	text-align: center;
+	font-family: Rockwell;
+}
+
+#mazeList {
+  font-family: Rockwell;
+  border-collapse: collapse;
+  width: 60%;
+}
+
+#mazeList td, #mazeList th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.table-divs {
+  display: inline;
+  float: left;
+  margin: 10px;
+}
+
+#mazeList tr:nth-child(even){background-color: #f2f2f2;}
+
+#mazeList tr:hover {background-color: #ddd;}
+
+#mazeList th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #04AA6D;
+  color: white;
+}
+
+.table-divs button{
+  font-family: Rockwell;
+  color: #ffffff;
+  font-size: 16px;
+  background: #04AA6D;
+  padding: 7px 20px 10px 20px;
+}
+
+.table-divs button:hover{
+	background-color: #ddd;
+  color: black;
+}
+
+#textboxid
+{
+    height:40px;
+    font-size:14pt;
+}
+
+.form-divs{
+	border-width:5px;
+border-style:solid;
+border-color:#a3a3a3;
+padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 12px;
+  padding-right: 12px;
+   display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f2f2f2;
+}
+
+.indexButton button{
+	text-align: center;
+	 color: #ffffff;
+  font-size: 30px;
+  background: #04AA6D;
+  padding: 7px 20px 10px 20px;
+  font-family: Rockwell;
+  margin: 10px;
+}
+.indexButton{
+	text-align: center;
+	
+}
+
+.indexCenter{
+   margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}

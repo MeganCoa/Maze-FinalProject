@@ -55,24 +55,34 @@
 		</c:if>
 	</div>
 	
-	<h1>Create a Maze</h1>
+	<h1 class="pageTitle">Create a Maze</h1>
 	
 	<h3>${message}</h3>
 	
-	<form action="/mazeeditor" method="POST">
+	<div class="center">
+	<form style= "font-size: 36px;" action="/mazeeditor" method="POST">
 				<input type="hidden" name="username" value="${username}"/>
 				<input type="hidden" name="loggedIn" value="${loggedIn}"/>
- 				 Maze Title:
-				<textarea name="title" placeholder="Enter maze title here..."></textarea>
+				<div class="form-divs">
+ 				 Maze Title:&nbsp; 
+				<textarea id="textboxid" style= "height: 70px;" name="title" placeholder="Enter maze title here..."></textarea>
+				</div>
 				<br>
-				<label for="rows">Rows (between 3-20):</label>
-				<input type="number" id="rows" name="rows" min="3" max="20" value=5>
+				<div class="form-divs">
+				<label for="rows">Rows (between 3-20):&nbsp;</label>
+				<input id="textboxid" type="number" id="rows" name="rows" min="3" max="20" value=5>
+				</div>
 				<br>
-				<label for="columns">Columns (between 3-20):</label>
-				<input type="number" id="columns" name="columns" min="3" max="20" value=5>
+				<div class="form-divs">
+				<label for="columns">Columns (between 3-20):&nbsp;</label>
+				<input id="textboxid" type="number" id="columns" name="columns" min="3" max="20" value=5>
+				</div>
 				<br>
-				<input type="submit" value="Create Maze Design"/>
+				<div class="buttonHolder">
+				<button type="submit">Submit Design</button>
+				</div>
 	</form>
+	</div>
 	
 	
 </body>
