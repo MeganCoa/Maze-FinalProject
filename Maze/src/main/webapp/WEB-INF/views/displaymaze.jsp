@@ -76,18 +76,23 @@
 	<div class="center" id="maze_output" >
 
 		<form action="/solvemaze" method="POST">
-			<input type="hidden" name="username" value="${username}" /> <input
-				type="hidden" name="loggedIn" value="${loggedIn}" /> <input
-				type="hidden" name="title" value="${maze.title}" /> 
-		<button type="submit">See Solution</button>
+			<input type="hidden" name="username" value="${username}" />
+			<input type="hidden" name="loggedIn" value="${loggedIn}" />
+			<input type="hidden" name="title" value="${maze.title}" /> 
+			<button type="submit">See Solution</button>
 		</form>
 		<form action="/usersolvemaze" method="POST">
-			<input type="hidden" name="username" value="${username}" /> <input
-				type="hidden" name="loSggedIn" value="${loggedIn}" /> <input
-				type="hidden" name="title" value="${maze.title}" /> 
-				<button type="submit">Solve Maze Myself</button>
+			<input type="hidden" name="username" value="${username}" />
+			<input type="hidden" name="loggedIn" value="${loggedIn}" />
+			<input type="hidden" name="title" value="${maze.title}" /> 
+			<button type="submit">Validate a Solution</button>
 		</form>
-
+		<form action="/povmaze" method="POST">
+			<input type="hidden" name="username" value="${username}" />
+			<input type="hidden" name="loggedIn" value="${loggedIn}" />
+			<input type="hidden" name="title" value="${maze.title}" /> 
+			<button type="submit">Enter Maze</button>
+		</form>
 		<c:if test="${loggedIn}">
 			<form action="/addUserFavorite" method="POST">
 				<input type="hidden" name="loggedIn" value="${loggedIn}" /> <input

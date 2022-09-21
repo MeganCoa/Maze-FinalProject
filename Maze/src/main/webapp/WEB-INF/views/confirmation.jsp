@@ -75,8 +75,14 @@
 		<form action="/playjsmaze" method="POST">
 			<input type="hidden" name="username" value="${username}"/>
 			<input type="hidden" name="loggedIn" value="${loggedIn}"/>
-			<input type="hidden" name="title" value="${maze.title}"/>
-			<input type="submit" value="Play ${maze.title}"/>
+			<input type="hidden" name="title" value="${title}"/>
+			<input type="submit" value="Play ${title}"/>
+		</form>
+		<form action="/povmaze" method="POST">
+			<input type="hidden" name="username" value="${username}" />
+			<input type="hidden" name="loggedIn" value="${loggedIn}" />
+			<input type="hidden" name="title" value="${title}" /> 
+			<button type="submit">Enter ${title}</button>
 		</form>
 	</c:if>
 	

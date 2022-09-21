@@ -41,6 +41,7 @@ public class MazePlayController {
 	public ModelAndView displayPovMaze(@RequestParam String title, @RequestParam(required=false) String username, @RequestParam(required=false) boolean loggedIn) {
 		ModelAndView modelAndView = new ModelAndView("povmaze");
 		
+		System.out.println("\n " + title);
 		modelAndView.addObject("title", title);
 		modelAndView.addObject("username", username);
 		modelAndView.addObject("loggedIn", loggedIn);

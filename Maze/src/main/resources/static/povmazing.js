@@ -69,7 +69,7 @@ Mazing.prototype.tryMoveHero = function(pos) {
     return;
   }
   if(nextStep === 3) {
-    
+    alert("You won!")
     
   }
 
